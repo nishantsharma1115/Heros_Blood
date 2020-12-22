@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "424125099750",
+    "project_id": "heros-blood-b7cf7",
+    "storage_bucket": "heros-blood-b7cf7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424125099750:android:504f0746fb25b985701527",
+        "android_client_info": {
+          "package_name": "com.nishant.herosblood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424125099750-i39o13jdp3egjvtmlg0478q0iv8m3cf5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nishant.herosblood",
+            "certificate_hash": "edaf480ebb5e2db79e40277743c23ad4650456f6"
+          }
+        },
+        {
+          "client_id": "424125099750-dgm96gok7vvuu7o7brni0fcfcvp4rvfa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANPLULGuHv1F0Gdc6k2P7kXV91WKJ1oYU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "424125099750-dgm96gok7vvuu7o7brni0fcfcvp4rvfa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
