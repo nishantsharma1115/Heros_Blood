@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">Heros Blood</string>
+    <string name="app_name">Heroes Blood</string>
+    <string name="logo_text">HEROES BLOOD</string>
+    <string name="log_in">LOG IN</string>
+    <string name="skip"><![CDATA[Skip >>]]></string>
+    <string name="new_user">New User?</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="username">username</string>
+    <string name="password">Password</string>
+    <string name="btn_login">Continue</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="sign_in">Sign in</string>
 </resources>
