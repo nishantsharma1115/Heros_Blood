@@ -45,11 +45,11 @@
                     android:gravity="center_vertical"
                     android:text="@string/logo_text"
                     android:textColor="@color/black"
-                    android:drawableStart="@drawable/logo"
                     android:textSize="35sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:drawableStartCompat="@drawable/logo"
                     app:layout_constraintTop_toBottomOf="@+id/txt_skip" />
 
                 <TextView
@@ -102,13 +102,13 @@
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/edt_Username"
+                    android:id="@+id/edt_fullName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="25dp"
-                    android:hint="@string/username"
+                    android:hint="@string/name"
                     app:boxStrokeColor="@color/textColor"
                     app:boxStrokeWidth="1dp"
                     app:boxStrokeWidthFocused="2dp"
@@ -122,7 +122,34 @@
                     app:startIconDrawable="@drawable/user_icon">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edt_usernameEditText"
+                        android:id="@+id/edt_fullNameEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edt_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="25dp"
+                    android:hint="@string/email"
+                    app:boxStrokeColor="@color/textColor"
+                    app:boxStrokeWidth="1dp"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:endIconMode="clear_text"
+                    app:hintAnimationEnabled="true"
+                    app:hintEnabled="true"
+                    app:hintTextColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_fullName"
+                    app:startIconDrawable="@drawable/email_icon">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_emailEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress" />
@@ -133,7 +160,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="25dp"
                     android:hint="@string/password"
                     app:boxStrokeColor="@color/textColor"
@@ -144,7 +171,7 @@
                     app:hintEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edt_Username"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_email"
                     app:startIconDrawable="@drawable/password_icon">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -158,6 +185,7 @@
                     android:id="@+id/edt_ConfirmPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="25dp"
                     android:hint="@string/confirm_password"
@@ -200,5 +228,16 @@
 
         </ScrollView>
 
+        <ImageView
+            android:id="@+id/progressBar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/customloadingbar"
+            android:src="@drawable/loading"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

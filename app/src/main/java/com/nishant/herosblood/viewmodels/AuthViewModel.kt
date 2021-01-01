@@ -9,6 +9,23 @@ class AuthViewModel(
     private var authRepository: AuthRepository = AuthRepository()
 ) : ViewModel() {
 
+    val signUpStatus: MutableLiveData<Resource<Boolean>> = MutableLiveData()
+    fun signUpUser(
+        email: String,
+        password: String
+    ) {
+        signUpStatus.postValue(Resource.Loading())
+        authRepository.signUpUser(email, password, { task ->
+            if (task.isSuccessful) {
+                signUpStatus.postValue(Resource.Success(true))
+            } else {
+                signUpStatus.postValue(Resource.Success(false))
+            }
+        }, {
+            signUpStatus.postValue(Resource.Error(it.message.toString(), null))
+        })
+    }
+
     val loginStatus: MutableLiveData<Resource<Boolean>> = MutableLiveData()
     fun loginUser(
         email: String,

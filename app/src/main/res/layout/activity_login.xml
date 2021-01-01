@@ -104,13 +104,13 @@
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/edt_Username"
+                    android:id="@+id/edt_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="25dp"
-                    android:hint="@string/username"
+                    android:hint="@string/email"
                     app:boxStrokeColor="@color/textColor"
                     app:boxStrokeWidth="1dp"
                     app:boxStrokeWidthFocused="2dp"
@@ -120,10 +120,11 @@
                     app:hintTextColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                    app:startIconDrawable="@drawable/email_icon">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edt_usernameEditText"
+                        android:id="@+id/edt_emailEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress" />
@@ -145,7 +146,8 @@
                     app:hintEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edt_Username">
+                    app:layout_constraintTop_toBottomOf="@+id/edt_email"
+                    app:startIconDrawable="@drawable/password_icon">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_passwordEditText"
@@ -175,13 +177,15 @@
 
         </ScrollView>
 
-        <ProgressBar
+        <ImageView
             android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/customloadingbar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
+            android:src="@drawable/loading"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
