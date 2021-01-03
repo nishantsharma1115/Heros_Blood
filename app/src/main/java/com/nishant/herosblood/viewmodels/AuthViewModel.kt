@@ -22,7 +22,7 @@ class AuthViewModel(
                 signUpStatus.postValue(Resource.Success(false))
             }
         }, {
-            signUpStatus.postValue(Resource.Error(it.message.toString(), null))
+            signUpStatus.postValue(Resource.Error(it.message.toString()))
         })
     }
 
@@ -39,7 +39,7 @@ class AuthViewModel(
                 loginStatus.postValue(Resource.Success(false))
             }
         }, {
-            loginStatus.postValue(Resource.Error(it.message.toString(), null))
+            loginStatus.postValue(Resource.Error(it.message.toString()))
         })
     }
 }

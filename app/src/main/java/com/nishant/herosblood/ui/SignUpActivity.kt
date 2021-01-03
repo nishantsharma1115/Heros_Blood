@@ -12,22 +12,30 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.nishant.herosblood.R
+import com.nishant.herosblood.data.UserData
 import com.nishant.herosblood.databinding.ActivitySignUpBinding
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.AuthViewModel
+import com.nishant.herosblood.viewmodels.DataViewModel
 
 class SignUpActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListener {
 
     private lateinit var binding: ActivitySignUpBinding
-    private lateinit var viewModel: AuthViewModel
+    private lateinit var authViewModel: AuthViewModel
+    private lateinit var dataViewModel: DataViewModel
     private lateinit var animation: AnimationDrawable
+    private var user: UserData = UserData()
     private val canNotBeEmpty = "Can not be empty"
+    private val somethingWentWrong = "Something went wrong. Check Internet Connection"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up)
-        viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         animation = binding.progressBar.drawable as AnimationDrawable
 
         binding.layoutBackground.setOnClickListener(this)
@@ -41,19 +49,64 @@ class SignUpActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickList
             )
         }
 
-        viewModel.signUpStatus.observe(this, { response ->
+        authViewModel.signUpStatus.observe(this, { response ->
             when (response) {
                 is Resource.Loading -> {
                     showLoadingBar()
                 }
                 is Resource.Success -> {
-                    hideLoadingBar()
-                    startActivity(Intent(this, UserDashboardActivity::class.java))
-                    finish()
+                    if (response.data == true) {
+                        val firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+                        firebaseUser?.let {
+                            user.userId = it.uid
+                        }
+                        user.name = binding.edtFullNameEditText.text.toString()
+                        user.email = binding.edtEmailEditText.text.toString()
+                        user.isRegistered = "false"
+                        dataViewModel.saveUserData(user)
+                    } else {
+                        hideLoadingBar()
+                        Toast.makeText(
+                            this,
+                            somethingWentWrong,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 }
                 is Resource.Error -> {
                     hideLoadingBar()
-                    Toast.makeText(this, "Check Internet Connection", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this,
+                        response.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        })
+
+        dataViewModel.saveUserDataStatus.observe(this, { response ->
+            when (response) {
+                is Resource.Success -> {
+                    if (response.data == true) {
+                        hideLoadingBar()
+                        startActivity(Intent(this, UserDashboardActivity::class.java))
+                        finish()
+                    } else {
+                        hideLoadingBar()
+                        Toast.makeText(
+                            this,
+                            somethingWentWrong,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+                is Resource.Error -> {
+                    hideLoadingBar()
+                    Toast.makeText(
+                        this,
+                        somethingWentWrong,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         })
@@ -96,16 +149,16 @@ class SignUpActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickList
             binding.edtConfirmPassword.error = canNotBeEmpty
             return
         }
-        if (!password.equals(binding.edtConfirmPasswordEditText.text)) {
+        if (password != binding.edtConfirmPasswordEditText.text.toString()) {
             binding.edtConfirmPassword.error = "Password and confirm Password must be same"
             return
         }
-        viewModel.signUpUser(email, password)
+        authViewModel.signUpUser(email, password)
     }
 
     override fun onKey(p0: View?, i: Int, keyEvent: KeyEvent?): Boolean {
         if (i == KeyEvent.KEYCODE_ENTER && keyEvent?.action == KeyEvent.ACTION_DOWN) {
-            viewModel.signUpUser(
+            authViewModel.signUpUser(
                 binding.edtEmailEditText.text.toString(),
                 binding.edtPasswordEditText.text.toString()
             )

@@ -1,11 +1,11 @@
 package com.nishant.herosblood.data
 
 data class UserData(
-    var userId: String,
-    var email: String,
+    var userId: String? = null,
+    var email: String? = null,
     var phoneNumber: String? = null,
-    var isRegistered: Boolean,
-    var name: String,
+    var isRegistered: String? = null,
+    var name: String? = null,
     var bloodType: String? = null,
     var address: String? = null,
     var state: String? = null,
