@@ -32,7 +32,7 @@
                     android:focusable="true"
                     android:fontFamily="@font/high_tower"
                     android:text="@string/skip"
-                    android:textColor="@color/textColor"
+                    android:textColor="@color/redColor"
                     android:textSize="30sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -98,7 +98,7 @@
                         android:focusable="true"
                         android:fontFamily="@font/high_tower"
                         android:text="@string/create_an_account"
-                        android:textColor="@color/textColor"
+                        android:textColor="@color/redColor"
                         android:textSize="20sp" />
 
                 </LinearLayout>
@@ -111,7 +111,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="25dp"
                     android:hint="@string/email"
-                    app:boxStrokeColor="@color/textColor"
+                    app:boxStrokeColor="@color/redColor"
                     app:boxStrokeWidth="1dp"
                     app:boxStrokeWidthFocused="2dp"
                     app:endIconMode="clear_text"
@@ -138,7 +138,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="25dp"
                     android:hint="@string/password"
-                    app:boxStrokeColor="@color/textColor"
+                    app:boxStrokeColor="@color/redColor"
                     app:boxStrokeWidth="1dp"
                     app:boxStrokeWidthFocused="2dp"
                     app:endIconMode="password_toggle"
@@ -163,7 +163,7 @@
                     android:layout_marginStart="298dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="26dp"
-                    android:backgroundTint="@color/textColor"
+                    android:backgroundTint="@color/redColor"
                     android:paddingStart="35sp"
                     android:paddingEnd="35sp"
                     android:text="@string/btn_login"

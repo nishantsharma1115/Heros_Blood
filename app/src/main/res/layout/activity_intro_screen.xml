@@ -105,7 +105,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:text="Login"
-                    android:textColor="@color/textColor"
+                    android:textColor="@color/redColor"
                     android:textSize="15sp"
                     tools:layout_editor_absoluteX="314dp"
                     tools:layout_editor_absoluteY="596dp" />

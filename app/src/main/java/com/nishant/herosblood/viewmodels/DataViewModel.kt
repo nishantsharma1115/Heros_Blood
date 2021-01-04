@@ -25,4 +25,23 @@ class DataViewModel(
             saveUserDataStatus.postValue(Resource.Error(it.message.toString()))
         })
     }
+
+    val readUserDataStatus: MutableLiveData<Resource<UserData>> = MutableLiveData()
+    fun readUserData(
+        userId: String
+    ) {
+        readUserDataStatus.postValue(Resource.Loading())
+        dataRepository.readUserData(userId, { document ->
+            if (document.exists()) {
+                val user = document.toObject(UserData::class.java)
+                user?.let {
+                    readUserDataStatus.postValue(Resource.Success(user))
+                }
+            } else {
+                readUserDataStatus.postValue(Resource.Success(UserData()))
+            }
+        }, {
+            readUserDataStatus.postValue(Resource.Error(it.message.toString()))
+        })
+    }
 }

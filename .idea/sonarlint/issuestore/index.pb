@@ -27,8 +27,6 @@ t
 Dapp/src/main/java/com/nishant/herosblood/viewmodels/DataViewModel.kt,d\8\d8a3d19ffb53127ef090b1e05f9494400b672ec7
 w
 Gapp/src/main/java/com/nishant/herosblood/repositories/DataRepository.kt,f\f\ff63bf10dff7dafcc7ef0ffa1199a1de28a221a9
-X
-(app/src/main/res/drawable/email_icon.xml,c\1\c1884c67f47111ab5bbcba32764c8e4578cad451
 U
 %app/src/main/res/drawable/loading.xml,e\5\e56c0896614ba0a193af3ccd836331e7afc56edc
 Z
