@@ -29,10 +29,10 @@
         </com.facebook.shimmer.ShimmerFrameLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_userDetails"
+            android:id="@+id/layoutUser"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:visibility="invisible"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -183,7 +183,7 @@
             android:textColorHint="@color/greyColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_userDetails" />
+            app:layout_constraintTop_toBottomOf="@id/layoutUser" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_people"
