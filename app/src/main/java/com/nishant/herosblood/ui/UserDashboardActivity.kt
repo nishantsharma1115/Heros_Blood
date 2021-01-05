@@ -35,10 +35,10 @@ class UserDashboardActivity : AppCompatActivity() {
                 }
                 is Resource.Success -> {
                     val user = response.data
+                    binding.layoutUser.visibility = View.VISIBLE
                     binding.user = response.data
                     binding.layoutShimmerEffect.stopShimmer()
                     binding.layoutShimmerEffect.visibility = View.GONE
-                    binding.layoutUserDetails.visibility = View.VISIBLE
                     user?.let {
                         if (it.isRegistered == "false") {
                             binding.ifUserRegistered.visibility = View.GONE
@@ -48,12 +48,12 @@ class UserDashboardActivity : AppCompatActivity() {
                             binding.ifUserRegistered.visibility = View.VISIBLE
                         }
                     }
-                    binding.txtHello.visibility = View.VISIBLE
-                    binding.txtFullName.visibility = View.VISIBLE
-                    binding.imgProfilePicture.visibility = View.VISIBLE
-                    binding.imgLocation.visibility = View.VISIBLE
-                    binding.txtLocation.visibility = View.VISIBLE
-                    Log.d("Visibility_Layout_Hello_TextView", binding.txtHello.visibility.toString())
+//                    binding.txtHello.visibility = View.VISIBLE
+//                    binding.txtFullName.visibility = View.VISIBLE
+//                    binding.imgProfilePicture.visibility = View.VISIBLE
+//                    binding.imgLocation.visibility = View.VISIBLE
+//                    binding.txtLocation.visibility = View.VISIBLE
+//                    Log.d("Visibility_Layout_Hello_TextView", binding.txtHello.visibility.toString())
                 }
                 is Resource.Error -> {
                     Toast.makeText(
