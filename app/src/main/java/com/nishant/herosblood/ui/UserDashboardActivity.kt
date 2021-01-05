@@ -1,7 +1,6 @@
 package com.nishant.herosblood.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -48,12 +47,6 @@ class UserDashboardActivity : AppCompatActivity() {
                             binding.ifUserRegistered.visibility = View.VISIBLE
                         }
                     }
-//                    binding.txtHello.visibility = View.VISIBLE
-//                    binding.txtFullName.visibility = View.VISIBLE
-//                    binding.imgProfilePicture.visibility = View.VISIBLE
-//                    binding.imgLocation.visibility = View.VISIBLE
-//                    binding.txtLocation.visibility = View.VISIBLE
-//                    Log.d("Visibility_Layout_Hello_TextView", binding.txtHello.visibility.toString())
                 }
                 is Resource.Error -> {
                     Toast.makeText(
