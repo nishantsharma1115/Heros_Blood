@@ -39,11 +39,9 @@ class UserDashboardActivity : AppCompatActivity() {
                     binding.layoutShimmerEffect.stopShimmer()
                     binding.layoutShimmerEffect.visibility = View.GONE
                     user?.let {
-                        if (it.isRegistered == "false") {
-                            binding.ifUserRegistered.visibility = View.GONE
+                        if (it.registered == "false") {
                             binding.ifUserNotRegistered.visibility = View.VISIBLE
-                        } else {
-                            binding.ifUserNotRegistered.visibility = View.GONE
+                        }else {
                             binding.ifUserRegistered.visibility = View.VISIBLE
                         }
                     }

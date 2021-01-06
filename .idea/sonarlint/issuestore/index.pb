@@ -55,5 +55,3 @@ a
 ,app/src/main/res/layout/activity_sign_up.xml,b\3\b32acfa5b25626d9cecbf5439a9ef6b8a5e6aa51
 R
 "app/src/main/res/values/colors.xml,9\6\969faa2a5d9f5e8390e958d2c07f2cfd54676e6b
-m
-=app/src/main/res/layout/layout_user_dashboard_placeholder.xml,2\3\23d3e0c60a19ab3da98254b5655601d1ff4e7aaa

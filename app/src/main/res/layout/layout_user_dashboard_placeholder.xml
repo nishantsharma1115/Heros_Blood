@@ -10,7 +10,7 @@
     app:layout_constraintTop_toTopOf="parent">
 
     <TextView
-        android:id="@+id/txt_hello"
+        android:id="@+id/txtHello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txt_fullName"
+        android:id="@+id/txtFullName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -34,19 +34,19 @@
         android:textColor="#dddddd"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/txt_hello"
-        app:layout_constraintTop_toTopOf="@id/txt_hello" />
+        app:layout_constraintStart_toEndOf="@id/txtHello"
+        app:layout_constraintTop_toTopOf="@id/txtHello" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/if_user_registered"
+        android:id="@+id/ifUserRegistered"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        app:layout_constraintStart_toStartOf="@id/txt_hello"
-        app:layout_constraintTop_toBottomOf="@id/txt_hello">
+        app:layout_constraintStart_toStartOf="@id/txtHello"
+        app:layout_constraintTop_toBottomOf="@id/txtHello">
 
         <TextView
-            android:id="@+id/txt_registered"
+            android:id="@+id/txtRegistered"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#dddddd"
@@ -58,29 +58,29 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/verified_icon"
+            android:id="@+id/verifiedIcon"
             android:layout_width="25dp"
-            android:layout_height="24dp"
+            android:layout_height="22dp"
             android:layout_marginStart="5dp"
             android:contentDescription="@string/verifiedicon"
             android:src="#dddddd"
-            app:layout_constraintStart_toEndOf="@id/txt_registered"
+            app:layout_constraintStart_toEndOf="@id/txtRegistered"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-        android:id="@+id/img_location"
+        android:id="@+id/imgLocation"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginTop="33dp"
         android:contentDescription="@string/location_icon"
         android:src="#dddddd"
-        app:layout_constraintStart_toStartOf="@id/txt_hello"
-        app:layout_constraintTop_toBottomOf="@id/txt_hello" />
+        app:layout_constraintStart_toStartOf="@id/txtHello"
+        app:layout_constraintTop_toBottomOf="@id/txtHello" />
 
     <TextView
-        android:id="@+id/txt_location"
+        android:id="@+id/txtLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -89,18 +89,18 @@
         android:text="Dhimishri"
         android:textColor="#dddddd"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/img_location"
-        app:layout_constraintStart_toEndOf="@id/img_location"
-        app:layout_constraintTop_toTopOf="@id/img_location" />
+        app:layout_constraintBottom_toBottomOf="@id/imgLocation"
+        app:layout_constraintStart_toEndOf="@id/imgLocation"
+        app:layout_constraintTop_toTopOf="@id/imgLocation" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/img_profilePicture"
+        android:id="@+id/imgProfilePicture"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="20dp"
         android:src="#dddddd"
-        app:layout_constraintBottom_toBottomOf="@id/img_location"
+        app:layout_constraintBottom_toBottomOf="@id/imgLocation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/txt_hello" />
+        app:layout_constraintTop_toTopOf="@id/txtHello" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -62,7 +62,7 @@ class SignUpActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickList
                         }
                         user.name = binding.edtFullNameEditText.text.toString()
                         user.email = binding.edtEmailEditText.text.toString()
-                        user.isRegistered = "false"
+                        user.registered = "false"
                         dataViewModel.saveUserData(user)
                     } else {
                         hideLoadingBar()

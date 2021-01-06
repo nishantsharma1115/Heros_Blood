@@ -4,7 +4,7 @@ data class UserData(
     var userId: String? = null,
     var email: String? = null,
     var phoneNumber: String? = null,
-    var isRegistered: String? = null,
+    var registered: String? = null,
     var name: String? = null,
     var bloodType: String? = null,
     var address: String? = null,
