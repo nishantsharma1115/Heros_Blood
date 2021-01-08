@@ -13,6 +13,8 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.UserRegistrationActivity"></activity>
+        <activity android:name=".ui.UserProfileActivity" />
         <activity
             android:name=".ui.UserDashboardActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />

@@ -31,8 +31,6 @@ U
 %app/src/main/res/drawable/loading.xml,e\5\e56c0896614ba0a193af3ccd836331e7afc56edc
 Z
 *app/src/main/res/layout/activity_login.xml,1\f\1f7e901185d74bf05f9fcb38f9ed35ea78cd4c6e
-S
-#app/src/main/res/values/strings.xml,d\2\d2281fbb3027de2722081a53408dd77628bf080e
 K
 .idea/dictionaries/Dell.xml,d\e\de2411af020b00cbc007229f71870c6e3e9b4b25
 P
@@ -53,5 +51,5 @@ a
 1app/src/main/res/layout/activity_intro_screen.xml,9\b\9b425a9330f50828b610c62056c96c5496b3b76b
 \
 ,app/src/main/res/layout/activity_sign_up.xml,b\3\b32acfa5b25626d9cecbf5439a9ef6b8a5e6aa51
-R
-"app/src/main/res/values/colors.xml,9\6\969faa2a5d9f5e8390e958d2c07f2cfd54676e6b
+m
+=app/src/main/res/layout/layout_user_dashboard_placeholder.xml,2\3\23d3e0c60a19ab3da98254b5655601d1ff4e7aaa

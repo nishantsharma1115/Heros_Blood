@@ -159,7 +159,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="20dp"
-                android:src="@color/black"
+                android:src="@drawable/profile_none"
                 app:layout_constraintBottom_toBottomOf="@id/imgLocation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/txtHello" />

@@ -23,4 +23,19 @@
     <string name="nearby_people">Nearby People</string>
     <string name="see_all">See all</string>
     <string name="o_donors">O+ Donors</string>
+    <string name="profile_picture">ProfilePicture</string>
+    <string name="_50">50</string>
+    <string name="kg">KG</string>
+    <string name="icon">icon</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="register_as_a_donor">Register as a Donor</string>
+    <string name="your_blood_group">Your Blood Group</string>
+
+    <string-array name="blood_group">
+        <item>A+</item>
+        <item>O-</item>
+        <item>O+</item>
+        <item>AB+</item>
+        <item>AB-</item>
+    </string-array>
 </resources>

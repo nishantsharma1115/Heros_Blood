@@ -3,7 +3,6 @@ package com.nishant.herosblood.ui
 import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import android.util.Patterns
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -17,6 +16,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.nishant.herosblood.R
 import com.nishant.herosblood.data.UserData
 import com.nishant.herosblood.databinding.ActivitySignUpBinding
+import com.nishant.herosblood.util.InvalidInput
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.AuthViewModel
 import com.nishant.herosblood.viewmodels.DataViewModel
@@ -28,7 +28,6 @@ class SignUpActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickList
     private lateinit var dataViewModel: DataViewModel
     private lateinit var animation: AnimationDrawable
     private var user: UserData = UserData()
-    private val canNotBeEmpty = "Can not be empty"
     private val somethingWentWrong = "Something went wrong. Check Internet Connection"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,10 +42,7 @@ class SignUpActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickList
         binding.txtCreateAccount.setOnClickListener(this)
         binding.txtAlready.setOnClickListener(this)
         binding.btnSignUp.setOnClickListener {
-            signUpUser(
-                binding.edtEmailEditText.text.toString(),
-                binding.edtPasswordEditText.text.toString()
-            )
+            signUpUser()
         }
 
         authViewModel.signUpStatus.observe(this, { response ->
@@ -60,10 +56,7 @@ class SignUpActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickList
                         firebaseUser?.let {
                             user.userId = it.uid
                         }
-                        user.name = binding.edtFullNameEditText.text.toString()
-                        user.email = binding.edtEmailEditText.text.toString()
-                        user.registered = "false"
-                        dataViewModel.saveUserData(user)
+                        dataViewModel.saveUserData(user, "SignUp") {}
                     } else {
                         hideLoadingBar()
                         Toast.makeText(
@@ -83,7 +76,6 @@ class SignUpActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickList
                 }
             }
         })
-
         dataViewModel.saveUserDataStatus.observe(this, { response ->
             when (response) {
                 is Resource.Success -> {
@@ -112,56 +104,34 @@ class SignUpActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickList
         })
     }
 
-    private fun showLoadingBar() {
-        binding.layoutBackground.alpha = 0.1F
-        binding.progressBar.visibility = View.VISIBLE
-        animation.start()
-    }
+    private fun signUpUser() {
+        user.name = binding.edtFullNameEditText.text.toString()
+        user.email = binding.edtEmailEditText.text.toString()
+        user.registered = "false"
 
-    private fun hideLoadingBar() {
-        binding.layoutBackground.alpha = 1F
-        binding.progressBar.visibility = View.GONE
-        animation.stop()
-    }
-
-    private fun signUpUser(email: String, password: String) {
-        if (binding.edtFullNameEditText.text.isNullOrEmpty()) {
-            binding.edtFullName.error = canNotBeEmpty
-            return
+        authViewModel.signUpUser(
+            user,
+            binding.edtPasswordEditText.text.toString(),
+            binding.edtConfirmPasswordEditText.text.toString()
+        ) { error ->
+            when (error) {
+                is InvalidInput.EmptyName -> binding.edtFullName.error = "Required"
+                is InvalidInput.EmptyEmail -> binding.edtEmail.error = "Required"
+                is InvalidInput.EmptyPassword -> binding.edtPassword.error = "Required"
+                is InvalidInput.EmptyConfirmPassword -> binding.edtConfirmPassword.error =
+                    "Required"
+                is InvalidInput.InvalidEmailPattern -> binding.edtEmail.error = "Invalid Email"
+                is InvalidInput.ShortPasswordLength -> binding.edtPassword.error =
+                    "Password should be greater than 8"
+                is InvalidInput.ConfirmPasswordNotEqual -> binding.edtConfirmPassword.error =
+                    "Confirm Password not equal to Password"
+            }
         }
-        if (email.isEmpty()) {
-            binding.edtEmail.error = canNotBeEmpty
-            return
-        }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.edtEmail.error = "Please provide valid email Address"
-            return
-        }
-        if (password.isEmpty()) {
-            binding.edtPassword.error = canNotBeEmpty
-            return
-        }
-        if (password.length < 8) {
-            binding.edtPassword.error = "Password length should be greater than 8"
-            return
-        }
-        if (binding.edtConfirmPasswordEditText.text.isNullOrEmpty()) {
-            binding.edtConfirmPassword.error = canNotBeEmpty
-            return
-        }
-        if (password != binding.edtConfirmPasswordEditText.text.toString()) {
-            binding.edtConfirmPassword.error = "Password and confirm Password must be same"
-            return
-        }
-        authViewModel.signUpUser(email, password)
     }
 
     override fun onKey(p0: View?, i: Int, keyEvent: KeyEvent?): Boolean {
         if (i == KeyEvent.KEYCODE_ENTER && keyEvent?.action == KeyEvent.ACTION_DOWN) {
-            authViewModel.signUpUser(
-                binding.edtEmailEditText.text.toString(),
-                binding.edtPasswordEditText.text.toString()
-            )
+            signUpUser()
         }
         return false
     }
@@ -176,5 +146,17 @@ class SignUpActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickList
                 }
             }
         }
+    }
+
+    private fun showLoadingBar() {
+        binding.layoutBackground.alpha = 0.1F
+        binding.progressBar.visibility = View.VISIBLE
+        animation.start()
+    }
+
+    private fun hideLoadingBar() {
+        binding.layoutBackground.alpha = 1F
+        binding.progressBar.visibility = View.GONE
+        animation.stop()
     }
 }

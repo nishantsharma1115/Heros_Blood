@@ -3,7 +3,6 @@ package com.nishant.herosblood.ui
 import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import android.util.Patterns
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
@@ -15,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.nishant.herosblood.R
 import com.nishant.herosblood.databinding.ActivityLoginBinding
+import com.nishant.herosblood.util.InvalidInput
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.AuthViewModel
 
@@ -26,6 +26,7 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
@@ -35,6 +36,7 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
         binding.txtLogo.setOnClickListener(this)
         binding.txtSignIn.setOnClickListener(this)
         binding.txtNewUser.setOnClickListener(this)
+
         binding.txtCreateAccount.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
@@ -63,41 +65,20 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
         })
     }
 
-    private fun showLoadingBar() {
-        binding.layoutBackground.alpha = 0.1F
-        binding.progressBar.visibility = View.VISIBLE
-        animation.start()
-    }
-
-    private fun hideLoadingBar() {
-        binding.layoutBackground.alpha = 1F
-        binding.progressBar.visibility = View.GONE
-        animation.stop()
-    }
-
     private fun loginUser(email: String, password: String) {
-        if (email.isEmpty()) {
-            binding.edtEmail.error = "Can not be empty"
-            return
+        viewModel.loginUser(email, password) { error ->
+            when (error) {
+                is InvalidInput.EmptyEmail -> binding.edtEmail.error = "Can not be empty"
+                is InvalidInput.EmptyPassword -> binding.edtPassword.error = "Can not be empty"
+                is InvalidInput.InvalidEmailPattern -> binding.edtEmail.error = "Please provide valid email Address"
+                is InvalidInput.ShortPasswordLength -> binding.edtPassword.error = "Password length should be greater than 8"
+            }
         }
-        if (password.isEmpty()) {
-            binding.edtPassword.error = "Can not be empty"
-            return
-        }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.edtEmail.error = "Please provide valid email Address"
-            return
-        }
-        if (password.length < 8) {
-            binding.edtPassword.error = "Password length should be greater than 8"
-            return
-        }
-        viewModel.loginUser(email, password)
     }
 
     override fun onKey(p0: View?, i: Int, keyEvent: KeyEvent?): Boolean {
         if (i == KeyEvent.KEYCODE_ENTER && keyEvent?.action == KeyEvent.ACTION_DOWN) {
-            viewModel.loginUser(
+            loginUser(
                 binding.edtEmailEditText.text.toString(),
                 binding.edtPasswordEditText.text.toString()
             )
@@ -116,5 +97,17 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
             }
 
         }
+    }
+
+    private fun showLoadingBar() {
+        binding.layoutBackground.alpha = 0.1F
+        binding.progressBar.visibility = View.VISIBLE
+        animation.start()
+    }
+
+    private fun hideLoadingBar() {
+        binding.layoutBackground.alpha = 1F
+        binding.progressBar.visibility = View.GONE
+        animation.stop()
     }
 }
