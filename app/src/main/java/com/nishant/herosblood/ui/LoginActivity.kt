@@ -14,7 +14,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.nishant.herosblood.R
 import com.nishant.herosblood.databinding.ActivityLoginBinding
-import com.nishant.herosblood.util.InvalidInput
+import com.nishant.herosblood.util.ValidationInput
+import com.nishant.herosblood.util.InvalidInputChecker
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.AuthViewModel
 
@@ -23,6 +24,7 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewModel: AuthViewModel
     private lateinit var animation: AnimationDrawable
+    private val invalidInputChecker: InvalidInputChecker = InvalidInputChecker()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,7 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
         viewModel.loginStatus.observe(this, { response ->
             when (response) {
                 is Resource.Loading -> {
+                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
                     showLoadingBar()
                 }
                 is Resource.Success -> {
@@ -66,12 +69,15 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
     }
 
     private fun loginUser(email: String, password: String) {
-        viewModel.loginUser(email, password) { error ->
+        invalidInputChecker.checkForLoginValidInputs(email, password) { error ->
             when (error) {
-                is InvalidInput.EmptyEmail -> binding.edtEmail.error = "Can not be empty"
-                is InvalidInput.EmptyPassword -> binding.edtPassword.error = "Can not be empty"
-                is InvalidInput.InvalidEmailPattern -> binding.edtEmail.error = "Please provide valid email Address"
-                is InvalidInput.ShortPasswordLength -> binding.edtPassword.error = "Password length should be greater than 8"
+                is ValidationInput.EmptyEmail -> binding.edtEmail.error = "Can not be empty"
+                is ValidationInput.EmptyPassword -> binding.edtPassword.error = "Can not be empty"
+                is ValidationInput.InvalidEmailPattern -> binding.edtEmail.error = "Please provide valid email Address"
+                is ValidationInput.ShortPasswordLength -> binding.edtPassword.error = "Password length should be greater than 8"
+                is ValidationInput.ValidInput -> {
+                    viewModel.loginUser(email, password)
+                }
             }
         }
     }

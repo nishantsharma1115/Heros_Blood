@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.nishant.herosblood.data.UserData
 import com.nishant.herosblood.repositories.DataRepository
-import com.nishant.herosblood.util.InvalidInput
 import com.nishant.herosblood.util.Resource
 
 class DataViewModel(
@@ -13,35 +12,7 @@ class DataViewModel(
 ) : ViewModel() {
 
     val saveUserDataStatus: MutableLiveData<Resource<Boolean>> = MutableLiveData()
-    fun saveUserData(
-        user: UserData,
-        from: String,
-        errorInput: (InvalidInput) -> Unit
-    ) {
-        if (user.bloodGroup!!.isEmpty() && from == "Registration") {
-            errorInput(InvalidInput.EmptyBloodGroup)
-            return
-        }
-        if (user.address!!.isEmpty() && from == "Registration") {
-            errorInput(InvalidInput.EmptyAddress)
-            return
-        }
-        if (user.state!!.isEmpty() && from == "Registration") {
-            errorInput(InvalidInput.EmptyState)
-            return
-        }
-        if (user.city!!.isEmpty() && from == "Registration") {
-            errorInput(InvalidInput.EmptyCity)
-            return
-        }
-        if (user.pincode!!.isEmpty() && from == "Registration") {
-            errorInput(InvalidInput.EmptyPincode)
-            return
-        }
-        if (user.phoneNumber!!.isEmpty() && from == "Registration") {
-            errorInput(InvalidInput.EmptyPhoneNumber)
-            return
-        }
+    fun saveUserData(user: UserData) {
         saveUserDataStatus.postValue(Resource.Loading())
         dataRepository.saveUserData(user, { task ->
             if (task.isSuccessful) {

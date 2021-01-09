@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +17,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.nishant.herosblood.R
 import com.nishant.herosblood.data.UserData
 import com.nishant.herosblood.databinding.ActivitySignUpBinding
-import com.nishant.herosblood.util.InvalidInput
+import com.nishant.herosblood.util.ValidationInput
+import com.nishant.herosblood.util.InvalidInputChecker
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.AuthViewModel
 import com.nishant.herosblood.viewmodels.DataViewModel
@@ -29,6 +31,7 @@ class SignUpActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickList
     private lateinit var animation: AnimationDrawable
     private var user: UserData = UserData()
     private val somethingWentWrong = "Something went wrong. Check Internet Connection"
+    private val invalidInputChecker: InvalidInputChecker = InvalidInputChecker()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +51,7 @@ class SignUpActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickList
         authViewModel.signUpStatus.observe(this, { response ->
             when (response) {
                 is Resource.Loading -> {
+                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
                     showLoadingBar()
                 }
                 is Resource.Success -> {
@@ -56,7 +60,7 @@ class SignUpActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickList
                         firebaseUser?.let {
                             user.userId = it.uid
                         }
-                        dataViewModel.saveUserData(user, "SignUp") {}
+                        dataViewModel.saveUserData(user)
                     } else {
                         hideLoadingBar()
                         Toast.makeText(
@@ -109,22 +113,28 @@ class SignUpActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickList
         user.email = binding.edtEmailEditText.text.toString()
         user.registered = "false"
 
-        authViewModel.signUpUser(
+        invalidInputChecker.checkForSignUpValidInputs(
             user,
             binding.edtPasswordEditText.text.toString(),
             binding.edtConfirmPasswordEditText.text.toString()
         ) { error ->
             when (error) {
-                is InvalidInput.EmptyName -> binding.edtFullName.error = "Required"
-                is InvalidInput.EmptyEmail -> binding.edtEmail.error = "Required"
-                is InvalidInput.EmptyPassword -> binding.edtPassword.error = "Required"
-                is InvalidInput.EmptyConfirmPassword -> binding.edtConfirmPassword.error =
+                is ValidationInput.EmptyName -> binding.edtFullName.error = "Required"
+                is ValidationInput.EmptyEmail -> binding.edtEmail.error = "Required"
+                is ValidationInput.EmptyPassword -> binding.edtPassword.error = "Required"
+                is ValidationInput.EmptyConfirmPassword -> binding.edtConfirmPassword.error =
                     "Required"
-                is InvalidInput.InvalidEmailPattern -> binding.edtEmail.error = "Invalid Email"
-                is InvalidInput.ShortPasswordLength -> binding.edtPassword.error =
+                is ValidationInput.InvalidEmailPattern -> binding.edtEmail.error = "Invalid Email"
+                is ValidationInput.ShortPasswordLength -> binding.edtPassword.error =
                     "Password should be greater than 8"
-                is InvalidInput.ConfirmPasswordNotEqual -> binding.edtConfirmPassword.error =
+                is ValidationInput.ConfirmPasswordNotEqual -> binding.edtConfirmPassword.error =
                     "Confirm Password not equal to Password"
+                is ValidationInput.ValidInput -> {
+                    authViewModel.signUpUser(
+                        binding.edtEmailEditText.text.toString(),
+                        binding.edtPasswordEditText.text.toString()
+                    )
+                }
             }
         }
     }

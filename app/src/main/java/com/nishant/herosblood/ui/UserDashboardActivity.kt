@@ -40,6 +40,12 @@ class UserDashboardActivity : AppCompatActivity() {
             dataViewModel.readUserData(firebaseUser.uid)
         }
 
+        binding.imgProfilePicture.setOnClickListener {
+            val intent = Intent(this, UserProfileActivity::class.java)
+            intent.putExtra("UserData", user as Serializable)
+            startActivity(intent)
+        }
+
         dataViewModel.readUserDataStatus.observe(this, { response ->
             when (response) {
                 is Resource.Loading -> {
@@ -49,16 +55,17 @@ class UserDashboardActivity : AppCompatActivity() {
                     user = response.data as UserData
                     isDataReceived = true
                     binding.layoutUser.visibility = View.VISIBLE
-                    binding.user = response.data
+                    binding.user = user
                     binding.layoutShimmerEffect.stopShimmer()
                     binding.layoutShimmerEffect.visibility = View.GONE
                     user.let {
                         if (it.registered == "false") {
-                            binding.ifUserNotRegistered.visibility = View.VISIBLE
-                        } else {
-                            binding.ifUserRegistered.visibility = View.VISIBLE
+                            binding.registered.visibility = View.GONE
+                        } else if (it.registered == "true") {
+                            binding.notRegistered.visibility = View.GONE
                         }
                     }
+                    binding.imgProfilePicture.bringToFront()
                 }
                 is Resource.Error -> {
                     Toast.makeText(
