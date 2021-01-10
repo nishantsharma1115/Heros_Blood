@@ -2,6 +2,7 @@ package com.nishant.herosblood.repositories
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.nishant.herosblood.data.UserData
@@ -38,6 +39,20 @@ class DataRepository {
             }
             .addOnFailureListener { exception ->
                 failureCallback(exception)
+            }
+    }
+
+    fun getAllDonors(
+        completeCallback: (QuerySnapshot) -> Unit,
+        failureCallback: (Exception) -> Unit
+    ) {
+        db.collection("users")
+            .get()
+            .addOnSuccessListener {
+                completeCallback(it)
+            }
+            .addOnFailureListener {
+                failureCallback(it)
             }
     }
 }

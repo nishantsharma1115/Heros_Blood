@@ -44,4 +44,46 @@ class DataViewModel(
             readUserDataStatus.postValue(Resource.Error(it.message.toString()))
         })
     }
+
+    val getAllDonorsStatus: MutableLiveData<Resource<HashMap<String, ArrayList<UserData>>>> =
+        MutableLiveData()
+
+    fun getAllDonors() {
+        getAllDonorsStatus.postValue(Resource.Loading())
+        val OPositiveDonors: ArrayList<UserData> = ArrayList()
+        val APositiveDonors: ArrayList<UserData> = ArrayList()
+        val ONegativeDonors: ArrayList<UserData> = ArrayList()
+        val ABPositiveDonors: ArrayList<UserData> = ArrayList()
+        val ABNegativeDonors: ArrayList<UserData> = ArrayList()
+        val users = hashMapOf(
+            "O+" to OPositiveDonors,
+            "A+" to APositiveDonors,
+            "O-" to ONegativeDonors,
+            "AB+" to ABPositiveDonors,
+            "AB-" to ABNegativeDonors
+        )
+        dataRepository.getAllDonors({
+            for (document in it) {
+                val user = document.toObject(UserData::class.java)
+                if (user.bloodGroup.equals("O+")) {
+                    OPositiveDonors.add(user)
+                }
+                if (user.bloodGroup.equals("A+")) {
+                    APositiveDonors.add(user)
+                }
+                if (user.bloodGroup.equals("O-")) {
+                    ONegativeDonors.add(user)
+                }
+                if (user.bloodGroup.equals("AB+")) {
+                    ABPositiveDonors.add(user)
+                }
+                if (user.bloodGroup.equals("AB-")) {
+                    ABNegativeDonors.add(user)
+                }
+            }
+            getAllDonorsStatus.postValue(Resource.Success(users))
+        }, {
+            getAllDonorsStatus.postValue(Resource.Error(it.message.toString()))
+        })
+    }
 }
