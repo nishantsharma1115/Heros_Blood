@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nishant.herosblood.R
 import com.nishant.herosblood.data.UserData
-import kotlinx.android.synthetic.main.item_dashboard_types_of_blood_group.view.*
+import kotlinx.android.synthetic.main.single_item_outer_rv_dashboard.view.*
 
-class BloodTypeListAdapters(
+class OuterRVDashboardAdapter(
     private val context: Context,
     private val bloodTypeList: List<String>,
     private var users: HashMap<String, ArrayList<UserData>>
-) : RecyclerView.Adapter<BloodTypeListAdapters.BloodTypeHolder>() {
+) : RecyclerView.Adapter<OuterRVDashboardAdapter.BloodTypeHolder>() {
 
     class BloodTypeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val bloodType: TextView = itemView.outerRVBloodType
@@ -25,7 +25,7 @@ class BloodTypeListAdapters(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BloodTypeHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_dashboard_types_of_blood_group,
+            R.layout.single_item_outer_rv_dashboard,
             parent,
             false
         )
@@ -35,36 +35,25 @@ class BloodTypeListAdapters(
     override fun onBindViewHolder(holder: BloodTypeHolder, position: Int) {
         val currentBloodType = bloodTypeList[position]
         holder.bloodType.text = "$currentBloodType Donors"
-        if (currentBloodType == "A+") {
-            if (users["A+"]!!.size == 0) {
-                holder.noUser.visibility = View.VISIBLE
-            }
-        }
-        if (currentBloodType == "O-") {
-            if (users["O-"]!!.size == 0) {
-                holder.noUser.visibility = View.VISIBLE
-            }
-        }
-        if (currentBloodType == "O+") {
-            if (users["O+"]!!.size == 0) {
-                holder.noUser.visibility = View.VISIBLE
-            } else {
-                holder.innerRV.adapter = SingleBloodTypeListAdapter(users["O+"]!!)
-            }
-        }
-        if (currentBloodType == "AB+") {
-            if (users["AB+"]!!.size == 0) {
-                holder.noUser.visibility = View.VISIBLE
-            }
-        }
-        if (currentBloodType == "AB-") {
-            if (users["AB-"]!!.size == 0) {
-                holder.noUser.visibility = View.VISIBLE
-            }
+
+        when (currentBloodType) {
+            "A+" -> setInnerRvAdapter("A+", holder)
+            "O-" -> setInnerRvAdapter("O-", holder)
+            "O+" -> setInnerRvAdapter("O+", holder)
+            "AB+" -> setInnerRvAdapter("AB+", holder)
+            "AB-" -> setInnerRvAdapter("AB-", holder)
         }
         holder.innerRV.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         holder.innerRV.setHasFixedSize(true)
+    }
+
+    private fun setInnerRvAdapter(bloodType: String, holder: BloodTypeHolder) {
+        if (users[bloodType]!!.size == 0) {
+            holder.noUser.visibility = View.VISIBLE
+        } else {
+            holder.innerRV.adapter = InnerRVDashboardAdapter(context, users[bloodType]!!)
+        }
     }
 
     override fun getItemCount(): Int = bloodTypeList.size

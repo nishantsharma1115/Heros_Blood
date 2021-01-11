@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.nishant.herosblood.R
-import com.nishant.herosblood.adapters.BloodTypeListAdapters
+import com.nishant.herosblood.adapters.OuterRVDashboardAdapter
 import com.nishant.herosblood.data.UserData
 import com.nishant.herosblood.databinding.ActivityUserDashboardBinding
 import com.nishant.herosblood.util.Resource
@@ -42,7 +42,7 @@ class UserDashboardActivity : AppCompatActivity() {
                 }
                 is Resource.Success -> {
                     hideLoadingBar()
-                    binding.rvDonorListUserDashboard.adapter = BloodTypeListAdapters(this, bloodTypeList, it.data!!)
+                    binding.rvDonorListUserDashboard.adapter = OuterRVDashboardAdapter(this, bloodTypeList, it.data!!)
                     binding.rvDonorListUserDashboard.layoutManager = LinearLayoutManager(this)
                     binding.rvDonorListUserDashboard.setHasFixedSize(true)
                 }
