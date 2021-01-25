@@ -1,11 +1,13 @@
 package com.nishant.herosblood.viewmodels
 
-import android.util.Log
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.nishant.herosblood.data.UserData
 import com.nishant.herosblood.repositories.DataRepository
 import com.nishant.herosblood.util.Resource
+import kotlinx.coroutines.launch
 
 class DataViewModel(
     private val dataRepository: DataRepository = DataRepository()
@@ -16,7 +18,6 @@ class DataViewModel(
         saveUserDataStatus.postValue(Resource.Loading())
         dataRepository.saveUserData(user, { task ->
             if (task.isSuccessful) {
-                Log.d("Inside ViewModel", "Task is successful")
                 saveUserDataStatus.postValue(Resource.Success(true))
             } else {
                 saveUserDataStatus.postValue(Resource.Success(false))
@@ -48,42 +49,65 @@ class DataViewModel(
     val getAllDonorsStatus: MutableLiveData<Resource<HashMap<String, ArrayList<UserData>>>> =
         MutableLiveData()
 
-    fun getAllDonors() {
+    suspend fun getAllDonors(currentUserId: String) {
         getAllDonorsStatus.postValue(Resource.Loading())
-        val OPositiveDonors: ArrayList<UserData> = ArrayList()
-        val APositiveDonors: ArrayList<UserData> = ArrayList()
-        val ONegativeDonors: ArrayList<UserData> = ArrayList()
-        val ABPositiveDonors: ArrayList<UserData> = ArrayList()
-        val ABNegativeDonors: ArrayList<UserData> = ArrayList()
+        val oPositiveDonors: ArrayList<UserData> = ArrayList()
+        val aPositiveDonors: ArrayList<UserData> = ArrayList()
+        val oNegativeDonors: ArrayList<UserData> = ArrayList()
+        val abPositiveDonors: ArrayList<UserData> = ArrayList()
+        val abNegativeDonors: ArrayList<UserData> = ArrayList()
         val users = hashMapOf(
-            "O+" to OPositiveDonors,
-            "A+" to APositiveDonors,
-            "O-" to ONegativeDonors,
-            "AB+" to ABPositiveDonors,
-            "AB-" to ABNegativeDonors
+            "O+" to oPositiveDonors,
+            "A+" to aPositiveDonors,
+            "O-" to oNegativeDonors,
+            "AB+" to abPositiveDonors,
+            "AB-" to abNegativeDonors
         )
-        dataRepository.getAllDonors({
-            for (document in it) {
-                val user = document.toObject(UserData::class.java)
-                if (user.bloodGroup.equals("O+")) {
-                    OPositiveDonors.add(user)
+
+        viewModelScope.launch {
+
+            dataRepository.getAllDonors({
+                for (document in it) {
+                    val user = document.toObject(UserData::class.java)
+                    if (user.userId != currentUserId) {
+                        if (user.bloodGroup.equals("O+")) {
+                            oPositiveDonors.add(user)
+                        }
+                        if (user.bloodGroup.equals("A+")) {
+                            aPositiveDonors.add(user)
+                        }
+                        if (user.bloodGroup.equals("O-")) {
+                            oNegativeDonors.add(user)
+                        }
+                        if (user.bloodGroup.equals("AB+")) {
+                            abPositiveDonors.add(user)
+                        }
+                        if (user.bloodGroup.equals("AB-")) {
+                            abNegativeDonors.add(user)
+                        }
+                    }
                 }
-                if (user.bloodGroup.equals("A+")) {
-                    APositiveDonors.add(user)
-                }
-                if (user.bloodGroup.equals("O-")) {
-                    ONegativeDonors.add(user)
-                }
-                if (user.bloodGroup.equals("AB+")) {
-                    ABPositiveDonors.add(user)
-                }
-                if (user.bloodGroup.equals("AB-")) {
-                    ABNegativeDonors.add(user)
-                }
+                getAllDonorsStatus.postValue(Resource.Success(users))
+            }, {
+                getAllDonorsStatus.postValue(Resource.Error(it.message.toString()))
+            })
+        }
+    }
+
+    val getProfilePictureStatus: MutableLiveData<Resource<Boolean>> = MutableLiveData()
+    fun uploadProfilePicture(
+        userId: String,
+        file: Uri
+    ) = viewModelScope.launch {
+        getProfilePictureStatus.postValue(Resource.Loading())
+        dataRepository.uploadProfilePicture(userId, file, { task ->
+            if (task.isSuccessful) {
+                getProfilePictureStatus.postValue(Resource.Success(true))
+            } else {
+                getProfilePictureStatus.postValue(Resource.Success(false))
             }
-            getAllDonorsStatus.postValue(Resource.Success(users))
-        }, {
-            getAllDonorsStatus.postValue(Resource.Error(it.message.toString()))
+        }, { exception ->
+            getProfilePictureStatus.postValue(Resource.Error(exception.message.toString()))
         })
     }
 }

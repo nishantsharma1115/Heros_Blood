@@ -17,10 +17,11 @@
 
         <ImageView
             android:id="@+id/img_profilePicture"
-            android:layout_width="0dp"
-            android:layout_height="300dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:contentDescription="@string/profile_picture"
             android:src="@color/colorPrimary"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -192,28 +193,20 @@
                     app:layout_constraintStart_toEndOf="@+id/img_call"
                     app:layout_constraintTop_toTopOf="@+id/img_call" />
 
-                <ImageView
-                    android:id="@+id/img_editProfile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="20dp"
-                    android:contentDescription="@string/icon"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/img_line3"
-                    app:srcCompat="@drawable/edit_icon" />
-
                 <TextView
                     android:id="@+id/txt_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="25dp"
                     android:text="@string/edit_profile"
+                    android:layout_marginTop="12dp"
                     android:textColor="@color/redColor"
                     android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/img_editProfile"
-                    app:layout_constraintEnd_toStartOf="@+id/img_editProfile"
-                    app:layout_constraintTop_toTopOf="@+id/img_editProfile" />
+                    android:drawablePadding="20dp"
+                    app:drawableEndCompat="@drawable/edit_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/img_line3" />
 
                 <View
                     android:id="@+id/img_line4"

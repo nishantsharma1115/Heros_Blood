@@ -13,5 +13,6 @@ data class UserData(
     var state: String? = null,
     var city: String? = null,
     var pincode: String? = null,
-    var fullAddress: String? = null
+    var fullAddress: String? = null,
+    var profilePictureUrl: String? = null
 ) : Serializable

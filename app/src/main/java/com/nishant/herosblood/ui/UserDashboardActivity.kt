@@ -8,7 +8,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
 import com.google.firebase.auth.FirebaseAuth
 import com.nishant.herosblood.R
 import com.nishant.herosblood.adapters.OuterRVDashboardAdapter
@@ -16,6 +18,8 @@ import com.nishant.herosblood.data.UserData
 import com.nishant.herosblood.databinding.ActivityUserDashboardBinding
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.DataViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.Serializable
 
 class UserDashboardActivity : AppCompatActivity() {
@@ -34,7 +38,10 @@ class UserDashboardActivity : AppCompatActivity() {
         animation = binding.progressBar.drawable as AnimationDrawable
         val bloodTypeList = resources.getStringArray(R.array.blood_group).toList()
 
-        dataViewModel.getAllDonors()
+        lifecycleScope.launch(Dispatchers.IO) {
+            dataViewModel.getAllDonors(mAuth.currentUser!!.uid)
+        }
+
         dataViewModel.getAllDonorsStatus.observe(this, {
             when (it) {
                 is Resource.Loading -> {
@@ -42,7 +49,8 @@ class UserDashboardActivity : AppCompatActivity() {
                 }
                 is Resource.Success -> {
                     hideLoadingBar()
-                    binding.rvDonorListUserDashboard.adapter = OuterRVDashboardAdapter(this, bloodTypeList, it.data!!)
+                    binding.rvDonorListUserDashboard.adapter =
+                        OuterRVDashboardAdapter(this, bloodTypeList, it.data!!)
                     binding.rvDonorListUserDashboard.layoutManager = LinearLayoutManager(this)
                     binding.rvDonorListUserDashboard.setHasFixedSize(true)
                 }
@@ -55,9 +63,10 @@ class UserDashboardActivity : AppCompatActivity() {
 
         binding.txtDonorClickHere.setOnClickListener {
             if (isDataReceived) {
-                val intent = Intent(this, UserRegistrationActivity::class.java)
-                intent.putExtra("UserData", user as Serializable)
-                startActivity(intent)
+                Intent(this, UserRegistrationActivity::class.java).also { intent ->
+                    intent.putExtra("UserData", user as Serializable)
+                    startActivity(intent)
+                }
             }
         }
         mAuth.currentUser?.let { firebaseUser ->
@@ -87,7 +96,9 @@ class UserDashboardActivity : AppCompatActivity() {
                             binding.notRegistered.visibility = View.GONE
                         }
                     }
-                    binding.imgProfilePicture.bringToFront()
+                    user.profilePictureUrl?.let { profilePictureUrl ->
+                        binding.imgProfilePicture.load(profilePictureUrl)
+                    }
                 }
                 is Resource.Error -> {
                     Toast.makeText(

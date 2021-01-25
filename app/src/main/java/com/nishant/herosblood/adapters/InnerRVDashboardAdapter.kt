@@ -5,9 +5,11 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.nishant.herosblood.R
 import com.nishant.herosblood.data.UserData
 import com.nishant.herosblood.ui.DonorProfileActivity
@@ -20,7 +22,8 @@ class InnerRVDashboardAdapter(
 ) : RecyclerView.Adapter<InnerRVDashboardAdapter.SingleBloodTypeUser>() {
     class SingleBloodTypeUser(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var userName: TextView = itemView.userName
-        var cardView: CardView = itemView.rvCardView
+        var profilePicture: ImageView = itemView.userProfilePicture
+        var background: ConstraintLayout = itemView.layout_background
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SingleBloodTypeUser {
@@ -35,8 +38,11 @@ class InnerRVDashboardAdapter(
     override fun onBindViewHolder(holder: SingleBloodTypeUser, position: Int) {
         val current = users[position]
         holder.userName.text = current.name
+        holder.profilePicture.load(current.profilePictureUrl) {
+            this.placeholder(R.drawable.profile_none)
+        }
 
-        holder.cardView.setOnClickListener {
+        holder.background.setOnClickListener {
             val intent = Intent(context, DonorProfileActivity::class.java)
             intent.putExtra("UserData", current as Serializable)
             context.startActivity(intent)
