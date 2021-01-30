@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/shimmerDonorListBackground"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="15dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="15dp"
+    android:background="@color/white"
+    android:elevation="15dp"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:id="@+id/dpName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/shimmerProfilePicture"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/greyColor" />
+
+        <TextView
+            android:id="@+id/shimmerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/greyColor"
+            android:text="Nishant Sharma"
+            android:textColor="@color/greyColor" />
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/addressIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="10dp"
+        android:contentDescription="@string/profile_picture"
+        android:src="@color/greyColor"
+        app:layout_constraintBottom_toBottomOf="@id/address"
+        app:layout_constraintStart_toEndOf="@id/dpName"
+        app:layout_constraintTop_toTopOf="@id/address" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:background="@color/greyColor"
+        android:text="Dhimishri"
+        android:textColor="@color/greyColor"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/addressIcon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/emailIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="10dp"
+        android:contentDescription="@string/profile_picture"
+        android:src="@color/greyColor"
+        app:layout_constraintBottom_toBottomOf="@id/email"
+        app:layout_constraintStart_toEndOf="@id/dpName"
+        app:layout_constraintTop_toTopOf="@id/email" />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/greyColor"
+        android:text="official.nishant"
+        android:textColor="@color/greyColor"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/emailIcon"
+        app:layout_constraintTop_toBottomOf="@id/address" />
+
+    <ImageView
+        android:id="@+id/phoneIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="10dp"
+        android:contentDescription="@string/profile_picture"
+        android:src="@color/greyColor"
+        app:layout_constraintBottom_toBottomOf="@id/phone"
+        app:layout_constraintStart_toEndOf="@id/dpName"
+        app:layout_constraintTop_toTopOf="@id/phone" />
+
+    <TextView
+        android:id="@+id/phone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/greyColor"
+        android:text="8171301115"
+        android:textColor="@color/greyColor"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/phoneIcon"
+        app:layout_constraintTop_toBottomOf="@id/email" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

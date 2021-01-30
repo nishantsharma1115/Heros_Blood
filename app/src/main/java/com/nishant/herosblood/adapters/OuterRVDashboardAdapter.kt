@@ -1,6 +1,7 @@
 package com.nishant.herosblood.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nishant.herosblood.R
 import com.nishant.herosblood.data.UserData
+import com.nishant.herosblood.ui.DonorListActivity
 import kotlinx.android.synthetic.main.single_item_outer_rv_dashboard.view.*
 
 class OuterRVDashboardAdapter(
@@ -21,6 +23,7 @@ class OuterRVDashboardAdapter(
         val bloodType: TextView = itemView.outerRVBloodType
         val innerRV: RecyclerView = itemView.innerRV
         val noUser: TextView = itemView.noUserFound
+        var seeAll: TextView = itemView.rvSeeAll
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BloodTypeHolder {
@@ -43,6 +46,13 @@ class OuterRVDashboardAdapter(
             "AB+" -> setInnerRvAdapter("AB+", holder)
             "AB-" -> setInnerRvAdapter("AB-", holder)
         }
+
+        holder.seeAll.setOnClickListener {
+            val intent = Intent(context, DonorListActivity::class.java)
+            intent.putExtra("bloodType", currentBloodType)
+            context.startActivity(intent)
+        }
+
         holder.innerRV.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         holder.innerRV.setHasFixedSize(true)

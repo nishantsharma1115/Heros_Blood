@@ -94,6 +94,27 @@ class DataViewModel(
         }
     }
 
+    val getDonorListStatus: MutableLiveData<Resource<ArrayList<UserData>>> = MutableLiveData()
+    fun getDonorList(
+        bloodType: String
+    ) = viewModelScope.launch {
+        val donorList: ArrayList<UserData> = ArrayList()
+        getDonorListStatus.postValue(Resource.Loading())
+        dataRepository.getDonorList(bloodType, { snapshot ->
+            if (!snapshot.isEmpty) {
+                for (donors in snapshot) {
+                    val donor: UserData = donors.toObject(UserData::class.java)
+                    donorList.add(donor)
+                }
+                getDonorListStatus.postValue(Resource.Success(donorList))
+            } else {
+                getDonorListStatus.postValue(Resource.Success(donorList))
+            }
+        }, {
+            getDonorListStatus.postValue(Resource.Error("Empty List"))
+        })
+    }
+
     val getProfilePictureStatus: MutableLiveData<Resource<Boolean>> = MutableLiveData()
     fun uploadProfilePicture(
         userId: String,

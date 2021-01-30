@@ -17,18 +17,14 @@ class DataRepository {
 
     fun saveUserData(
         user: UserData,
-        completeListener: (Task<Void>) -> Unit,
-        failureListener: (Exception) -> Unit
+        completeCallback: (Task<Void>) -> Unit,
+        failureCallback: (Exception) -> Unit
     ) {
         user.userId?.let {
             db.collection("users").document(it)
                 .set(user)
-                .addOnCompleteListener { task ->
-                    completeListener(task)
-                }
-                .addOnFailureListener { exception ->
-                    failureListener(exception)
-                }
+                .addOnCompleteListener(completeCallback)
+                .addOnFailureListener(failureCallback)
         }
     }
 
@@ -39,12 +35,8 @@ class DataRepository {
     ) {
         db.collection("users").document(userId)
             .get()
-            .addOnSuccessListener { document ->
-                completeCallback(document)
-            }
-            .addOnFailureListener { exception ->
-                failureCallback(exception)
-            }
+            .addOnSuccessListener(completeCallback)
+            .addOnFailureListener(failureCallback)
     }
 
     suspend fun getAllDonors(
@@ -54,12 +46,22 @@ class DataRepository {
         withContext(Dispatchers.IO) {
             db.collection("users")
                 .get()
-                .addOnSuccessListener { snapshot ->
-                    completeCallback(snapshot)
-                }
-                .addOnFailureListener { exception ->
-                    failureCallback(exception)
-                }
+                .addOnSuccessListener(completeCallback)
+                .addOnFailureListener(failureCallback)
+        }
+    }
+
+    suspend fun getDonorList(
+        bloodType: String,
+        completeCallback: (QuerySnapshot) -> Unit,
+        failureCallback: (Exception) -> Unit
+    ) {
+        withContext(Dispatchers.IO) {
+            db.collection("users")
+                .whereEqualTo("bloodGroup", bloodType)
+                .get()
+                .addOnSuccessListener(completeCallback)
+                .addOnFailureListener(failureCallback)
         }
     }
 

@@ -14,6 +14,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/FullScreenTheme">
+        <activity android:name=".ui.DonorListActivity"></activity>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/ScreenTheme" />
