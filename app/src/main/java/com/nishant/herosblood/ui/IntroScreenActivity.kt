@@ -24,6 +24,7 @@ class IntroScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.FullScreenTheme)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_intro_screen)
 
         binding.btnLogin.setOnClickListener {
