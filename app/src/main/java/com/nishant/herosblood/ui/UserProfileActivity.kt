@@ -26,8 +26,8 @@ class UserProfileActivity : AppCompatActivity() {
         val widthDp = resources.displayMetrics.run { widthPixels / density }
         binding.guideline.setGuidelineBegin(widthDp.toInt())
 
-        binding.imgProfilePicture.load(user.profilePictureUrl) {
-            this.placeholder(R.drawable.profile_none)
+        if (user.profilePictureUrl != null) {
+            binding.imgProfilePicture.load(user.profilePictureUrl)
         }
 
         binding.logout.setOnClickListener {

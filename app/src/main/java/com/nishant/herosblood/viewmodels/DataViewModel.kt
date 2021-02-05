@@ -1,6 +1,7 @@
 package com.nishant.herosblood.viewmodels
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -96,11 +97,12 @@ class DataViewModel(
 
     val getDonorListStatus: MutableLiveData<Resource<ArrayList<UserData>>> = MutableLiveData()
     fun getDonorList(
+        userId: String,
         bloodType: String
     ) = viewModelScope.launch {
         val donorList: ArrayList<UserData> = ArrayList()
         getDonorListStatus.postValue(Resource.Loading())
-        dataRepository.getDonorList(bloodType, { snapshot ->
+        dataRepository.getDonorList(userId, bloodType, { snapshot ->
             if (!snapshot.isEmpty) {
                 for (donors in snapshot) {
                     val donor: UserData = donors.toObject(UserData::class.java)
@@ -111,7 +113,8 @@ class DataViewModel(
                 getDonorListStatus.postValue(Resource.Success(donorList))
             }
         }, {
-            getDonorListStatus.postValue(Resource.Error("Empty List"))
+            Log.d("Error: ", it.message.toString())
+            getDonorListStatus.postValue(Resource.Error("Some Error Occurred"))
         })
     }
 

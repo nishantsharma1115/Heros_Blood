@@ -29,14 +29,15 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/innerRV"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="@id/outerRVBloodType"
-        app:layout_constraintTop_toBottomOf="@id/outerRVBloodType"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/outerRVBloodType" />
 
     <TextView
         android:id="@+id/noUserFound"

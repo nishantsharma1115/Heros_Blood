@@ -24,6 +24,7 @@ class InnerRVDashboardAdapter(
         var userName: TextView = itemView.userName
         var profilePicture: ImageView = itemView.userProfilePicture
         var background: ConstraintLayout = itemView.layout_background
+        var userLocation: TextView = itemView.userLocation
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SingleBloodTypeUser {
@@ -38,8 +39,12 @@ class InnerRVDashboardAdapter(
     override fun onBindViewHolder(holder: SingleBloodTypeUser, position: Int) {
         val current = users[position]
         holder.userName.text = current.name
-        holder.profilePicture.load(current.profilePictureUrl) {
-            this.placeholder(R.drawable.profile_none)
+        holder.userLocation.text = current.city
+
+        if (current.profilePictureUrl != null) {
+            holder.profilePicture.load(current.profilePictureUrl) {
+                this.placeholder(R.drawable.profile_none)
+            }
         }
 
         holder.background.setOnClickListener {

@@ -6,13 +6,13 @@
     android:id="@+id/layout_background"
     android:paddingStart="10dp"
     android:paddingEnd="10dp"
+    android:elevation="2dp"
     android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userProfilePicture"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="10dp"
         android:src="@drawable/profile_none"
         app:layout_constraintBottom_toBottomOf="@id/userLocation"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:text="Dhimishri"
-        android:textAlignment="center"
+        android:gravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/userName"
         app:layout_constraintTop_toBottomOf="@id/userName"

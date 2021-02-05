@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.nishant.herosblood.R
 import com.nishant.herosblood.adapters.DonorListAdapters
 import com.nishant.herosblood.databinding.ActivityDonorListBinding
@@ -24,7 +25,10 @@ class DonorListActivity : AppCompatActivity() {
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
 
         val bloodType = intent.getStringExtra("bloodType") as String
-        dataViewModel.getDonorList(bloodType)
+        dataViewModel.getDonorList(
+            FirebaseAuth.getInstance().currentUser?.uid.toString(),
+            bloodType
+        )
 
         dataViewModel.getDonorListStatus.observe(this, { response ->
             when (response) {
@@ -32,7 +36,7 @@ class DonorListActivity : AppCompatActivity() {
                     binding.shimmerLayoutDonorList.startShimmer()
                 }
                 is Resource.Success -> {
-                    if (response.data == null) {
+                    if (response.data?.size!! <= 0) {
                         binding.noDonor.visibility = View.VISIBLE
                         binding.shimmerLayoutDonorList.stopShimmer()
                         binding.shimmerLayoutDonorList.visibility = View.GONE
@@ -48,6 +52,7 @@ class DonorListActivity : AppCompatActivity() {
                 }
                 is Resource.Error -> {
                     binding.shimmerLayoutDonorList.stopShimmer()
+                    binding.shimmerLayoutDonorList.visibility = View.GONE
                     Toast.makeText(this, "Check Internet Connection", Toast.LENGTH_LONG).show()
                 }
             }

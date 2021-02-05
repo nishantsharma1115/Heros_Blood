@@ -52,6 +52,7 @@ class DataRepository {
     }
 
     suspend fun getDonorList(
+        userId: String,
         bloodType: String,
         completeCallback: (QuerySnapshot) -> Unit,
         failureCallback: (Exception) -> Unit
@@ -59,6 +60,7 @@ class DataRepository {
         withContext(Dispatchers.IO) {
             db.collection("users")
                 .whereEqualTo("bloodGroup", bloodType)
+                .whereNotEqualTo("userId", userId)
                 .get()
                 .addOnSuccessListener(completeCallback)
                 .addOnFailureListener(failureCallback)

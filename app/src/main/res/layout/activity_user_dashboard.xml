@@ -145,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:fontFamily="@font/high_tower"
-                android:text="Dhimishri"
+                android:text="@{user.city}"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@id/imgLocation"
