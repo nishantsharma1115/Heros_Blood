@@ -40,11 +40,13 @@ class DataRepository {
     }
 
     suspend fun getAllDonors(
+        userId: String,
         completeCallback: (QuerySnapshot) -> Unit,
         failureCallback: (Exception) -> Unit
     ) {
         withContext(Dispatchers.IO) {
             db.collection("users")
+                .whereNotEqualTo("userId", userId)
                 .get()
                 .addOnSuccessListener(completeCallback)
                 .addOnFailureListener(failureCallback)

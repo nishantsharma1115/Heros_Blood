@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nishant.herosblood.data.UserData
 import com.nishant.herosblood.repositories.DataRepository
+import com.nishant.herosblood.util.DifferentDonorLists
 import com.nishant.herosblood.util.Resource
 import kotlinx.coroutines.launch
 
@@ -47,52 +48,34 @@ class DataViewModel(
         })
     }
 
-    val getAllDonorsStatus: MutableLiveData<Resource<HashMap<String, ArrayList<UserData>>>> =
-        MutableLiveData()
-
-    suspend fun getAllDonors(currentUserId: String) {
+    val getAllDonorsStatus: MutableLiveData<Resource<DifferentDonorLists>> = MutableLiveData()
+    fun getAllDonors(currentUserId: String) = viewModelScope.launch {
         getAllDonorsStatus.postValue(Resource.Loading())
-        val oPositiveDonors: ArrayList<UserData> = ArrayList()
-        val aPositiveDonors: ArrayList<UserData> = ArrayList()
-        val oNegativeDonors: ArrayList<UserData> = ArrayList()
-        val abPositiveDonors: ArrayList<UserData> = ArrayList()
-        val abNegativeDonors: ArrayList<UserData> = ArrayList()
-        val users = hashMapOf(
-            "O+" to oPositiveDonors,
-            "A+" to aPositiveDonors,
-            "O-" to oNegativeDonors,
-            "AB+" to abPositiveDonors,
-            "AB-" to abNegativeDonors
-        )
+        val donorsList = DifferentDonorLists()
 
-        viewModelScope.launch {
-
-            dataRepository.getAllDonors({
-                for (document in it) {
-                    val user = document.toObject(UserData::class.java)
-                    if (user.userId != currentUserId) {
-                        if (user.bloodGroup.equals("O+")) {
-                            oPositiveDonors.add(user)
-                        }
-                        if (user.bloodGroup.equals("A+")) {
-                            aPositiveDonors.add(user)
-                        }
-                        if (user.bloodGroup.equals("O-")) {
-                            oNegativeDonors.add(user)
-                        }
-                        if (user.bloodGroup.equals("AB+")) {
-                            abPositiveDonors.add(user)
-                        }
-                        if (user.bloodGroup.equals("AB-")) {
-                            abNegativeDonors.add(user)
-                        }
-                    }
+        dataRepository.getAllDonors(currentUserId, {
+            for (document in it) {
+                val user = document.toObject(UserData::class.java)
+                if (user.bloodGroup.equals("O+")) {
+                    donorsList.oPositiveDonors.add(user)
                 }
-                getAllDonorsStatus.postValue(Resource.Success(users))
-            }, {
-                getAllDonorsStatus.postValue(Resource.Error(it.message.toString()))
-            })
-        }
+                if (user.bloodGroup.equals("A+")) {
+                    donorsList.aPositiveDonors.add(user)
+                }
+                if (user.bloodGroup.equals("O-")) {
+                    donorsList.oNegativeDonors.add(user)
+                }
+                if (user.bloodGroup.equals("AB+")) {
+                    donorsList.abPositiveDonors.add(user)
+                }
+                if (user.bloodGroup.equals("AB-")) {
+                    donorsList.abNegativeDonors.add(user)
+                }
+            }
+            getAllDonorsStatus.postValue(Resource.Success(donorsList))
+        }, {
+            getAllDonorsStatus.postValue(Resource.Error(it.message.toString()))
+        })
     }
 
     val getDonorListStatus: MutableLiveData<Resource<ArrayList<UserData>>> = MutableLiveData()

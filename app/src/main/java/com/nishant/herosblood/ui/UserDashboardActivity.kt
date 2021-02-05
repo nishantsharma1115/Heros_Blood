@@ -8,18 +8,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
 import com.nishant.herosblood.R
-import com.nishant.herosblood.adapters.OuterRVDashboardAdapter
+import com.nishant.herosblood.adapters.dashboard.OuterRvAdapter
 import com.nishant.herosblood.data.UserData
 import com.nishant.herosblood.databinding.ActivityUserDashboardBinding
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.DataViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.io.Serializable
 
 class UserDashboardActivity : AppCompatActivity() {
@@ -38,19 +35,17 @@ class UserDashboardActivity : AppCompatActivity() {
         animation = binding.progressBar.drawable as AnimationDrawable
         val bloodTypeList = resources.getStringArray(R.array.blood_group).toList()
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            dataViewModel.getAllDonors(mAuth.currentUser!!.uid)
-        }
+        dataViewModel.getAllDonors(mAuth.currentUser!!.uid)
 
-        dataViewModel.getAllDonorsStatus.observe(this, {
-            when (it) {
+        dataViewModel.getAllDonorsStatus.observe(this, { response ->
+            when (response) {
                 is Resource.Loading -> {
                     showLoadingBar()
                 }
                 is Resource.Success -> {
                     hideLoadingBar()
                     binding.rvDonorListUserDashboard.adapter =
-                        OuterRVDashboardAdapter(this, bloodTypeList, it.data!!)
+                        OuterRvAdapter(this, bloodTypeList, response.data!!)
                     binding.rvDonorListUserDashboard.layoutManager = LinearLayoutManager(this)
                     binding.rvDonorListUserDashboard.setHasFixedSize(true)
                 }
