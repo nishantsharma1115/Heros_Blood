@@ -86,8 +86,22 @@ class DataRepository {
     ) {
         withContext(Dispatchers.IO) {
             db.collection("userLocationData")
-                .document(locationData.userId)
+                .document(locationData.userId!!)
                 .set(locationData)
+        }
+    }
+
+    suspend fun getUserLocation(
+        userId: String,
+        onCompleteCallback: (QuerySnapshot) -> Unit,
+        onFailureCallback: (Exception) -> Unit
+    ) {
+        withContext(Dispatchers.IO) {
+            db.collection("userLocationData")
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener(onCompleteCallback)
+                .addOnFailureListener(onFailureCallback)
         }
     }
 }

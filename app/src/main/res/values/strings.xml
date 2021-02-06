@@ -39,4 +39,5 @@
         <item>AB-</item>
     </string-array>
     <string name="title_activity_donor_location_map">Map</string>
+    <string name="map_api_key">AIzaSyCWKzn7QT7T_fuUckPumvh4bHOy2R3Ztvs</string>
 </resources>

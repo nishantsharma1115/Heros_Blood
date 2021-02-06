@@ -102,17 +102,37 @@
                     app:layout_constraintStart_toStartOf="@id/donorMapLocation"
                     app:layout_constraintTop_toBottomOf="@id/donorTxtGender" />
 
-                <ImageView
+                <fragment
                     android:id="@+id/donorMapLocation"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="0dp"
                     android:layout_height="200dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:contentDescription="@string/profile_picture"
-                    android:src="@color/greyColor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txtDonorAddress" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/donorMapLocation"
+                    app:layout_constraintEnd_toEndOf="@id/donorMapLocation"
+                    app:layout_constraintStart_toStartOf="@id/donorMapLocation"
+                    app:layout_constraintTop_toTopOf="@id/donorMapLocation" />
+
+                <ImageView
+                    android:id="@+id/expandMap"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:contentDescription="@string/profile_picture"
+                    android:src="@drawable/fullscreen_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/donorMapLocation"
+                    app:layout_constraintEnd_toEndOf="@id/donorMapLocation" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
