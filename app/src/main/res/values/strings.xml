@@ -38,4 +38,5 @@
         <item>AB+</item>
         <item>AB-</item>
     </string-array>
+    <string name="title_activity_donor_location_map">Map</string>
 </resources>

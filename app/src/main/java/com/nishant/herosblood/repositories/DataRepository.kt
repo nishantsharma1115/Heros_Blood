@@ -8,6 +8,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import com.nishant.herosblood.data.UserData
+import com.nishant.herosblood.data.UserLocationData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -78,5 +79,15 @@ class DataRepository {
         storageRef.child("ProfilePicture").child(userId).putFile(file)
             .addOnCompleteListener(onCompleteCallback)
             .addOnFailureListener(onFailureCallback)
+    }
+
+    suspend fun saveUserLocation(
+        locationData: UserLocationData
+    ) {
+        withContext(Dispatchers.IO) {
+            db.collection("userLocationData")
+                .document(locationData.userId)
+                .set(locationData)
+        }
     }
 }

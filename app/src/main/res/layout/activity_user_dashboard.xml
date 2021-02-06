@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="location"
+            type="String" />
+
+        <variable
             name="user"
             type="com.nishant.herosblood.data.UserData" />
     </data>
@@ -145,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:fontFamily="@font/high_tower"
-                android:text="@{user.city}"
+                android:text="@{location}"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@id/imgLocation"
