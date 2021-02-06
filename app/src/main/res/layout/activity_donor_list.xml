@@ -47,14 +47,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <ImageView
             android:id="@+id/noDonor"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="No Donor"
-            android:textColor="@color/black"
-            android:textSize="30sp"
+            android:layout_marginStart="20dp"
             android:visibility="gone"
+            android:layout_marginEnd="20dp"
+            android:contentDescription="@string/profile_picture"
+            android:src="@drawable/no_doners"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

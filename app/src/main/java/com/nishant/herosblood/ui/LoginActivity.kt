@@ -14,9 +14,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.nishant.herosblood.R
 import com.nishant.herosblood.databinding.ActivityLoginBinding
-import com.nishant.herosblood.util.ValidationInput
 import com.nishant.herosblood.util.InvalidInputChecker
 import com.nishant.herosblood.util.Resource
+import com.nishant.herosblood.util.ValidationInput
 import com.nishant.herosblood.viewmodels.AuthViewModel
 
 class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListener {
@@ -78,6 +78,7 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
                 is ValidationInput.ValidInput -> {
                     viewModel.loginUser(email, password)
                 }
+                else -> Toast.makeText(this, "Something wrong happen", Toast.LENGTH_SHORT).show()
             }
         }
     }
