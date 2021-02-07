@@ -3,7 +3,6 @@ package com.nishant.herosblood.ui
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.AnimationDrawable
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
@@ -37,7 +36,6 @@ class UserDashboardActivity : AppCompatActivity() {
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private var user: UserData = UserData()
     private var isDataReceived: Boolean = false
-    private lateinit var animation: AnimationDrawable
     private lateinit var locationManager: LocationManager
 
     private val locationListener: LocationListener = object : LocationListener {
@@ -71,7 +69,6 @@ class UserDashboardActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_user_dashboard)
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
-        animation = binding.progressBar.drawable as AnimationDrawable
         val bloodTypeList = resources.getStringArray(R.array.blood_group).toList()
 
         dataViewModel.getAllDonors(mAuth.currentUser!!.uid)
@@ -176,8 +173,8 @@ class UserDashboardActivity : AppCompatActivity() {
         ) {
             locationManager.requestLocationUpdates(
                 LocationManager.NETWORK_PROVIDER,
-                0L,
-                0F,
+                600000L,
+                1000F,
                 locationListener
             )
         } else {
@@ -189,15 +186,14 @@ class UserDashboardActivity : AppCompatActivity() {
         }
     }
 
+
     private fun showLoadingBar() {
-        binding.layoutBackground.alpha = 0.1F
         binding.progressBar.visibility = View.VISIBLE
-        animation.start()
     }
 
     private fun hideLoadingBar() {
-        binding.layoutBackground.alpha = 1F
         binding.progressBar.visibility = View.GONE
-        animation.stop()
+        binding.rvDonorListUserDashboard.visibility = View.VISIBLE
     }
+
 }
