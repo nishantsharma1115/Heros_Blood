@@ -74,9 +74,6 @@ class UserDashboardActivity : AppCompatActivity() {
         animation = binding.progressBar.drawable as AnimationDrawable
         val bloodTypeList = resources.getStringArray(R.array.blood_group).toList()
 
-        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
-        requestLocation()
-
         dataViewModel.getAllDonors(mAuth.currentUser!!.uid)
         dataViewModel.getAllDonorsStatus.observe(this, { response ->
             when (response) {
@@ -144,6 +141,17 @@ class UserDashboardActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    override fun onStart() {
+        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        requestLocation()
+        super.onStart()
+    }
+
+    override fun onStop() {
+        locationManager.removeUpdates(locationListener)
+        super.onStop()
     }
 
     override fun onRequestPermissionsResult(

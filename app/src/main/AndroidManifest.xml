@@ -40,8 +40,9 @@
         <activity android:name=".ui.SignUpActivity" />
         <activity
             android:name=".ui.LoginActivity"
-            android:theme="@style/SplashScreenTheme" />
-        <activity android:name=".ui.IntroScreenActivity">
+            android:theme="@style/FullScreenTheme" />
+        <activity android:name=".ui.IntroScreenActivity"
+            android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
