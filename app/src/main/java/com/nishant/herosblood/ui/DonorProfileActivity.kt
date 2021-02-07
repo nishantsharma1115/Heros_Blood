@@ -26,7 +26,6 @@ class DonorProfileActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityDonorProfileBinding
     private lateinit var locationViewModel: LocationViewModel
     private var user: UserData = UserData()
-    private lateinit var mMap: GoogleMap
     private lateinit var userLocationData: UserLocationData
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +56,6 @@ class DonorProfileActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(map: GoogleMap) {
-        mMap = map
         locationViewModel.getUserLocationStatus.observe(this, { response ->
             when (response) {
                 is Resource.Loading -> {
@@ -72,12 +70,12 @@ class DonorProfileActivity : AppCompatActivity(), OnMapReadyCallback {
                         userLocationData.latitude!!.toDouble(),
                         userLocationData.longitude!!.toDouble()
                     )
-                    mMap.addMarker(
+                    map.addMarker(
                         MarkerOptions()
                             .position(location)
                             .title(userLocationData.locality)
                     )
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(location))
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 20.0f))
                 }
                 is Resource.Error -> {
 

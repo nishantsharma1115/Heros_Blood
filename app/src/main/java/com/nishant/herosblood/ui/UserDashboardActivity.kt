@@ -67,6 +67,7 @@ class UserDashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.FullScreenTheme)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_user_dashboard)
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)

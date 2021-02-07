@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setTheme(R.style.FullScreenTheme)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)

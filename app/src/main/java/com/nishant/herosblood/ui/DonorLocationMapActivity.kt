@@ -13,8 +13,6 @@ import com.nishant.herosblood.R
 
 class DonorLocationMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private lateinit var mMap: GoogleMap
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_donor_location_map)
@@ -24,8 +22,6 @@ class DonorLocationMapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-
         val latitude = intent.getDoubleExtra("latitude", 0.0) as Double
         val longitude = intent.getDoubleExtra("longitude", 0.0) as Double
         val locality = intent.getStringExtra("locality") as String
@@ -34,6 +30,6 @@ class DonorLocationMapActivity : AppCompatActivity(), OnMapReadyCallback {
         Log.d("MapItems", latitude.toString())
         Log.d("MapItems", locality)
         googleMap.addMarker(MarkerOptions().position(location).title(locality))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(location))
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 20.0f))
     }
 }
