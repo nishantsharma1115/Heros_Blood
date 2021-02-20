@@ -24,7 +24,7 @@ class UserProfileActivity : AppCompatActivity() {
         binding.user = user
 
         val widthDp = resources.displayMetrics.run { widthPixels / density }
-        binding.guideline.setGuidelineBegin(widthDp.toInt())
+        binding.guideline.setGuidelineBegin(widthDp.toInt() + widthDp.toInt() / 2)
 
         if (user.profilePictureUrl != null) {
             binding.imgProfilePicture.load(user.profilePictureUrl)

@@ -9,6 +9,10 @@
             name="user"
             type="com.nishant.herosblood.data.UserData" />
 
+        <variable
+            name="liveLocation"
+            type="String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,9 +34,9 @@
                     android:id="@+id/donorProfilePicture"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    app:layout_constraintDimensionRatio="1:1"
                     android:contentDescription="@string/profile_picture"
                     android:src="@color/black"
+                    app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -97,7 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="@{user.fullAddress}"
+                    android:text="@{liveLocation}"
                     app:layout_constraintBottom_toTopOf="@id/donorMapLocation"
                     app:layout_constraintStart_toStartOf="@id/donorMapLocation"
                     app:layout_constraintTop_toBottomOf="@id/donorTxtGender" />
@@ -133,6 +137,51 @@
                     android:src="@drawable/fullscreen_icon"
                     app:layout_constraintBottom_toBottomOf="@id/donorMapLocation"
                     app:layout_constraintEnd_toEndOf="@id/donorMapLocation" />
+
+                <LinearLayout
+                    android:id="@+id/bottomLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="30dp"
+                    android:paddingEnd="30dp"
+                    android:weightSum="2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/donorMapLocation"
+                    app:layout_constraintStart_toStartOf="@id/donorMapLocation"
+                    app:layout_constraintTop_toBottomOf="@id/donorMapLocation">
+
+                    <Button
+                        android:id="@+id/callDonor"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/call_bg"
+                        android:drawableStart="@drawable/call_icon"
+                        android:drawableTint="@color/white"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:text="Call"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/emailDonor"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableStart="@drawable/email_icon"
+                        android:drawableTint="@color/black"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="30dp"
+                        android:text="Mail"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

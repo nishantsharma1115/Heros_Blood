@@ -35,8 +35,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutUser"
             android:layout_width="0dp"
-            android:visibility="invisible"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -92,9 +92,9 @@
                     android:layout_marginStart="5dp"
                     android:contentDescription="@string/verifiedicon"
                     android:src="@drawable/verified_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/txtRegistered"
                     app:layout_constraintStart_toEndOf="@id/txtRegistered"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/txtRegistered"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -161,9 +161,9 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="20dp"
-                android:src="@drawable/profile_none"
                 android:clickable="true"
                 android:focusable="true"
+                android:src="@drawable/profile_none"
                 app:layout_constraintBottom_toBottomOf="@id/imgLocation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/txtHello" />
@@ -205,7 +205,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_background"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/txtNearbyPeople"

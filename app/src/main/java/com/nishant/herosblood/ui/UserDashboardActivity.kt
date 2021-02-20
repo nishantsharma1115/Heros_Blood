@@ -90,6 +90,7 @@ class UserDashboardActivity : AppCompatActivity() {
                 }
             }
         })
+
         binding.txtDonorClickHere.setOnClickListener {
             if (isDataReceived) {
                 Intent(this, UserRegistrationActivity::class.java).also { intent ->
@@ -98,14 +99,8 @@ class UserDashboardActivity : AppCompatActivity() {
                 }
             }
         }
-        mAuth.currentUser?.let { firebaseUser ->
-            dataViewModel.readUserData(firebaseUser.uid)
-        }
-        binding.imgProfilePicture.setOnClickListener {
-            val intent = Intent(this, UserProfileActivity::class.java)
-            intent.putExtra("UserData", user as Serializable)
-            startActivity(intent)
-        }
+
+        dataViewModel.readUserData(mAuth.currentUser?.uid!!)
         dataViewModel.readUserDataStatus.observe(this, { response ->
             when (response) {
                 is Resource.Loading -> {
@@ -138,6 +133,12 @@ class UserDashboardActivity : AppCompatActivity() {
                 }
             }
         })
+
+        binding.imgProfilePicture.setOnClickListener {
+            val intent = Intent(this, UserProfileActivity::class.java)
+            intent.putExtra("UserData", user as Serializable)
+            startActivity(intent)
+        }
     }
 
     override fun onStart() {

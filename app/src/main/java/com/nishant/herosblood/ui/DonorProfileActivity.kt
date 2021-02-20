@@ -1,9 +1,13 @@
 package com.nishant.herosblood.ui
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import coil.load
@@ -13,13 +17,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.firebase.auth.FirebaseAuth
 import com.nishant.herosblood.R
 import com.nishant.herosblood.data.UserData
 import com.nishant.herosblood.data.UserLocationData
 import com.nishant.herosblood.databinding.ActivityDonorProfileBinding
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.LocationViewModel
+import java.security.Permission
 
 class DonorProfileActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -40,7 +44,7 @@ class DonorProfileActivity : AppCompatActivity(), OnMapReadyCallback {
         user = intent.getSerializableExtra("UserData") as UserData
         binding.user = user
 
-        locationViewModel.getUserLocation(FirebaseAuth.getInstance().currentUser?.uid.toString())
+        locationViewModel.getUserLocation(user.userId!!)
         binding.donorProfilePicture.load(user.profilePictureUrl) {
             this.placeholder(R.drawable.profile_none)
         }
@@ -53,19 +57,62 @@ class DonorProfileActivity : AppCompatActivity(), OnMapReadyCallback {
                 startActivity(this)
             }
         }
+
+        binding.callDonor.setOnClickListener {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.CALL_PHONE
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                makeCall()
+            } else {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.CALL_PHONE),
+                    1
+                )
+            }
+        }
+        binding.emailDonor.setOnClickListener {
+            sendMail()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            makeCall()
+        }
+    }
+
+    private fun makeCall() {
+        Intent(Intent.ACTION_CALL).also {
+            it.data = Uri.parse("tel:" + user.phoneNumber)
+            startActivity(it)
+        }
+    }
+
+    private fun sendMail() {
+        Intent(Intent.ACTION_SEND).also {
+            it.putExtra(Intent.EXTRA_EMAIL, user.email)
+            it.type = "message/rfc822"
+            startActivity(Intent.createChooser(it, "Select eMail"))
+        }
     }
 
     override fun onMapReady(map: GoogleMap) {
         locationViewModel.getUserLocationStatus.observe(this, { response ->
             when (response) {
                 is Resource.Loading -> {
-
+                    Log.d("Loading", "Fetching Map Data")
                 }
                 is Resource.Success -> {
-                    Log.d("Inside: ", "OnSuccess")
                     userLocationData = response.data as UserLocationData
-                    Log.d("Longitude", userLocationData.longitude!!.toString())
-                    Log.d("Latitude", userLocationData.latitude!!.toString())
+                    binding.liveLocation = userLocationData.addressLine
                     val location = LatLng(
                         userLocationData.latitude!!.toDouble(),
                         userLocationData.longitude!!.toDouble()
@@ -75,10 +122,10 @@ class DonorProfileActivity : AppCompatActivity(), OnMapReadyCallback {
                             .position(location)
                             .title(userLocationData.locality)
                     )
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 20.0f))
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 12.0f))
                 }
                 is Resource.Error -> {
-
+                    Log.d("Error", "An Error occurred")
                 }
             }
         })

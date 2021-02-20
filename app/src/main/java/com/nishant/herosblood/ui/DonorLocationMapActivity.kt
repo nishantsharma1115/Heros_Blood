@@ -30,6 +30,6 @@ class DonorLocationMapActivity : AppCompatActivity(), OnMapReadyCallback {
         Log.d("MapItems", latitude.toString())
         Log.d("MapItems", locality)
         googleMap.addMarker(MarkerOptions().position(location).title(locality))
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 20.0f))
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 12.0f))
     }
 }

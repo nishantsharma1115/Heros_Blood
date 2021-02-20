@@ -30,11 +30,11 @@
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="20dp"
-            app:cardElevation="10dp"
             app:cardCornerRadius="20dp"
+            app:cardElevation="10dp"
             app:contentPaddingBottom="8dp"
             app:layout_constraintTop_toBottomOf="@id/guideline">
 
@@ -67,9 +67,13 @@
 
                 <TextView
                     android:id="@+id/txt_userName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
                     android:layout_marginTop="25dp"
+                    android:layout_marginEnd="12dp"
+                    android:gravity="center_horizontal"
+                    android:singleLine="false"
                     android:text="@{user.name}"
                     android:textAllCaps="true"
                     android:textColor="@color/black"
@@ -108,23 +112,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="12dp"
                     android:contentDescription="@string/icon"
                     android:src="@drawable/address_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/txt_userAddress"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/img_line1" />
+                    app:layout_constraintTop_toTopOf="@id/txt_userAddress" />
 
                 <TextView
                     android:id="@+id/txt_userAddress"
-                    android:layout_width="150dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
                     android:gravity="start"
                     android:maxLines="4"
                     android:singleLine="false"
                     android:text="@{user.fullAddress}"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/img_addressIcon"
-                    app:layout_constraintTop_toTopOf="@+id/img_addressIcon" />
+                    app:layout_constraintTop_toTopOf="@+id/img_line1" />
 
                 <View
                     android:id="@+id/img_line2"
@@ -144,21 +152,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="12dp"
                     android:contentDescription="@string/icon"
+                    app:layout_constraintBottom_toBottomOf="@id/txt_userEmail"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/img_line2"
+                    app:layout_constraintTop_toTopOf="@id/txt_userEmail"
                     app:srcCompat="@drawable/email_icon" />
 
                 <TextView
                     android:id="@+id/txt_userEmail"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
                     android:text="@{user.email}"
-                    app:layout_constraintBottom_toBottomOf="@+id/img_emailIcon"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/img_emailIcon"
-                    app:layout_constraintTop_toTopOf="@+id/img_emailIcon" />
+                    app:layout_constraintTop_toBottomOf="@id/img_line2" />
 
                 <View
                     android:id="@+id/img_line3"
@@ -190,6 +201,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="@{user.phoneNumber}"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/img_call"
                     app:layout_constraintStart_toEndOf="@+id/img_call"
                     app:layout_constraintTop_toTopOf="@+id/img_call" />
@@ -198,12 +210,12 @@
                     android:id="@+id/txt_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="25dp"
-                    android:text="@string/edit_profile"
                     android:layout_marginTop="12dp"
+                    android:layout_marginEnd="25dp"
+                    android:drawablePadding="20dp"
+                    android:text="@string/edit_profile"
                     android:textColor="@color/redColor"
                     android:textSize="15sp"
-                    android:drawablePadding="20dp"
                     app:drawableEndCompat="@drawable/edit_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -242,7 +254,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/availabilityText"
             app:layout_constraintEnd_toEndOf="@id/cardView"
-            app:layout_constraintTop_toTopOf="@id/availabilityText" />
+            app:layout_constraintTop_toTopOf="@id/availabilityText"
+            app:thumbTint="@color/redColor" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -255,10 +268,10 @@
             android:id="@+id/logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:backgroundTint="@color/redColor"
             android:paddingStart="35sp"
             android:paddingEnd="35sp"
-            android:layout_marginTop="20dp"
             android:text="Logout"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@id/availabilityToggle"
