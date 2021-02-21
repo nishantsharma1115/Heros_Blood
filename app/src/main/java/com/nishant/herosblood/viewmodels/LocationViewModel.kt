@@ -1,5 +1,6 @@
 package com.nishant.herosblood.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,20 +19,22 @@ class LocationViewModel(
         dataRepository.saveUserLocation(locationData)
     }
 
-    val getUserLocationStatus: MutableLiveData<Resource<UserLocationData>> = MutableLiveData()
+    private val _getUserLocationStatus: MutableLiveData<Resource<UserLocationData>> =
+        MutableLiveData()
+    val getUserLocationStatus: LiveData<Resource<UserLocationData>> = _getUserLocationStatus
     fun getUserLocation(
         userId: String
     ) = viewModelScope.launch {
-        getUserLocationStatus.postValue(Resource.Loading())
+        _getUserLocationStatus.postValue(Resource.Loading())
         dataRepository.getUserLocation(userId, { snapshot ->
             if (!snapshot.isEmpty) {
                 val userLocation = snapshot.documents[0].toObject(UserLocationData::class.java)
-                getUserLocationStatus.postValue(Resource.Success(userLocation!!))
+                _getUserLocationStatus.postValue(Resource.Success(userLocation!!))
             } else {
-                getUserLocationStatus.postValue(Resource.Error("No Location Found"))
+                _getUserLocationStatus.postValue(Resource.Error("No Location Found"))
             }
         }, { exception ->
-            getUserLocationStatus.postValue(Resource.Error(exception.message.toString()))
+            _getUserLocationStatus.postValue(Resource.Error(exception.message.toString()))
         })
     }
 }

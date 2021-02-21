@@ -2,6 +2,7 @@ package com.nishant.herosblood.viewmodels
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,42 +16,46 @@ class DataViewModel(
     private val dataRepository: DataRepository = DataRepository()
 ) : ViewModel() {
 
-    val saveUserDataStatus: MutableLiveData<Resource<Boolean>> = MutableLiveData()
+    private val _saveUserDataStatus: MutableLiveData<Resource<Boolean>> = MutableLiveData()
+    val saveUserDataStatus: LiveData<Resource<Boolean>> = _saveUserDataStatus
     fun saveUserData(user: UserData) {
-        saveUserDataStatus.postValue(Resource.Loading())
+        _saveUserDataStatus.postValue(Resource.Loading())
         dataRepository.saveUserData(user, { task ->
             if (task.isSuccessful) {
-                saveUserDataStatus.postValue(Resource.Success(true))
+                _saveUserDataStatus.postValue(Resource.Success(true))
             } else {
-                saveUserDataStatus.postValue(Resource.Success(false))
+                _saveUserDataStatus.postValue(Resource.Success(false))
             }
         }, {
-            saveUserDataStatus.postValue(Resource.Error(it.message.toString()))
+            _saveUserDataStatus.postValue(Resource.Error(it.message.toString()))
         })
     }
 
-    val readUserDataStatus: MutableLiveData<Resource<UserData>> = MutableLiveData()
+    private val _readUserDataStatus: MutableLiveData<Resource<UserData>> = MutableLiveData()
+    val readUserDataStatus: LiveData<Resource<UserData>> = _readUserDataStatus
     fun readUserData(
         userId: String
     ) {
-        readUserDataStatus.postValue(Resource.Loading())
+        _readUserDataStatus.postValue(Resource.Loading())
         dataRepository.readUserData(userId, { document ->
             if (document.exists()) {
                 val user = document.toObject(UserData::class.java)
                 user?.let {
-                    readUserDataStatus.postValue(Resource.Success(user))
+                    _readUserDataStatus.postValue(Resource.Success(user))
                 }
             } else {
-                readUserDataStatus.postValue(Resource.Success(UserData()))
+                _readUserDataStatus.postValue(Resource.Success(UserData()))
             }
         }, {
-            readUserDataStatus.postValue(Resource.Error(it.message.toString()))
+            _readUserDataStatus.postValue(Resource.Error(it.message.toString()))
         })
     }
 
-    val getAllDonorsStatus: MutableLiveData<Resource<DifferentDonorLists>> = MutableLiveData()
+    private val _getAllDonorsStatus: MutableLiveData<Resource<DifferentDonorLists>> =
+        MutableLiveData()
+    val getAllDonorsStatus: LiveData<Resource<DifferentDonorLists>> = _getAllDonorsStatus
     fun getAllDonors(currentUserId: String) = viewModelScope.launch {
-        getAllDonorsStatus.postValue(Resource.Loading())
+        _getAllDonorsStatus.postValue(Resource.Loading())
         val donorsList = DifferentDonorLists()
 
         dataRepository.getAllDonors(currentUserId, {
@@ -72,49 +77,52 @@ class DataViewModel(
                     donorsList.abNegativeDonors.add(user)
                 }
             }
-            getAllDonorsStatus.postValue(Resource.Success(donorsList))
+            _getAllDonorsStatus.postValue(Resource.Success(donorsList))
         }, {
-            getAllDonorsStatus.postValue(Resource.Error(it.message.toString()))
+            _getAllDonorsStatus.postValue(Resource.Error(it.message.toString()))
         })
     }
 
-    val getDonorListStatus: MutableLiveData<Resource<ArrayList<UserData>>> = MutableLiveData()
+    private val _getDonorListStatus: MutableLiveData<Resource<ArrayList<UserData>>> =
+        MutableLiveData()
+    val getDonorListStatus: LiveData<Resource<ArrayList<UserData>>> = _getDonorListStatus
     fun getDonorList(
         userId: String,
         bloodType: String
     ) = viewModelScope.launch {
         val donorList: ArrayList<UserData> = ArrayList()
-        getDonorListStatus.postValue(Resource.Loading())
+        _getDonorListStatus.postValue(Resource.Loading())
         dataRepository.getDonorList(userId, bloodType, { snapshot ->
             if (!snapshot.isEmpty) {
                 for (donors in snapshot) {
                     val donor: UserData = donors.toObject(UserData::class.java)
                     donorList.add(donor)
                 }
-                getDonorListStatus.postValue(Resource.Success(donorList))
+                _getDonorListStatus.postValue(Resource.Success(donorList))
             } else {
-                getDonorListStatus.postValue(Resource.Success(donorList))
+                _getDonorListStatus.postValue(Resource.Success(donorList))
             }
         }, {
             Log.d("Error: ", it.message.toString())
-            getDonorListStatus.postValue(Resource.Error("Some Error Occurred"))
+            _getDonorListStatus.postValue(Resource.Error("Some Error Occurred"))
         })
     }
 
-    val getProfilePictureStatus: MutableLiveData<Resource<Boolean>> = MutableLiveData()
+    private val _getProfilePictureStatus: MutableLiveData<Resource<Boolean>> = MutableLiveData()
+    val getProfilePictureStatus: LiveData<Resource<Boolean>> = _getProfilePictureStatus
     fun uploadProfilePicture(
         userId: String,
         file: Uri
     ) = viewModelScope.launch {
-        getProfilePictureStatus.postValue(Resource.Loading())
+        _getProfilePictureStatus.postValue(Resource.Loading())
         dataRepository.uploadProfilePicture(userId, file, { task ->
             if (task.isSuccessful) {
-                getProfilePictureStatus.postValue(Resource.Success(true))
+                _getProfilePictureStatus.postValue(Resource.Success(true))
             } else {
-                getProfilePictureStatus.postValue(Resource.Success(false))
+                _getProfilePictureStatus.postValue(Resource.Success(false))
             }
         }, { exception ->
-            getProfilePictureStatus.postValue(Resource.Error(exception.message.toString()))
+            _getProfilePictureStatus.postValue(Resource.Error(exception.message.toString()))
         })
     }
 }
