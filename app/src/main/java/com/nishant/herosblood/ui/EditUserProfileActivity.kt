@@ -9,6 +9,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
@@ -24,6 +27,7 @@ import com.nishant.herosblood.databinding.ActivityEditUserProfileBinding
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.DataViewModel
 import com.theartofdev.edmodo.cropper.CropImage
+import java.io.Serializable
 
 class EditUserProfileActivity : AppCompatActivity() {
 
@@ -46,6 +50,7 @@ class EditUserProfileActivity : AppCompatActivity() {
     private lateinit var animation: AnimationDrawable
     private var isProfilePictureUpdated = false
     private var photoUri: Uri? = null
+    private lateinit var selectedBloodGroup: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,9 +60,32 @@ class EditUserProfileActivity : AppCompatActivity() {
 
         user = intent.getSerializableExtra("UserData") as UserData
         binding.currentUser = user
+
         binding.imgProfilePicture.load(user.profilePictureUrl) {
             this.placeholder(R.drawable.profile_none)
         }
+
+        val bloodType = resources.getStringArray(R.array.blood_group)
+        val bloodGroupAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, bloodType)
+        binding.bloodGroupList.adapter = bloodGroupAdapter
+
+        binding.bloodGroupList.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    position: Int,
+                    p3: Long
+                ) {
+                    selectedBloodGroup = bloodType[position]
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    val error = binding.bloodGroupList.selectedView as TextView
+                    error.error = "Required"
+                    error.text = resources.getString(R.string.selectBloodGroup)
+                }
+            }
 
         cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract) {
             it?.let { uri ->
@@ -70,7 +98,7 @@ class EditUserProfileActivity : AppCompatActivity() {
         binding.changeProfilePicture.setOnClickListener {
             if (ContextCompat.checkSelfPermission(
                     applicationContext,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                    Manifest.permission.READ_EXTERNAL_STORAGE
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
@@ -89,6 +117,7 @@ class EditUserProfileActivity : AppCompatActivity() {
                     this.fullAddress = binding.etAddress.text.toString()
                     this.email = binding.etEmail.text.toString()
                     this.phoneNumber = binding.etPhone.text.toString()
+                    this.bloodGroup = selectedBloodGroup
                 }
                 dataViewModel.saveUserData(user)
             }
@@ -110,7 +139,7 @@ class EditUserProfileActivity : AppCompatActivity() {
                     hideLoadingBar()
                     Toast.makeText(
                         this,
-                        "Check Internet Connection",
+                        resources.getString(R.string.checkInternetConnection),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -125,8 +154,11 @@ class EditUserProfileActivity : AppCompatActivity() {
                 is Resource.Success -> {
                     if (response.data == true) {
                         hideLoadingBar()
-                        startActivity(Intent(this, UserProfileActivity::class.java))
-                        finish()
+                        Intent(this, UserProfileActivity::class.java).also {
+                            it.putExtra("UserData", user as Serializable)
+                            startActivity(it)
+                            finish()
+                        }
                     } else {
                         hideLoadingBar()
                         Toast.makeText(
@@ -155,12 +187,19 @@ class EditUserProfileActivity : AppCompatActivity() {
             this.email = binding.etEmail.text.toString()
             this.phoneNumber = binding.etPhone.text.toString()
             this.profilePictureUrl = uri.toString()
+            this.bloodGroup = selectedBloodGroup
         }
         dataViewModel.saveUserData(user)
     }
 
     private fun isDataChange(): Boolean {
-        if (binding.etName.text.toString() == user.name && binding.etAddress.text.toString() == user.fullAddress && binding.etEmail.text.toString() == user.email && binding.etPhone.text.toString() == user.phoneNumber) {
+        if (
+            binding.etName.text.toString() == user.name
+            && binding.etAddress.text.toString() == user.fullAddress
+            && binding.etEmail.text.toString() == user.email
+            && binding.etPhone.text.toString() == user.phoneNumber
+            && selectedBloodGroup == user.bloodGroup
+        ) {
             return false
         }
         return true

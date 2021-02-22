@@ -30,6 +30,8 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="register_as_a_donor">Register as a Donor</string>
     <string name="your_blood_group">Your Blood Group</string>
+    <string name="selectBloodGroup">Please Select Blood Group</string>
+    <string name="checkInternetConnection">Check Internet Connection</string>
 
     <string-array name="blood_group">
         <item>A+</item>

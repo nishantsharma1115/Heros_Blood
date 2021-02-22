@@ -1,5 +1,6 @@
 package com.nishant.herosblood.util
 
+import android.util.Log
 import android.util.Patterns
 import com.nishant.herosblood.data.UserData
 
@@ -9,6 +10,7 @@ class InvalidInputChecker {
         user: UserData,
         errorInput: (ValidationInput) -> Unit
     ) {
+        Log.d("Here user data", user.toString())
         if (user.bloodGroup!!.isEmpty()) {
             errorInput(ValidationInput.EmptyBloodGroup)
             return
@@ -33,6 +35,7 @@ class InvalidInputChecker {
             errorInput(ValidationInput.EmptyPhoneNumber)
             return
         }
+        errorInput(ValidationInput.ValidInput)
     }
 
     fun checkForLoginValidInputs(

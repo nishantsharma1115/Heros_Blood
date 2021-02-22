@@ -45,7 +45,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_general" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_uploadImage"
+                    android:id="@+id/imgUploadImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/insert_image"
@@ -56,30 +56,18 @@
                     app:layout_constraintTop_toTopOf="@+id/img_profilePicture"
                     app:layout_constraintVertical_bias="0.876" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/bloodType"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                <Spinner
+                    android:id="@+id/bloodGroupList"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginEnd="25dp"
+                    android:spinnerMode="dialog"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/img_uploadImage">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/bloodGroupList"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="15dp"
-                        android:paddingBottom="15dp"
-                        android:inputType="none"
-                        android:text="@string/your_blood_group"
-                        tools:ignore="LabelFor" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/imgUploadImage" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/edt_Address"
@@ -99,7 +87,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/bloodType">
+                    app:layout_constraintTop_toBottomOf="@+id/bloodGroupList">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_addressEditText"

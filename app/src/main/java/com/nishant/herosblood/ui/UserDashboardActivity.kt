@@ -71,7 +71,7 @@ class UserDashboardActivity : AppCompatActivity() {
         locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
         val bloodTypeList = resources.getStringArray(R.array.blood_group).toList()
 
-        dataViewModel.getAllDonors(mAuth.currentUser!!.uid)
+        dataViewModel.getAllDonors(mAuth.currentUser?.uid!!)
         dataViewModel.getAllDonorsStatus.observe(this, { response ->
             when (response) {
                 is Resource.Loading -> {
@@ -79,10 +79,14 @@ class UserDashboardActivity : AppCompatActivity() {
                 }
                 is Resource.Success -> {
                     hideLoadingBar()
-                    binding.rvDonorListUserDashboard.adapter =
-                        OuterRvAdapter(this, bloodTypeList, response.data!!)
-                    binding.rvDonorListUserDashboard.layoutManager = LinearLayoutManager(this)
-                    binding.rvDonorListUserDashboard.setHasFixedSize(true)
+                    if (response.data != null) {
+                        binding.rvDonorListUserDashboard.adapter =
+                            OuterRvAdapter(this, bloodTypeList, response.data)
+                        binding.rvDonorListUserDashboard.layoutManager = LinearLayoutManager(this)
+                        binding.rvDonorListUserDashboard.setHasFixedSize(true)
+                    } else {
+                        Toast.makeText(this, "Donor List Data is Null", Toast.LENGTH_LONG).show()
+                    }
                 }
                 is Resource.Error -> {
                     hideLoadingBar()
@@ -135,9 +139,13 @@ class UserDashboardActivity : AppCompatActivity() {
         })
 
         binding.imgProfilePicture.setOnClickListener {
-            val intent = Intent(this, UserProfileActivity::class.java)
-            intent.putExtra("UserData", user as Serializable)
-            startActivity(intent)
+            if (user.registered == "false") {
+                Toast.makeText(this, "Kindly Register yourself", Toast.LENGTH_LONG).show()
+            } else {
+                val intent = Intent(this, UserProfileActivity::class.java)
+                intent.putExtra("UserData", user as Serializable)
+                startActivity(intent)
+            }
         }
     }
 
