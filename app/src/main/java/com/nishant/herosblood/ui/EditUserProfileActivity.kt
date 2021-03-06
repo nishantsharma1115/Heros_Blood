@@ -22,8 +22,8 @@ import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.google.firebase.storage.FirebaseStorage
 import com.nishant.herosblood.R
-import com.nishant.herosblood.data.UserData
 import com.nishant.herosblood.databinding.ActivityEditUserProfileBinding
+import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.DataViewModel
 import com.theartofdev.edmodo.cropper.CropImage

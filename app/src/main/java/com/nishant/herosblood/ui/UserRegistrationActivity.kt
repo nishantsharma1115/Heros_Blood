@@ -22,7 +22,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.storage.FirebaseStorage
 import com.nishant.herosblood.R
-import com.nishant.herosblood.data.UserData
+import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.databinding.ActivityUserRegistrationBinding
 import com.nishant.herosblood.util.InvalidInputChecker
 import com.nishant.herosblood.util.Resource

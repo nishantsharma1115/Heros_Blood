@@ -1,6 +1,6 @@
 package com.nishant.herosblood.util
 
-import com.nishant.herosblood.data.UserData
+import com.nishant.herosblood.models.UserData
 
 class DifferentDonorLists {
     val oPositiveDonors: ArrayList<UserData> = ArrayList()

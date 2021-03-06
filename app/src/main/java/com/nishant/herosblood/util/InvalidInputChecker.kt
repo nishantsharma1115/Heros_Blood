@@ -2,7 +2,7 @@ package com.nishant.herosblood.util
 
 import android.util.Log
 import android.util.Patterns
-import com.nishant.herosblood.data.UserData
+import com.nishant.herosblood.models.UserData
 
 class InvalidInputChecker {
 

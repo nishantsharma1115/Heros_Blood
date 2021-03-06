@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.nishant.herosblood.R
-import com.nishant.herosblood.data.UserData
+import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.ui.DonorProfileActivity
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.Serializable

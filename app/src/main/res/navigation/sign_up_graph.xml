@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sign_up_graph"
+    app:startDestination="@id/signUpFragment">
+
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.nishant.herosblood.ui.fragments.signup.SignUpFragment"
+        android:label="SignUpFragment"
+        tools:layout="@layout/fragment_sign_up">
+        <action
+            android:id="@+id/action_signUpFragment_to_otpVerificationFragment"
+            app:destination="@id/otpVerificationFragment" />
+        <argument
+            android:name="email"
+            app:argType="string"
+            android:defaultValue='" "' />
+        <argument
+            android:name="otp"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+    <fragment
+        android:id="@+id/otpVerificationFragment"
+        android:name="com.nishant.herosblood.ui.fragments.signup.OtpVerificationFragment"
+        android:label="fragment_otp_verification"
+        tools:layout="@layout/fragment_otp_verification">
+        <action
+            android:id="@+id/action_otpVerificationFragment_to_nameAndPasswordFragment"
+            app:destination="@id/nameAndPasswordFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="otp"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+    <fragment
+        android:id="@+id/nameAndPasswordFragment"
+        android:name="com.nishant.herosblood.ui.fragments.signup.NameAndPasswordFragment"
+        android:label="fragment_name_and_password"
+        tools:layout="@layout/fragment_name_and_password" >
+        <argument
+            android:name="email"
+            app:argType="string"
+            android:defaultValue='" "' />
+    </fragment>
+</navigation>

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nishant.herosblood.data.UserLocationData
+import com.nishant.herosblood.models.UserLocationData
 import com.nishant.herosblood.repositories.DataRepository
 import com.nishant.herosblood.util.Resource
 import kotlinx.coroutines.launch

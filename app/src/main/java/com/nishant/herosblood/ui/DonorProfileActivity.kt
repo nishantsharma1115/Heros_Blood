@@ -18,12 +18,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.nishant.herosblood.R
-import com.nishant.herosblood.data.UserData
-import com.nishant.herosblood.data.UserLocationData
+import com.nishant.herosblood.models.UserData
+import com.nishant.herosblood.models.UserLocationData
 import com.nishant.herosblood.databinding.ActivityDonorProfileBinding
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.LocationViewModel
-import java.security.Permission
 
 class DonorProfileActivity : AppCompatActivity(), OnMapReadyCallback {
 

@@ -7,7 +7,7 @@
 
         <variable
             name="user"
-            type="com.nishant.herosblood.data.UserData" />
+            type="com.nishant.herosblood.models.UserData" />
 
         <variable
             name="liveLocation"

@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
 import com.nishant.herosblood.R
-import com.nishant.herosblood.data.UserData
+import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.databinding.ActivityUserProfileBinding
 import java.io.Serializable
 

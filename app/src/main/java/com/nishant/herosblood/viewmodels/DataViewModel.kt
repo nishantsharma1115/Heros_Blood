@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nishant.herosblood.data.UserData
+import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.repositories.DataRepository
 import com.nishant.herosblood.util.DifferentDonorLists
 import com.nishant.herosblood.util.Resource
