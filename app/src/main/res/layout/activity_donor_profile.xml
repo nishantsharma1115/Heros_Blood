@@ -35,7 +35,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:contentDescription="@string/profile_picture"
-                    android:src="@color/black"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -54,11 +53,13 @@
 
                 <TextView
                     android:id="@+id/donorName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:text="@{user.name}"
                     android:textColor="@color/black"
                     android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@id/donorDistance"
                     app:layout_constraintStart_toStartOf="@id/donorGender"
                     app:layout_constraintTop_toTopOf="@id/donorTxtName" />
 
@@ -70,7 +71,7 @@
                     android:text="Gender"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="@id/donorTxtName"
-                    app:layout_constraintTop_toBottomOf="@id/donorTxtName" />
+                    app:layout_constraintTop_toBottomOf="@id/donorName" />
 
                 <TextView
                     android:id="@+id/donorGender"

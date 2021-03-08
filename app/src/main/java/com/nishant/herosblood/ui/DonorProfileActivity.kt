@@ -47,6 +47,8 @@ class DonorProfileActivity : AppCompatActivity(), OnMapReadyCallback {
 
         if (user.profilePictureUrl != null) {
             binding.donorProfilePicture.load(user.profilePictureUrl)
+        } else {
+            binding.donorProfilePicture.setImageResource(R.drawable.profile_none)
         }
 
         binding.expandMap.setOnClickListener {

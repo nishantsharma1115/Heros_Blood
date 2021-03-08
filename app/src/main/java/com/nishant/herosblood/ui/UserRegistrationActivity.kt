@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.AnimationDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
@@ -22,8 +21,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.storage.FirebaseStorage
 import com.nishant.herosblood.R
-import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.databinding.ActivityUserRegistrationBinding
+import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.util.InvalidInputChecker
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.util.ValidationInput
@@ -104,10 +103,8 @@ class UserRegistrationActivity : AppCompatActivity() {
 
         binding.btnSave.setOnClickListener {
             if (isProfilePictureUpdated && validateInput()) {
-                Log.d("Here", "1")
                 dataViewModel.uploadProfilePicture(user.userId!!, photoUri!!)
             } else {
-                Log.d("Here", "2")
                 updateUserData()
             }
         }
@@ -169,16 +166,13 @@ class UserRegistrationActivity : AppCompatActivity() {
     }
 
     private fun updateUserData() {
-        Log.d("Here", "3")
         setUserData(user, downloadUrl)
         if (validateInput()) {
-            Log.d("Here", "5")
             dataViewModel.saveUserData(user)
         }
     }
 
     private fun setUserData(user: UserData, uri: Uri?) {
-        Log.d("Here", "4")
         user.bloodGroup = bloodGroup
         user.state = binding.edtStateEditText.text.toString()
         user.city = binding.edtCityEditText.text.toString()
@@ -187,7 +181,9 @@ class UserRegistrationActivity : AppCompatActivity() {
         user.fullAddress = user.address + " " + user.city + " " + user.state + " " + user.pincode
         user.phoneNumber = binding.edtPhoneNoEditText.text.toString()
         user.registered = "true"
-        user.profilePictureUrl = uri.toString()
+        if (uri.toString() != "null") {
+            user.profilePictureUrl = uri.toString()
+        }
     }
 
     private fun validateInput(): Boolean {
