@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.nishant.herosblood.ui.fragments.signup.SignUpFragment"
+        android:name="com.nishant.herosblood.ui.fragments.signup.EmailFragment"
         android:label="SignUpFragment"
-        tools:layout="@layout/fragment_sign_up">
+        tools:layout="@layout/fragment_email">
         <action
             android:id="@+id/action_signUpFragment_to_otpVerificationFragment"
             app:destination="@id/otpVerificationFragment" />

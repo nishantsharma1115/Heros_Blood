@@ -18,9 +18,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.nishant.herosblood.R
+import com.nishant.herosblood.databinding.ActivityDonorProfileBinding
 import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.models.UserLocationData
-import com.nishant.herosblood.databinding.ActivityDonorProfileBinding
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.LocationViewModel
 
@@ -44,8 +44,9 @@ class DonorProfileActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.user = user
 
         locationViewModel.getUserLocation(user.userId!!)
-        binding.donorProfilePicture.load(user.profilePictureUrl) {
-            this.placeholder(R.drawable.profile_none)
+
+        if (user.profilePictureUrl != null) {
+            binding.donorProfilePicture.load(user.profilePictureUrl)
         }
 
         binding.expandMap.setOnClickListener {

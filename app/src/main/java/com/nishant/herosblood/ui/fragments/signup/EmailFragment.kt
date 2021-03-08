@@ -10,21 +10,21 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.nishant.herosblood.R
 import com.nishant.herosblood.api.RetrofitInstance
-import com.nishant.herosblood.databinding.FragmentSignUpBinding
+import com.nishant.herosblood.databinding.FragmentEmailBinding
 import com.nishant.herosblood.models.*
 import com.nishant.herosblood.util.Constants
 import kotlinx.coroutines.runBlocking
 
-class SignUpFragment :
-    Fragment(R.layout.fragment_sign_up),
+class EmailFragment :
+    Fragment(R.layout.fragment_email),
     View.OnKeyListener,
     View.OnClickListener {
 
-    private lateinit var binding: FragmentSignUpBinding
+    private lateinit var binding: FragmentEmailBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentSignUpBinding.bind(view)
+        binding = FragmentEmailBinding.bind(view)
 
         binding.btnSignUp.setOnClickListener {
             val email = binding.edtEmailEditText.text.toString()
@@ -74,7 +74,7 @@ class SignUpFragment :
         hideLoadingBar()
 
         findNavController().navigate(
-            SignUpFragmentDirections.actionSignUpFragmentToOtpVerificationFragment(email, otp)
+            EmailFragmentDirections.actionSignUpFragmentToOtpVerificationFragment(email, otp)
         )
     }
 
