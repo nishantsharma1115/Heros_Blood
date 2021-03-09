@@ -11,13 +11,13 @@
   - [LiveData](https://developer.android.com/topic/libraries/architecture/livedata) - Data objects that notify views when the underlying database changes.
   - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Stores UI-related data that isn't destroyed on UI changes. 
   - [ViewBinding](https://developer.android.com/topic/libraries/view-binding) - Generates a binding class for each XML layout file present in that module and allows you to more easily write code that interacts with views.
-  - [Google Map SDk](https://developers.google.com/maps/documentation/android-sdk/start) - The Google Maps Api helps us to lay down the map into our Android App. It can have different types of map like satellite, terrain and many more. Adding these features on the map helps us to add cool features to our app and make our app able to guide to places to which the user wants.
   - [DataBinding](https://developer.android.com/topic/libraries/data-binding) - Binds data directly into XML layouts
 - [Backend](https://firebase.google.com) - Google Firebase
   - Firebase Auth - To support email based authentication
   - Firebase Firestore - A NoSQL database to store all data 
   - Firebase Storage - A clous storage to store all images
 - [Retrofit](https://square.github.io/retrofit/) - A type-safe HTTP client for Android and Java.
+- [Google Map SDk](https://developers.google.com/maps/documentation/android-sdk/start) - The Google Maps Api helps us to lay down the map into our Android App. It can have different types of map like satellite, terrain and many more. Adding these features on the map helps us to add cool features to our app and make our app able to guide to places to which the user wants.
 - [GSON](https://github.com/google/gson) - A modern JSON library for Kotlin and Java.
 - [GSON Converter](https://github.com/square/retrofit/tree/master/retrofit-converters/gson) - A Converter which uses Moshi for serialization to and from JSON.
 - [Coil](http://github.com/coil-kt/coil) - An image loading library for Android backed by Kotlin Coroutines.
