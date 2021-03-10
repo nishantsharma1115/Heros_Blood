@@ -15,273 +15,301 @@
         android:layout_height="match_parent"
         tools:context=".ui.UserProfileActivity">
 
-        <ImageView
-            android:id="@+id/img_profilePicture"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:contentDescription="@string/profile_picture"
-            android:src="@color/black"
-            app:layout_constraintDimensionRatio="1:1"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="20dp"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="10dp"
-            app:contentPaddingBottom="8dp"
-            app:layout_constraintTop_toBottomOf="@id/guideline">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutBackground"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:id="@+id/llWeight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="@id/txt_userName"
+                <ImageView
+                    android:id="@+id/img_profilePicture"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:contentDescription="@string/profile_picture"
+                    android:src="@color/black"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/txt_userName">
-
-                    <TextView
-                        android:id="@+id/txt_weight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/_50"
-                        android:textColor="@color/redColor"
-                        android:textSize="30sp" />
-
-                    <TextView
-                        android:id="@+id/txt_kg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/kg"
-                        android:textColor="@color/redColor"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/txt_userName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginEnd="12dp"
-                    android:gravity="center_horizontal"
-                    android:singleLine="false"
-                    android:text="@{user.name}"
-                    android:textAllCaps="true"
-                    android:textColor="@color/black"
-                    android:textSize="22sp"
-                    app:layout_constraintEnd_toStartOf="@+id/txt_bloodGroup"
-                    app:layout_constraintStart_toEndOf="@+id/llWeight"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="20dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="10dp"
+                    app:contentPaddingBottom="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/guideline">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:id="@+id/llWeight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="25dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="@id/txt_userName"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/txt_userName">
+
+                            <TextView
+                                android:id="@+id/txt_weight"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/_50"
+                                android:textColor="@color/redColor"
+                                android:textSize="30sp" />
+
+                            <TextView
+                                android:id="@+id/txt_kg"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/kg"
+                                android:textColor="@color/redColor"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/txt_userName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginTop="25dp"
+                            android:layout_marginEnd="12dp"
+                            android:gravity="center_horizontal"
+                            android:singleLine="false"
+                            android:text="@{user.name}"
+                            android:textAllCaps="true"
+                            android:textColor="@color/black"
+                            android:textSize="22sp"
+                            app:layout_constraintEnd_toStartOf="@+id/txt_bloodGroup"
+                            app:layout_constraintStart_toEndOf="@+id/llWeight"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/txt_bloodGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="25dp"
+                            android:text="@{user.bloodGroup}"
+                            android:textColor="@color/redColor"
+                            android:textSize="35sp"
+                            app:layout_constraintBottom_toBottomOf="@id/txt_userName"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/txt_userName" />
+
+                        <View
+                            android:id="@+id/img_line1"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@color/black"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/txt_userName" />
+
+                        <ImageView
+                            android:id="@+id/img_addressIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:contentDescription="@string/icon"
+                            android:src="@drawable/address_icon"
+                            app:layout_constraintBottom_toBottomOf="@id/txt_userAddress"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/txt_userAddress" />
+
+                        <TextView
+                            android:id="@+id/txt_userAddress"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginEnd="12dp"
+                            android:gravity="start"
+                            android:maxLines="4"
+                            android:singleLine="false"
+                            android:text="@{user.fullAddress}"
+                            android:textColor="@color/black"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/img_addressIcon"
+                            app:layout_constraintTop_toTopOf="@+id/img_line1" />
+
+                        <View
+                            android:id="@+id/img_line2"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@color/black"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/txt_userAddress" />
+
+                        <ImageView
+                            android:id="@+id/img_emailIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:contentDescription="@string/icon"
+                            app:layout_constraintBottom_toBottomOf="@id/txt_userEmail"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/txt_userEmail"
+                            app:srcCompat="@drawable/email_icon" />
+
+                        <TextView
+                            android:id="@+id/txt_userEmail"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginEnd="12dp"
+                            android:text="@{user.email}"
+                            android:textColor="@color/black"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/img_emailIcon"
+                            app:layout_constraintTop_toBottomOf="@id/img_line2" />
+
+                        <View
+                            android:id="@+id/img_line3"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@color/black"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/img_emailIcon" />
+
+                        <ImageView
+                            android:id="@+id/img_call"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="12dp"
+                            android:contentDescription="@string/icon"
+                            android:src="@drawable/call_icon"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/img_line3" />
+
+                        <TextView
+                            android:id="@+id/txt_userPhone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="@{user.phoneNumber}"
+                            android:textColor="@color/black"
+                            app:layout_constraintBottom_toBottomOf="@+id/img_call"
+                            app:layout_constraintStart_toEndOf="@+id/img_call"
+                            app:layout_constraintTop_toTopOf="@+id/img_call" />
+
+                        <TextView
+                            android:id="@+id/txt_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginEnd="25dp"
+                            android:drawablePadding="20dp"
+                            android:text="@string/edit_profile"
+                            android:textColor="@color/redColor"
+                            android:textSize="15sp"
+                            app:drawableEndCompat="@drawable/edit_icon"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/img_line3" />
+
+                        <View
+                            android:id="@+id/img_line4"
+                            android:layout_width="1dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@color/black"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/txt_edit"
+                            app:layout_constraintStart_toEndOf="@+id/txt_userPhone"
+                            app:layout_constraintTop_toBottomOf="@+id/img_line3"
+                            app:srcCompat="@drawable/stand_line" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
                 <TextView
-                    android:id="@+id/txt_bloodGroup"
+                    android:id="@+id/availabilityText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="25dp"
-                    android:text="@{user.bloodGroup}"
-                    android:textColor="@color/redColor"
-                    android:textSize="35sp"
-                    app:layout_constraintBottom_toBottomOf="@id/txt_userName"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/txt_userName" />
-
-                <View
-                    android:id="@+id/img_line1"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="5dp"
                     android:layout_marginTop="30dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@color/black"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_userName" />
-
-                <ImageView
-                    android:id="@+id/img_addressIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:contentDescription="@string/icon"
-                    android:src="@drawable/address_icon"
-                    app:layout_constraintBottom_toBottomOf="@id/txt_userAddress"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/txt_userAddress" />
-
-                <TextView
-                    android:id="@+id/txt_userAddress"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:gravity="start"
-                    android:maxLines="4"
-                    android:singleLine="false"
-                    android:text="@{user.fullAddress}"
+                    android:text="Available to donate Blood"
                     android:textColor="@color/black"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/img_addressIcon"
-                    app:layout_constraintTop_toTopOf="@+id/img_line1" />
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="@id/cardView"
+                    app:layout_constraintTop_toBottomOf="@id/cardView" />
 
-                <View
-                    android:id="@+id/img_line2"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@color/black"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_userAddress" />
-
-                <ImageView
-                    android:id="@+id/img_emailIcon"
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/availabilityToggle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:contentDescription="@string/icon"
-                    app:layout_constraintBottom_toBottomOf="@id/txt_userEmail"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/txt_userEmail"
-                    app:srcCompat="@drawable/email_icon" />
+                    app:layout_constraintBottom_toBottomOf="@id/availabilityText"
+                    app:layout_constraintEnd_toEndOf="@id/cardView"
+                    app:layout_constraintTop_toTopOf="@id/availabilityText"
+                    app:thumbTint="@color/redColor"
+                    app:useMaterialThemeColors="false" />
 
-                <TextView
-                    android:id="@+id/txt_userEmail"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:text="@{user.email}"
-                    android:textColor="@color/black"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/img_emailIcon"
-                    app:layout_constraintTop_toBottomOf="@id/img_line2" />
-
-                <View
-                    android:id="@+id/img_line3"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@color/black"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/img_emailIcon" />
-
-                <ImageView
-                    android:id="@+id/img_call"
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="12dp"
-                    android:contentDescription="@string/icon"
-                    android:src="@drawable/call_icon"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/img_line3" />
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_begin="200dp" />
 
-                <TextView
-                    android:id="@+id/txt_userPhone"
+                <Button
+                    android:id="@+id/logout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="@{user.phoneNumber}"
-                    android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="@+id/img_call"
-                    app:layout_constraintStart_toEndOf="@+id/img_call"
-                    app:layout_constraintTop_toTopOf="@+id/img_call" />
-
-                <TextView
-                    android:id="@+id/txt_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="25dp"
-                    android:drawablePadding="20dp"
-                    android:text="@string/edit_profile"
-                    android:textColor="@color/redColor"
-                    android:textSize="15sp"
-                    app:drawableEndCompat="@drawable/edit_icon"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/img_line3" />
-
-                <View
-                    android:id="@+id/img_line4"
-                    android:layout_width="1dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/txt_edit"
-                    app:layout_constraintStart_toEndOf="@+id/txt_userPhone"
-                    app:layout_constraintTop_toBottomOf="@+id/img_line3"
-                    app:srcCompat="@drawable/stand_line" />
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="@color/redColor"
+                    android:paddingStart="35sp"
+                    android:paddingEnd="35sp"
+                    android:text="Logout"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="@id/availabilityToggle"
+                    app:layout_constraintTop_toBottomOf="@id/availabilityToggle" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.cardview.widget.CardView>
+        </ScrollView>
 
-        <TextView
-            android:id="@+id/availabilityText"
+        <ProgressBar
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Available to donate Blood"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@id/cardView"
-            app:layout_constraintTop_toBottomOf="@id/cardView" />
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/availabilityToggle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/availabilityText"
-            app:layout_constraintEnd_toEndOf="@id/cardView"
-            app:layout_constraintTop_toTopOf="@id/availabilityText"
-            app:thumbTint="@color/redColor" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="200dp" />
-
-        <Button
-            android:id="@+id/logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/redColor"
-            android:paddingStart="35sp"
-            android:paddingEnd="35sp"
-            android:text="Logout"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@id/availabilityToggle"
-            app:layout_constraintTop_toBottomOf="@id/availabilityToggle" />
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

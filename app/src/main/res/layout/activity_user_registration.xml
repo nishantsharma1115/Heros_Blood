@@ -204,6 +204,27 @@
                         android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:id="@+id/availabilityText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Available to donate Blood"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="@id/edt_phone_No"
+                    app:layout_constraintTop_toBottomOf="@id/edt_phone_No" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/availabilityToggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@id/availabilityText"
+                    app:layout_constraintEnd_toEndOf="@id/edt_phone_No"
+                    app:layout_constraintTop_toTopOf="@id/availabilityText"
+                    app:thumbTint="@color/redColor"
+                    app:useMaterialThemeColors="false" />
+
                 <Button
                     android:id="@+id/btn_save"
                     android:layout_width="wrap_content"
@@ -220,7 +241,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edt_phone_No" />
+                    app:layout_constraintTop_toBottomOf="@+id/availabilityToggle" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

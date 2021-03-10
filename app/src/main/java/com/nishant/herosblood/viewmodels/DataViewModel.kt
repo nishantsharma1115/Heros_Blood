@@ -16,6 +16,25 @@ class DataViewModel(
     private val dataRepository: DataRepository = DataRepository()
 ) : ViewModel() {
 
+    private val _updateUserAvailabilityStatus: MutableLiveData<Resource<Boolean>> =
+        MutableLiveData()
+    val updateUserAvailabilityStatus: LiveData<Resource<Boolean>> = _updateUserAvailabilityStatus
+    fun updateUserAvailability(
+        userId: String,
+        newValue: String
+    ) {
+        _updateUserAvailabilityStatus.postValue(Resource.Loading())
+        dataRepository.updateUserAvailability(userId, newValue, { task ->
+            if (task.isSuccessful) {
+                _updateUserAvailabilityStatus.postValue(Resource.Success(true))
+            } else {
+                _updateUserAvailabilityStatus.postValue(Resource.Success(false))
+            }
+        }, {
+            _updateUserAvailabilityStatus.postValue(Resource.Error(it.message.toString()))
+        })
+    }
+
     private val _saveUserDataStatus: MutableLiveData<Resource<Boolean>> = MutableLiveData()
     val saveUserDataStatus: LiveData<Resource<Boolean>> = _saveUserDataStatus
     fun saveUserData(user: UserData) {

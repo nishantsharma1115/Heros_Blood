@@ -2,29 +2,84 @@ package com.nishant.herosblood.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
 import com.nishant.herosblood.R
-import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.databinding.ActivityUserProfileBinding
+import com.nishant.herosblood.models.UserData
+import com.nishant.herosblood.util.Resource
+import com.nishant.herosblood.viewmodels.DataViewModel
+import kotlinx.android.synthetic.main.activity_user_profile.view.*
 import java.io.Serializable
 
 class UserProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUserProfileBinding
     private var user: UserData = UserData()
+    private lateinit var dataViewModel: DataViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_user_profile)
+        dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
 
         user = intent.getSerializableExtra("UserData") as UserData
         binding.user = user
 
+        binding.availabilityToggle.isChecked = user.isAvailable.toBoolean()
+
         val widthDp = resources.displayMetrics.run { widthPixels / density }
         binding.guideline.setGuidelineBegin(widthDp.toInt() + widthDp.toInt() / 2)
+
+        binding.availabilityToggle.setOnCheckedChangeListener { button, b ->
+            if (!b) {
+                button.availabilityToggle.thumbTintList =
+                    ContextCompat.getColorStateList(this, R.color.greyColor)
+                user.isAvailable = "false"
+                dataViewModel.updateUserAvailability(user.userId!!, user.isAvailable)
+            } else {
+                button.availabilityToggle.thumbTintList =
+                    ContextCompat.getColorStateList(this, R.color.redColor)
+                user.isAvailable = "true"
+                dataViewModel.updateUserAvailability(user.userId!!, user.isAvailable)
+            }
+        }
+
+        dataViewModel.updateUserAvailabilityStatus.observe(this, { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.layoutBackground.alpha = 0.4f
+                    window.setFlags(
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                    )
+                }
+                is Resource.Success -> {
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                    binding.progressBar.visibility = View.GONE
+                    binding.layoutBackground.alpha = 1f
+
+                    if (response.data != true) {
+                        Toast.makeText(this, "Network Error", Toast.LENGTH_LONG).show()
+                        binding.availabilityToggle.isChecked = !user.isAvailable.toBoolean()
+                    }
+                }
+                is Resource.Error -> {
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                    binding.progressBar.visibility = View.GONE
+                    binding.layoutBackground.alpha = 1f
+                    Toast.makeText(this, response.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
 
         if (user.profilePictureUrl != null) {
             binding.imgProfilePicture.load(user.profilePictureUrl)

@@ -29,6 +29,20 @@ class DataRepository {
         }
     }
 
+    fun updateUserAvailability(
+        userId: String,
+        newValue: String,
+        completeCallback: (Task<Void>) -> Unit,
+        failureCallback: (Exception) -> Unit
+    ) {
+        userId.let {
+            db.collection("users").document(it)
+                .update("isAvailable", newValue)
+                .addOnCompleteListener(completeCallback)
+                .addOnFailureListener(failureCallback)
+        }
+    }
+
     fun readUserData(
         userId: String,
         completeCallback: (DocumentSnapshot) -> Unit,

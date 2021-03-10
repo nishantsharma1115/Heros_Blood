@@ -13,6 +13,7 @@ import coil.load
 import com.nishant.herosblood.R
 import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.ui.DonorProfileActivity
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.single_item_inner_rv_dashboard.view.*
 import java.io.Serializable
 
@@ -25,6 +26,7 @@ class InnerRvAdapter(
         var profilePicture: ImageView = itemView.userProfilePicture
         var background: ConstraintLayout = itemView.layout_background
         var userLocation: TextView = itemView.userLocation
+        var availabilityStatus: CircleImageView = itemView.availabilityStatus
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SingleBloodTypeUser {
@@ -45,6 +47,12 @@ class InnerRvAdapter(
             holder.profilePicture.load(current.profilePictureUrl) {
                 this.placeholder(R.drawable.profile_none)
             }
+        }
+
+        if (!current.isAvailable.toBoolean()) {
+            holder.availabilityStatus.setImageResource(R.color.greyColor)
+        } else {
+            holder.availabilityStatus.setImageResource(R.color.green)
         }
 
         holder.background.setOnClickListener {

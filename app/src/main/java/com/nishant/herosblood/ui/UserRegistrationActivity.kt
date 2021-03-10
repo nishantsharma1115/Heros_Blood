@@ -28,6 +28,7 @@ import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.util.ValidationInput
 import com.nishant.herosblood.viewmodels.DataViewModel
 import com.theartofdev.edmodo.cropper.CropImage
+import kotlinx.android.synthetic.main.activity_user_profile.view.*
 
 class UserRegistrationActivity : AppCompatActivity() {
 
@@ -80,6 +81,18 @@ class UserRegistrationActivity : AppCompatActivity() {
                     error.text = resources.getString(R.string.selectBloodGroup)
                 }
             }
+
+        binding.availabilityToggle.setOnCheckedChangeListener { button, b ->
+            if (!b) {
+                button.availabilityToggle.thumbTintList =
+                    ContextCompat.getColorStateList(this, R.color.greyColor)
+                user.isAvailable = "false"
+            } else {
+                button.availabilityToggle.thumbTintList =
+                    ContextCompat.getColorStateList(this, R.color.redColor)
+                user.isAvailable = "true"
+            }
+        }
 
         cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract) {
             it?.let { uri ->
