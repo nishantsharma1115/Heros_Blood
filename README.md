@@ -4,6 +4,15 @@
 
 ## **Currently in apha version**🛠
 
+## 📸 Screenshots
+
+||||
+|:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
+| ![](media/Screenshot_20210310_091755.jpg) | ![](media/Screenshot_20210310_091803.jpg) | ![](media/Screenshot_20210310_091818.jpg) |
+| ![](media/Screenshot_20210310_091850.jpg) | ![](media/Screenshot_20210310_091859.jpg) | ![](media/Screenshot_20210310_091916.jpg) |
+| ![](media/Screenshot_20210310_091908.jpg) | ![](media/Screenshot_20210310_091933.jpg) |
+
+
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
 - [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) - For asynchronous and more.
