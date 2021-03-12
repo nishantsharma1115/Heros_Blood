@@ -19,9 +19,10 @@ import coil.load
 import com.google.firebase.auth.FirebaseAuth
 import com.nishant.herosblood.R
 import com.nishant.herosblood.adapters.dashboard.OuterRvAdapter
+import com.nishant.herosblood.databinding.ActivityUserDashboardBinding
 import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.models.UserLocationData
-import com.nishant.herosblood.databinding.ActivityUserDashboardBinding
+import com.nishant.herosblood.ui.fragments.bottomsheet.DashboardBottomSheet
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.DataViewModel
 import com.nishant.herosblood.viewmodels.LocationViewModel
@@ -71,7 +72,7 @@ class UserDashboardActivity : AppCompatActivity() {
         locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
         val bloodTypeList = resources.getStringArray(R.array.blood_group).toList()
 
-        dataViewModel.getAllDonors(mAuth.currentUser?.uid!!)
+        dataViewModel.getAllDonors(mAuth.currentUser?.uid.toString())
         dataViewModel.getAllDonorsStatus.observe(this, { response ->
             when (response) {
                 is Resource.Loading -> {
@@ -140,7 +141,11 @@ class UserDashboardActivity : AppCompatActivity() {
 
         binding.imgProfilePicture.setOnClickListener {
             if (user.registered == "false") {
-                Toast.makeText(this, "Kindly Register yourself", Toast.LENGTH_LONG).show()
+                supportFragmentManager.let { fragmentManager ->
+                    DashboardBottomSheet().apply {
+                        show(fragmentManager, tag)
+                    }
+                }
             } else {
                 val intent = Intent(this, UserProfileActivity::class.java)
                 intent.putExtra("UserData", user as Serializable)
@@ -194,7 +199,6 @@ class UserDashboardActivity : AppCompatActivity() {
             )
         }
     }
-
 
     private fun showLoadingBar() {
         binding.progressBar.visibility = View.VISIBLE
