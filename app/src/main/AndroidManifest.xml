@@ -15,6 +15,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/FullScreenTheme">
+        <activity android:name=".ui.ForgotPasswordActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

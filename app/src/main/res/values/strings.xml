@@ -43,4 +43,10 @@
     <string name="title_activity_donor_location_map">Map</string>
     <string name="map_api_key">AIzaSyCWKzn7QT7T_fuUckPumvh4bHOy2R3Ztvs</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="image">Image</string>
+    <string name="heroes_blood">Heroes Blood</string>
+    <string name="login">Login</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="reset_password">Reset Password</string>
 </resources>

@@ -3,12 +3,32 @@ package com.nishant.herosblood.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.nishant.herosblood.repositories.AuthRepository
 import com.nishant.herosblood.util.Resource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AuthViewModel(
     private var authRepository: AuthRepository = AuthRepository()
 ) : ViewModel() {
+
+    private val _sendPasswordResetEmailStatus = MutableLiveData<Resource<Boolean>>()
+    var sendPasswordResetEmailStatus: LiveData<Resource<Boolean>> = _sendPasswordResetEmailStatus
+    fun sendPasswordResetLink(
+        email: String
+    ) {
+        _sendPasswordResetEmailStatus.postValue(Resource.Loading())
+        viewModelScope.launch(Dispatchers.IO) {
+            authRepository.sendPasswordResetLink(email, { task ->
+                if (task.isSuccessful) {
+                    _sendPasswordResetEmailStatus.postValue(Resource.Success(true))
+                }
+            }, { exception ->
+                _sendPasswordResetEmailStatus.postValue(Resource.Error(exception.message.toString()))
+            })
+        }
+    }
 
     private val _signUpStatus: MutableLiveData<Resource<Boolean>> = MutableLiveData()
     val signUpStatus: LiveData<Resource<Boolean>> = _signUpStatus
@@ -35,12 +55,8 @@ class AuthViewModel(
         password: String
     ) {
         _loginStatus.postValue(Resource.Loading())
-        authRepository.loginUser(email, password, { task ->
-            if (task.isSuccessful) {
-                _loginStatus.postValue(Resource.Success(true))
-            } else {
-                _loginStatus.postValue(Resource.Success(false))
-            }
+        authRepository.loginUser(email, password, {
+            _loginStatus.postValue(Resource.Success(true))
         }, {
             _loginStatus.postValue(Resource.Error(it.message.toString()))
         })

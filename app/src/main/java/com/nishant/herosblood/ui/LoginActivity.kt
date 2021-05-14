@@ -1,7 +1,6 @@
 package com.nishant.herosblood.ui
 
 import android.content.Intent
-import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -23,7 +22,6 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewModel: AuthViewModel
-    private lateinit var animation: AnimationDrawable
     private val invalidInputChecker: InvalidInputChecker = InvalidInputChecker()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,12 +29,12 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
-        animation = binding.progressBar.drawable as AnimationDrawable
 
         binding.layoutBackground.setOnClickListener(this)
         binding.txtLogo.setOnClickListener(this)
         binding.txtSignIn.setOnClickListener(this)
         binding.txtNewUser.setOnClickListener(this)
+        binding.txtForgotPassword.setOnClickListener(this)
 
         binding.txtCreateAccount.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
@@ -51,6 +49,12 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
         viewModel.loginStatus.observe(this, { response ->
             when (response) {
                 is Resource.Loading -> {
+                    if (binding.edtEmail.isErrorEnabled) {
+                        binding.edtEmail.isErrorEnabled = false
+                    }
+                    if (binding.edtPassword.isErrorEnabled) {
+                        binding.edtPassword.isErrorEnabled = false
+                    }
                     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
                     showLoadingBar()
                 }
@@ -61,7 +65,13 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
                 }
                 is Resource.Error -> {
                     hideLoadingBar()
-                    Toast.makeText(this, response.message, Toast.LENGTH_LONG).show()
+                    response.message?.let {
+                        if ("There is no user record corresponding to this identifier" in it) {
+                            binding.edtEmail.error = "User not found!!"
+                        } else if ("The password is invalid" in it) {
+                            binding.edtPassword.error = "Incorrect Password"
+                        }
+                    }
                 }
             }
         })
@@ -72,8 +82,10 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
             when (error) {
                 is ValidationInput.EmptyEmail -> binding.edtEmail.error = "Can not be empty"
                 is ValidationInput.EmptyPassword -> binding.edtPassword.error = "Can not be empty"
-                is ValidationInput.InvalidEmailPattern -> binding.edtEmail.error = "Please provide valid email Address"
-                is ValidationInput.ShortPasswordLength -> binding.edtPassword.error = "Password length should be greater than 8"
+                is ValidationInput.InvalidEmailPattern -> binding.edtEmail.error =
+                    "Please provide valid email Address"
+                is ValidationInput.ShortPasswordLength -> binding.edtPassword.error =
+                    "Password length should be greater than 8"
                 is ValidationInput.ValidInput -> {
                     viewModel.loginUser(email, password)
                 }
@@ -101,6 +113,9 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
                     inputMethodManager?.hideSoftInputFromWindow(focus?.windowToken, 0)
                 }
             }
+            if (it.id == R.id.txtForgotPassword) {
+                startActivity(Intent(this, ForgotPasswordActivity::class.java))
+            }
 
         }
     }
@@ -108,12 +123,10 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
     private fun showLoadingBar() {
         binding.layoutBackground.alpha = 0.1F
         binding.progressBar.visibility = View.VISIBLE
-        animation.start()
     }
 
     private fun hideLoadingBar() {
         binding.layoutBackground.alpha = 1F
         binding.progressBar.visibility = View.GONE
-        animation.stop()
     }
 }

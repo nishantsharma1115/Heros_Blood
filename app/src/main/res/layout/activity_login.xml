@@ -141,6 +141,16 @@
                         android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:id="@+id/txtForgotPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:text="@string/forgot_password"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="@id/edt_Password"
+                    app:layout_constraintTop_toBottomOf="@id/edt_Password" />
+
                 <Button
                     android:id="@+id/btn_login"
                     android:layout_width="wrap_content"
@@ -156,23 +166,24 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.98"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edt_Password" />
+                    app:layout_constraintTop_toBottomOf="@id/txtForgotPassword" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
 
-        <ImageView
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/progressBar"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:contentDescription="@string/customloadingbar"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone"
-            android:src="@drawable/loading"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -7,6 +7,16 @@ import com.google.firebase.auth.FirebaseAuth
 class AuthRepository {
     private val mAuth = FirebaseAuth.getInstance()
 
+    fun sendPasswordResetLink(
+        email: String,
+        successCallback: (Task<Void>) -> Unit,
+        failureCallback: (Exception) -> Unit
+    ) {
+        mAuth.sendPasswordResetEmail(email)
+            .addOnCompleteListener(successCallback)
+            .addOnFailureListener(failureCallback)
+    }
+
     fun signUpUser(
         email: String,
         password: String,
@@ -25,15 +35,11 @@ class AuthRepository {
     fun loginUser(
         email: String,
         password: String,
-        completeCallback: (Task<AuthResult>) -> Unit,
+        successListener: (AuthResult) -> Unit,
         failureCallback: (Exception) -> Unit
     ) {
         mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                completeCallback(task)
-            }
-            .addOnFailureListener { exception ->
-                failureCallback(exception)
-            }
+            .addOnSuccessListener(successListener)
+            .addOnFailureListener(failureCallback)
     }
 }
