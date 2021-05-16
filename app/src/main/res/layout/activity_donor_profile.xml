@@ -103,30 +103,48 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:text="@{liveLocation}"
-                    app:layout_constraintBottom_toTopOf="@id/donorMapLocation"
-                    app:layout_constraintStart_toStartOf="@id/donorMapLocation"
+                    app:layout_constraintBottom_toTopOf="@id/llDonorMapLocation"
+                    app:layout_constraintStart_toStartOf="@id/llDonorMapLocation"
                     app:layout_constraintTop_toBottomOf="@id/donorTxtGender" />
 
-                <fragment
-                    android:id="@+id/donorMapLocation"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                <LinearLayout
+                    android:id="@+id/llDonorMapLocation"
                     android:layout_width="0dp"
-                    android:layout_height="200dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtDonorAddress" />
+                    app:layout_constraintTop_toBottomOf="@id/txtDonorAddress">
+
+                    <fragment
+                        android:id="@+id/donorMapLocation"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtLocationNotAvailable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location not available"
+                    android:textColor="@color/black"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/llDonorMapLocation"
+                    app:layout_constraintEnd_toEndOf="@id/llDonorMapLocation"
+                    app:layout_constraintStart_toStartOf="@id/llDonorMapLocation"
+                    app:layout_constraintTop_toTopOf="@id/llDonorMapLocation" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@id/donorMapLocation"
-                    app:layout_constraintEnd_toEndOf="@id/donorMapLocation"
-                    app:layout_constraintStart_toStartOf="@id/donorMapLocation"
-                    app:layout_constraintTop_toTopOf="@id/donorMapLocation" />
+                    app:layout_constraintBottom_toBottomOf="@id/llDonorMapLocation"
+                    app:layout_constraintEnd_toEndOf="@id/llDonorMapLocation"
+                    app:layout_constraintStart_toStartOf="@id/llDonorMapLocation"
+                    app:layout_constraintTop_toTopOf="@id/llDonorMapLocation" />
 
                 <ImageView
                     android:id="@+id/expandMap"
@@ -136,8 +154,8 @@
                     android:layout_marginBottom="10dp"
                     android:contentDescription="@string/profile_picture"
                     android:src="@drawable/fullscreen_icon"
-                    app:layout_constraintBottom_toBottomOf="@id/donorMapLocation"
-                    app:layout_constraintEnd_toEndOf="@id/donorMapLocation" />
+                    app:layout_constraintBottom_toBottomOf="@id/llDonorMapLocation"
+                    app:layout_constraintEnd_toEndOf="@id/llDonorMapLocation" />
 
                 <LinearLayout
                     android:id="@+id/bottomLayout"
@@ -150,9 +168,9 @@
                     android:paddingEnd="30dp"
                     android:weightSum="2"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/donorMapLocation"
-                    app:layout_constraintStart_toStartOf="@id/donorMapLocation"
-                    app:layout_constraintTop_toBottomOf="@id/donorMapLocation">
+                    app:layout_constraintEnd_toEndOf="@id/llDonorMapLocation"
+                    app:layout_constraintStart_toStartOf="@id/llDonorMapLocation"
+                    app:layout_constraintTop_toBottomOf="@id/llDonorMapLocation">
 
                     <Button
                         android:id="@+id/callDonor"

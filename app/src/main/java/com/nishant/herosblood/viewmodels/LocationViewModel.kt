@@ -19,19 +19,19 @@ class LocationViewModel(
         dataRepository.saveUserLocation(locationData)
     }
 
-    private val _getUserLocationStatus: MutableLiveData<Resource<UserLocationData>> =
+    private val _getUserLocationStatus: MutableLiveData<Resource<UserLocationData?>> =
         MutableLiveData()
-    val getUserLocationStatus: LiveData<Resource<UserLocationData>> = _getUserLocationStatus
+    val getUserLocationStatus: LiveData<Resource<UserLocationData?>> = _getUserLocationStatus
     fun getUserLocation(
         userId: String
     ) = viewModelScope.launch {
         _getUserLocationStatus.postValue(Resource.Loading())
         dataRepository.getUserLocation(userId, { snapshot ->
-            if (!snapshot.isEmpty) {
+            try {
                 val userLocation = snapshot.documents[0].toObject(UserLocationData::class.java)
-                _getUserLocationStatus.postValue(Resource.Success(userLocation!!))
-            } else {
-                _getUserLocationStatus.postValue(Resource.Error("No Location Found"))
+                _getUserLocationStatus.postValue(Resource.Success(userLocation))
+            } catch (exception: IndexOutOfBoundsException) {
+                _getUserLocationStatus.postValue(Resource.Success(null))
             }
         }, { exception ->
             _getUserLocationStatus.postValue(Resource.Error(exception.message.toString()))

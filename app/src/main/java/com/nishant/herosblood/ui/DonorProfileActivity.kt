@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
@@ -43,7 +44,9 @@ class DonorProfileActivity : AppCompatActivity(), OnMapReadyCallback {
         user = intent.getSerializableExtra("UserData") as UserData
         binding.user = user
 
-        locationViewModel.getUserLocation(user.userId!!)
+        if (user.userId != null) {
+            locationViewModel.getUserLocation(user.userId.toString())
+        }
 
         if (user.profilePictureUrl != null) {
             binding.donorProfilePicture.load(user.profilePictureUrl)
@@ -113,23 +116,40 @@ class DonorProfileActivity : AppCompatActivity(), OnMapReadyCallback {
                     Log.d("Loading", "Fetching Map Data")
                 }
                 is Resource.Success -> {
-                    userLocationData = response.data as UserLocationData
-                    binding.liveLocation = userLocationData.addressLine
-                    val location = LatLng(
-                        userLocationData.latitude!!.toDouble(),
-                        userLocationData.longitude!!.toDouble()
-                    )
-                    map.addMarker(
-                        MarkerOptions()
-                            .position(location)
-                            .title(userLocationData.locality)
-                    )
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 12.0f))
+                    hideLocationNotAvailable()
+                    if (response.data != null) {
+                        userLocationData = response.data
+                        binding.liveLocation = userLocationData.addressLine
+                        val location = LatLng(
+                            userLocationData.latitude!!.toDouble(),
+                            userLocationData.longitude!!.toDouble()
+                        )
+                        map.addMarker(
+                            MarkerOptions()
+                                .position(location)
+                                .title(userLocationData.locality)
+                        )
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 12.0f))
+                    } else {
+                        showLocationNotAvailable()
+                    }
                 }
                 is Resource.Error -> {
-                    Log.d("Error", "An Error occurred")
+                    Log.d("Error", response.message.toString())
                 }
             }
         })
+    }
+
+    private fun showLocationNotAvailable() {
+        binding.llDonorMapLocation.visibility = View.INVISIBLE
+        binding.expandMap.visibility = View.GONE
+        binding.txtLocationNotAvailable.visibility = View.VISIBLE
+    }
+
+    private fun hideLocationNotAvailable() {
+        binding.llDonorMapLocation.visibility = View.VISIBLE
+        binding.expandMap.visibility = View.VISIBLE
+        binding.txtLocationNotAvailable.visibility = View.GONE
     }
 }
