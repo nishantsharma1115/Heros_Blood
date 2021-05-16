@@ -80,11 +80,20 @@ class DataViewModel(
         dataRepository.getAllDonors(currentUserId, {
             for (document in it) {
                 val user = document.toObject(UserData::class.java)
-                if (user.bloodGroup.equals("O+")) {
-                    donorsList.oPositiveDonors.add(user)
-                }
                 if (user.bloodGroup.equals("A+")) {
                     donorsList.aPositiveDonors.add(user)
+                }
+                if (user.bloodGroup.equals("A-")) {
+                    donorsList.aNegativeDonors.add(user)
+                }
+                if (user.bloodGroup.equals("B+")) {
+                    donorsList.bPositiveDonors.add(user)
+                }
+                if (user.bloodGroup.equals("B-")) {
+                    donorsList.bNegativeDonors.add(user)
+                }
+                if (user.bloodGroup.equals("O+")) {
+                    donorsList.oPositiveDonors.add(user)
                 }
                 if (user.bloodGroup.equals("O-")) {
                     donorsList.oNegativeDonors.add(user)

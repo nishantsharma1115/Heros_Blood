@@ -64,11 +64,25 @@ class OuterRvAdapter(
                     holder.innerRV.adapter = InnerRvAdapter(context, donors.aPositiveDonors)
                 }
             }
-            "O-" -> {
-                if (donors.oNegativeDonors.size == 0) {
+            "A-" -> {
+                if (donors.aNegativeDonors.size == 0) {
                     holder.noUser.visibility = View.VISIBLE
                 } else {
-                    holder.innerRV.adapter = InnerRvAdapter(context, donors.oNegativeDonors)
+                    holder.innerRV.adapter = InnerRvAdapter(context, donors.aNegativeDonors)
+                }
+            }
+            "B+" -> {
+                if (donors.bPositiveDonors.size == 0) {
+                    holder.noUser.visibility = View.VISIBLE
+                } else {
+                    holder.innerRV.adapter = InnerRvAdapter(context, donors.bPositiveDonors)
+                }
+            }
+            "B-" -> {
+                if (donors.bNegativeDonors.size == 0) {
+                    holder.noUser.visibility = View.VISIBLE
+                } else {
+                    holder.innerRV.adapter = InnerRvAdapter(context, donors.bNegativeDonors)
                 }
             }
             "O+" -> {
@@ -76,6 +90,13 @@ class OuterRvAdapter(
                     holder.noUser.visibility = View.VISIBLE
                 } else {
                     holder.innerRV.adapter = InnerRvAdapter(context, donors.oPositiveDonors)
+                }
+            }
+            "O-" -> {
+                if (donors.oNegativeDonors.size == 0) {
+                    holder.noUser.visibility = View.VISIBLE
+                } else {
+                    holder.innerRV.adapter = InnerRvAdapter(context, donors.oNegativeDonors)
                 }
             }
             "AB+" -> {
