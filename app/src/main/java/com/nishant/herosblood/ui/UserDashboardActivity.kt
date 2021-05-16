@@ -105,7 +105,6 @@ class UserDashboardActivity : AppCompatActivity() {
             }
         }
 
-        dataViewModel.readUserData(mAuth.currentUser?.uid!!)
         dataViewModel.readUserDataStatus.observe(this, { response ->
             when (response) {
                 is Resource.Loading -> {
@@ -147,17 +146,21 @@ class UserDashboardActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                val intent = Intent(this, UserProfileActivity::class.java)
-                intent.putExtra("UserData", user as Serializable)
-                startActivity(intent)
+                startActivity(Intent(this, UserProfileActivity::class.java))
             }
         }
     }
 
-    override fun onStart() {
+    override fun onResume() {
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
         requestLocation()
-        super.onStart()
+
+        val firebaseUser = mAuth.currentUser
+        if (firebaseUser != null) {
+            dataViewModel.readUserData(firebaseUser.uid)
+        }
+
+        super.onResume()
     }
 
     override fun onStop() {

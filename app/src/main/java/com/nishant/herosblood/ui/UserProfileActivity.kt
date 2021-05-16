@@ -24,14 +24,37 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUserProfileBinding
     private var user: UserData = UserData()
     private lateinit var dataViewModel: DataViewModel
+    private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_user_profile)
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
 
-        user = intent.getSerializableExtra("UserData") as UserData
-        binding.user = user
+        dataViewModel.readUserDataStatus.observe(this, { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    binding.layoutBackground.visibility = View.GONE
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is Resource.Success -> {
+                    binding.layoutBackground.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
+                    user = response.data as UserData
+                    binding.user = user
+                    if (user.profilePictureUrl != null) {
+                        binding.imgProfilePicture.load(user.profilePictureUrl)
+                    }
+                }
+                is Resource.Error -> {
+                    Toast.makeText(
+                        this,
+                        response.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        })
 
         binding.availabilityToggle.isChecked = user.isAvailable.toBoolean()
 
@@ -81,10 +104,6 @@ class UserProfileActivity : AppCompatActivity() {
             }
         })
 
-        if (user.profilePictureUrl != null) {
-            binding.imgProfilePicture.load(user.profilePictureUrl)
-        }
-
         binding.logout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             val intent = Intent(this, LoginActivity::class.java)
@@ -98,5 +117,13 @@ class UserProfileActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+    }
+
+    override fun onResume() {
+        val firebaseUser = mAuth.currentUser
+        if (firebaseUser != null) {
+            dataViewModel.readUserData(firebaseUser.uid)
+        }
+        super.onResume()
     }
 }

@@ -27,7 +27,6 @@ import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.DataViewModel
 import com.theartofdev.edmodo.cropper.CropImage
-import java.io.Serializable
 
 class EditUserProfileActivity : AppCompatActivity() {
 
@@ -154,11 +153,7 @@ class EditUserProfileActivity : AppCompatActivity() {
                 is Resource.Success -> {
                     if (response.data == true) {
                         hideLoadingBar()
-                        Intent(this, UserProfileActivity::class.java).also {
-                            it.putExtra("UserData", user as Serializable)
-                            startActivity(it)
-                            finish()
-                        }
+                        onBackPressed()
                     } else {
                         hideLoadingBar()
                         Toast.makeText(
