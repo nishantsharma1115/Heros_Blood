@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.nishant.herosblood.R
@@ -35,6 +36,13 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
         binding.txtSignIn.setOnClickListener(this)
         binding.txtNewUser.setOnClickListener(this)
         binding.txtForgotPassword.setOnClickListener(this)
+
+        binding.edtEmailEditText.addTextChangedListener {
+            binding.edtEmail.error = null
+        }
+        binding.edtPasswordEditText.addTextChangedListener {
+            binding.edtPassword.error = null
+        }
 
         binding.txtCreateAccount.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
