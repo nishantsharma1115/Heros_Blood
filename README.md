@@ -28,7 +28,7 @@
 - [Retrofit](https://square.github.io/retrofit/) - A type-safe HTTP client for Android and Java.
 - [Google Map SDk](https://developers.google.com/maps/documentation/android-sdk/start) - The Google Maps Api helps us to lay down the map into our Android App. It can have different types of map like satellite, terrain and many more. Adding these features on the map helps us to add cool features to our app and make our app able to guide to places to which the user wants.
 - [GSON](https://github.com/google/gson) - A modern JSON library for Kotlin and Java.
-- [GSON Converter](https://github.com/square/retrofit/tree/master/retrofit-converters/gson) - A Converter which uses Moshi for serialization to and from JSON.
+- [GSON Converter](https://github.com/square/retrofit/tree/master/retrofit-converters/gson) - A Converter which uses GSON for serialization to and from JSON.
 - [Coil](http://github.com/coil-kt/coil) - An image loading library for Android backed by Kotlin Coroutines.
 - [Material Components for Android](https://github.com/material-components/material-components-android) - Modular and customizable Material Design UI components for Android.
 - [Facebook Shimmer Effect](http://facebook.github.io/shimmer-android/) - It is useful as an unobtrusive loading indicator that was originally developed for Facebook Home, that used as a placeholder for data when data is loading from remote source(Firebase) for Android.
