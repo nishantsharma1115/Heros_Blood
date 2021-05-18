@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.AnimationDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -46,7 +45,6 @@ class EditUserProfileActivity : AppCompatActivity() {
     private var user: UserData = UserData()
     private lateinit var dataViewModel: DataViewModel
     private lateinit var binding: ActivityEditUserProfileBinding
-    private lateinit var animation: AnimationDrawable
     private var isProfilePictureUpdated = false
     private var photoUri: Uri? = null
     private lateinit var selectedBloodGroup: String
@@ -55,13 +53,14 @@ class EditUserProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_user_profile)
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
-        animation = binding.progressBar.drawable as AnimationDrawable
 
         user = intent.getSerializableExtra("UserData") as UserData
         binding.currentUser = user
 
-        binding.imgProfilePicture.load(user.profilePictureUrl) {
-            this.placeholder(R.drawable.profile_none)
+        if (user.profilePictureUrl != null) {
+            binding.imgProfilePicture.load(user.profilePictureUrl)
+        } else {
+            binding.imgProfilePicture.load(R.drawable.profile_none)
         }
 
         val bloodType = resources.getStringArray(R.array.blood_group)
@@ -107,19 +106,19 @@ class EditUserProfileActivity : AppCompatActivity() {
         }
 
         binding.btnSave.setOnClickListener {
+            saveUserData()
+        }
 
-            if (isProfilePictureUpdated) {
-                dataViewModel.uploadProfilePicture(user.userId!!, photoUri!!)
-            } else if (isDataChange()) {
-                user.apply {
-                    this.name = binding.etName.text.toString()
-                    this.fullAddress = binding.etAddress.text.toString()
-                    this.email = binding.etEmail.text.toString()
-                    this.phoneNumber = binding.etPhone.text.toString()
-                    this.bloodGroup = selectedBloodGroup
-                }
-                dataViewModel.saveUserData(user)
-            }
+        binding.imgSave.setOnClickListener {
+            saveUserData()
+        }
+
+        binding.btnCancel.setOnClickListener {
+            onBackPressed()
+        }
+
+        binding.backBtn.setOnClickListener {
+            onBackPressed()
         }
 
         dataViewModel.getProfilePictureStatus.observe(this, { response ->
@@ -175,12 +174,27 @@ class EditUserProfileActivity : AppCompatActivity() {
         })
     }
 
+    private fun saveUserData() {
+        if (isProfilePictureUpdated) {
+            dataViewModel.uploadProfilePicture(user.userId!!, photoUri!!)
+        } else if (isDataChange()) {
+            user.apply {
+                this.name = binding.name.text.toString()
+                this.fullAddress = binding.address.text.toString()
+                this.email = binding.email.text.toString()
+                this.phoneNumber = binding.mobile.text.toString()
+                this.bloodGroup = selectedBloodGroup
+            }
+            dataViewModel.saveUserData(user)
+        }
+    }
+
     private fun updateUserData(uri: Uri) {
         user.apply {
-            this.name = binding.etName.text.toString()
-            this.fullAddress = binding.etAddress.text.toString()
-            this.email = binding.etEmail.text.toString()
-            this.phoneNumber = binding.etPhone.text.toString()
+            this.name = binding.name.text.toString()
+            this.fullAddress = binding.address.text.toString()
+            this.email = binding.email.text.toString()
+            this.phoneNumber = binding.mobile.text.toString()
             this.profilePictureUrl = uri.toString()
             this.bloodGroup = selectedBloodGroup
         }
@@ -189,10 +203,10 @@ class EditUserProfileActivity : AppCompatActivity() {
 
     private fun isDataChange(): Boolean {
         if (
-            binding.etName.text.toString() == user.name
-            && binding.etAddress.text.toString() == user.fullAddress
-            && binding.etEmail.text.toString() == user.email
-            && binding.etPhone.text.toString() == user.phoneNumber
+            binding.name.text.toString() == user.name
+            && binding.address.text.toString() == user.fullAddress
+            && binding.email.text.toString() == user.email
+            && binding.mobile.text.toString() == user.phoneNumber
             && selectedBloodGroup == user.bloodGroup
         ) {
             return false
@@ -203,12 +217,10 @@ class EditUserProfileActivity : AppCompatActivity() {
     private fun showLoadingBar() {
         binding.layoutBackground.alpha = 0.1F
         binding.progressBar.visibility = View.VISIBLE
-        animation.start()
     }
 
     private fun hideLoadingBar() {
         binding.layoutBackground.alpha = 1F
         binding.progressBar.visibility = View.GONE
-        animation.stop()
     }
 }
