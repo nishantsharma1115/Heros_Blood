@@ -124,8 +124,10 @@ class UserDashboardActivity : AppCompatActivity() {
                             binding.notRegistered.visibility = View.GONE
                         }
                     }
-                    user.profilePictureUrl?.let { profilePictureUrl ->
-                        binding.imgProfilePicture.load(profilePictureUrl)
+                    if (user.profilePictureUrl.equals("")) {
+                        binding.imgProfilePicture.load(R.drawable.profile_none)
+                    } else {
+                        binding.imgProfilePicture.load(user.profilePictureUrl)
                     }
                 }
                 is Resource.Error -> {

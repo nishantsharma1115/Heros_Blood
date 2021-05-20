@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.AnimationDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -33,15 +32,13 @@ import kotlinx.android.synthetic.main.activity_user_profile.view.*
 class UserRegistrationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUserRegistrationBinding
-    private var user: UserData = UserData()
     private lateinit var dataViewModel: DataViewModel
     private val invalidInputChecker: InvalidInputChecker = InvalidInputChecker()
-    private lateinit var animation: AnimationDrawable
     private lateinit var bloodGroup: String
     private lateinit var bloodType: Array<String>
     private lateinit var cropActivityResultLauncher: ActivityResultLauncher<Any?>
-    private var isProfilePictureUpdated = false
-    private var photoUri: Uri? = null
+    private var isProfileChanged = false
+    private lateinit var photoUri: Uri
     private var downloadUrl: Uri? = null
 
     private val cropActivityResultContract = object : ActivityResultContract<Any?, Uri?>() {
@@ -61,8 +58,7 @@ class UserRegistrationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_user_registration)
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
-        animation = binding.progressBar.drawable as AnimationDrawable
-        user = intent.getSerializableExtra("UserData") as UserData
+        val user = intent.getSerializableExtra("UserData") as UserData
         setBloodSpinner()
         binding.bloodGroupList.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -86,18 +82,18 @@ class UserRegistrationActivity : AppCompatActivity() {
             if (!b) {
                 button.availabilityToggle.thumbTintList =
                     ContextCompat.getColorStateList(this, R.color.greyColor)
-                user.isAvailable = "false"
+                user.available = "false"
             } else {
                 button.availabilityToggle.thumbTintList =
                     ContextCompat.getColorStateList(this, R.color.redColor)
-                user.isAvailable = "true"
+                user.available = "true"
             }
         }
 
         cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract) {
             it?.let { uri ->
                 binding.imgProfilePicture.setImageURI(uri)
-                isProfilePictureUpdated = true
+                isProfileChanged = true
                 photoUri = uri
             }
         }
@@ -115,10 +111,13 @@ class UserRegistrationActivity : AppCompatActivity() {
         }
 
         binding.btnSave.setOnClickListener {
-            if (isProfilePictureUpdated && validateInput()) {
-                dataViewModel.uploadProfilePicture(user.userId!!, photoUri!!)
-            } else {
-                updateUserData()
+            setUserData(user)
+            if (validateInput(user)) {
+                if (isProfileChanged) {
+                    dataViewModel.uploadProfilePicture(user.userId!!, photoUri)
+                } else {
+                    updateUserData(user, Uri.parse("null"))
+                }
             }
         }
 
@@ -132,7 +131,7 @@ class UserRegistrationActivity : AppCompatActivity() {
                     FirebaseStorage.getInstance().reference.child("ProfilePicture")
                         .child(user.userId!!).downloadUrl.addOnSuccessListener { uriFromFirebase ->
                             downloadUrl = uriFromFirebase
-                            updateUserData()
+                            updateUserData(user, uriFromFirebase)
                         }
                 }
                 is Resource.Error -> {
@@ -178,14 +177,7 @@ class UserRegistrationActivity : AppCompatActivity() {
         })
     }
 
-    private fun updateUserData() {
-        setUserData(user, downloadUrl)
-        if (validateInput()) {
-            dataViewModel.saveUserData(user)
-        }
-    }
-
-    private fun setUserData(user: UserData, uri: Uri?) {
+    private fun setUserData(user: UserData) {
         user.bloodGroup = bloodGroup
         user.state = binding.edtStateEditText.text.toString()
         user.city = binding.edtCityEditText.text.toString()
@@ -194,12 +186,9 @@ class UserRegistrationActivity : AppCompatActivity() {
         user.fullAddress = user.address + " " + user.city + " " + user.state + " " + user.pincode
         user.phoneNumber = binding.edtPhoneNoEditText.text.toString()
         user.registered = "true"
-        if (uri.toString() != "null") {
-            user.profilePictureUrl = uri.toString()
-        }
     }
 
-    private fun validateInput(): Boolean {
+    private fun validateInput(user: UserData): Boolean {
 
         var isValid = false
 
@@ -212,11 +201,6 @@ class UserRegistrationActivity : AppCompatActivity() {
 
         invalidInputChecker.checkForRegistrationValidInputs(user) { error ->
             when (error) {
-                is ValidationInput.EmptyBloodGroup -> {
-                    val errorShown = binding.bloodGroupList.selectedView as TextView
-                    errorShown.error = "Required"
-                    errorShown.text = resources.getString(R.string.selectBloodGroup)
-                }
                 is ValidationInput.EmptyAddress -> binding.edtAddress.error = "Required"
                 is ValidationInput.EmptyState -> binding.edtState.error = "Required"
                 is ValidationInput.EmptyCity -> binding.edtCity.error = "Required"
@@ -229,16 +213,23 @@ class UserRegistrationActivity : AppCompatActivity() {
         return isValid
     }
 
+    private fun updateUserData(user: UserData, url: Uri) {
+        if (url.toString() != "null") {
+            user.profilePictureUrl = url.toString()
+        } else {
+            user.profilePictureUrl = ""
+        }
+        dataViewModel.saveUserData(user)
+    }
+
     private fun showLoadingBar() {
         binding.layoutBackground.alpha = 0.1F
         binding.progressBar.visibility = View.VISIBLE
-        animation.start()
     }
 
     private fun hideLoadingBar() {
         binding.layoutBackground.alpha = 1F
         binding.progressBar.visibility = View.GONE
-        animation.stop()
     }
 
     private fun setBloodSpinner() {

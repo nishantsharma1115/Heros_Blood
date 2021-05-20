@@ -216,12 +216,16 @@
 
                         <TextView
                             android:id="@+id/txt_userPhone"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:text="@{user.phoneNumber}"
                             android:textColor="@color/black"
                             app:layout_constraintBottom_toBottomOf="@+id/img_call"
+                            app:layout_constraintEnd_toStartOf="@id/img_line4"
                             app:layout_constraintStart_toEndOf="@+id/img_call"
                             app:layout_constraintTop_toTopOf="@+id/img_call" />
 
@@ -230,7 +234,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:layout_marginEnd="25dp"
                             android:drawablePadding="20dp"
                             android:text="@string/edit_profile"
                             android:textColor="@color/redColor"
@@ -238,6 +241,7 @@
                             app:drawableEndCompat="@drawable/edit_icon"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/img_line4"
                             app:layout_constraintTop_toBottomOf="@id/img_line3" />
 
                         <View
@@ -247,8 +251,8 @@
                             android:layout_marginTop="5dp"
                             android:background="@color/black"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/txt_edit"
-                            app:layout_constraintStart_toEndOf="@+id/txt_userPhone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/img_line3"
                             app:srcCompat="@drawable/stand_line" />
 
@@ -269,6 +273,7 @@
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/availabilityToggle"
+                    style="Widget.MaterialComponents.CompoundButton.Switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="@id/availabilityText"

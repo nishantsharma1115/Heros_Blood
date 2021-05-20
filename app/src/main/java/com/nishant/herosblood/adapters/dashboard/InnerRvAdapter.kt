@@ -49,7 +49,7 @@ class InnerRvAdapter(
             }
         }
 
-        if (!current.isAvailable.toBoolean()) {
+        if (!current.available.toBoolean()) {
             holder.availabilityStatus.setImageResource(R.color.greyColor)
         } else {
             holder.availabilityStatus.setImageResource(R.color.green)

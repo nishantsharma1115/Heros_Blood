@@ -15,5 +15,5 @@ data class UserData(
     var pincode: String? = null,
     var fullAddress: String? = null,
     var profilePictureUrl: String? = null,
-    var isAvailable: String = "false"
+    var available: String = "false"
 ) : Serializable

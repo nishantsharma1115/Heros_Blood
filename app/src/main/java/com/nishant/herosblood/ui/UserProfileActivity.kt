@@ -42,6 +42,22 @@ class UserProfileActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.GONE
                     user = response.data as UserData
                     binding.user = user
+                    binding.availabilityToggle.isChecked = user.available.toBoolean()
+
+                    binding.availabilityToggle.setOnCheckedChangeListener { button, b ->
+                        if (!b) {
+                            button.availabilityToggle.thumbTintList =
+                                ContextCompat.getColorStateList(this, R.color.greyColor)
+                            user.available = "false"
+                            dataViewModel.updateUserAvailability(user.userId!!, user.available)
+                        } else {
+                            button.availabilityToggle.thumbTintList =
+                                ContextCompat.getColorStateList(this, R.color.redColor)
+                            user.available = "true"
+                            dataViewModel.updateUserAvailability(user.userId!!, user.available)
+                        }
+                    }
+
                     if (user.profilePictureUrl != null) {
                         binding.imgProfilePicture.load(user.profilePictureUrl)
                     }
@@ -56,24 +72,10 @@ class UserProfileActivity : AppCompatActivity() {
             }
         })
 
-        binding.availabilityToggle.isChecked = user.isAvailable.toBoolean()
+        //binding.availabilityToggle.isChecked = user.isAvailable.toBoolean()
 
         val widthDp = resources.displayMetrics.run { widthPixels / density }
         binding.guideline.setGuidelineBegin(widthDp.toInt() + widthDp.toInt() / 2)
-
-        binding.availabilityToggle.setOnCheckedChangeListener { button, b ->
-            if (!b) {
-                button.availabilityToggle.thumbTintList =
-                    ContextCompat.getColorStateList(this, R.color.greyColor)
-                user.isAvailable = "false"
-                dataViewModel.updateUserAvailability(user.userId!!, user.isAvailable)
-            } else {
-                button.availabilityToggle.thumbTintList =
-                    ContextCompat.getColorStateList(this, R.color.redColor)
-                user.isAvailable = "true"
-                dataViewModel.updateUserAvailability(user.userId!!, user.isAvailable)
-            }
-        }
 
         dataViewModel.updateUserAvailabilityStatus.observe(this, { response ->
             when (response) {
@@ -92,7 +94,7 @@ class UserProfileActivity : AppCompatActivity() {
 
                     if (response.data != true) {
                         Toast.makeText(this, "Network Error", Toast.LENGTH_LONG).show()
-                        binding.availabilityToggle.isChecked = !user.isAvailable.toBoolean()
+                        binding.availabilityToggle.isChecked = !user.available.toBoolean()
                     }
                 }
                 is Resource.Error -> {

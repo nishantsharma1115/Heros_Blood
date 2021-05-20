@@ -1,6 +1,5 @@
 package com.nishant.herosblood.util
 
-import android.util.Log
 import android.util.Patterns
 import com.nishant.herosblood.models.UserData
 
@@ -10,28 +9,23 @@ class InvalidInputChecker {
         user: UserData,
         errorInput: (ValidationInput) -> Unit
     ) {
-        Log.d("Here user data", user.toString())
-        if (user.bloodGroup!!.isEmpty()) {
-            errorInput(ValidationInput.EmptyBloodGroup)
-            return
-        }
-        if (user.address!!.isEmpty()) {
+        if (user.address.isNullOrEmpty()) {
             errorInput(ValidationInput.EmptyAddress)
             return
         }
-        if (user.state!!.isEmpty()) {
+        if (user.state.isNullOrEmpty()) {
             errorInput(ValidationInput.EmptyState)
             return
         }
-        if (user.city!!.isEmpty()) {
+        if (user.city.isNullOrEmpty()) {
             errorInput(ValidationInput.EmptyCity)
             return
         }
-        if (user.pincode!!.isEmpty()) {
+        if (user.pincode.isNullOrEmpty()) {
             errorInput(ValidationInput.EmptyPincode)
             return
         }
-        if (user.phoneNumber!!.isEmpty()) {
+        if (user.phoneNumber.isNullOrEmpty()) {
             errorInput(ValidationInput.EmptyPhoneNumber)
             return
         }
