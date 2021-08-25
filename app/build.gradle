@@ -108,4 +108,7 @@ dependencies {
     // Navigation Components
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.3"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.3"
+
+    //OtpView
+    implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.1.2'
 }

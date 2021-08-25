@@ -15,7 +15,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/FullScreenTheme">
-        <activity android:name=".ui.ForgotPasswordActivity"/>
+        <activity android:name=".ui.ForgotPasswordActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -39,7 +39,9 @@
             android:name=".ui.UserDashboardActivity"
             android:theme="@style/SplashScreenTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".ui.SignUpActivity" />
+        <activity
+            android:name=".ui.SignUpActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.LoginActivity"
             android:theme="@style/FullScreenTheme" />

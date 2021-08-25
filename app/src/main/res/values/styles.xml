@@ -4,6 +4,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/redColor</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -11,6 +12,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/redColor</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 

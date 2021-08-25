@@ -12,6 +12,7 @@ class OtpVerificationFragment : Fragment(R.layout.fragment_otp_verification) {
 
     private lateinit var binding: FragmentOtpVerificationBinding
     private val args: OtpVerificationFragmentArgs by navArgs()
+    private var currentOtp: Int = -1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -19,20 +20,33 @@ class OtpVerificationFragment : Fragment(R.layout.fragment_otp_verification) {
         val email = args.email
         val otp = args.otp
 
-        binding.btnSignUp.setOnClickListener {
-            try {
-                val currentOtp = binding.edtOtp.text.toString().toInt()
-                if (currentOtp == otp) {
-                    findNavController().navigate(
-                        OtpVerificationFragmentDirections.actionOtpVerificationFragmentToNameAndPasswordFragment(
-                            email
-                        )
+        binding.email = email
+
+        binding.otpView.setOtpCompletionListener { userOtp ->
+            currentOtp = userOtp.toInt()
+            if (currentOtp == otp) {
+                findNavController().navigate(
+                    OtpVerificationFragmentDirections.actionOtpVerificationFragmentToNameAndPasswordFragment(
+                        email
                     )
-                } else {
-                    binding.edtOtp.error = "OTP does not match"
-                }
-            } catch (nfe: NumberFormatException) {
-                binding.edtOtp.error = "Please Input only Number"
+                )
+            } else {
+                binding.otpView.error = "OTP does not match"
+            }
+        }
+
+        binding.btnVerify.setOnClickListener {
+
+            if (currentOtp == -1 && currentOtp.toString().length < 6) {
+                binding.otpView.error = "Please enter OTP"
+            } else if (currentOtp == otp) {
+                findNavController().navigate(
+                    OtpVerificationFragmentDirections.actionOtpVerificationFragmentToNameAndPasswordFragment(
+                        email
+                    )
+                )
+            } else {
+                binding.otpView.error = "OTP does not match"
             }
         }
     }

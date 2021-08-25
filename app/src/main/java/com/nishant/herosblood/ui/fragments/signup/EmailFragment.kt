@@ -7,13 +7,13 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.nishant.herosblood.R
 import com.nishant.herosblood.api.RetrofitInstance
 import com.nishant.herosblood.databinding.FragmentEmailBinding
 import com.nishant.herosblood.models.*
 import com.nishant.herosblood.util.Constants
-import kotlinx.coroutines.runBlocking
 
 class EmailFragment :
     Fragment(R.layout.fragment_email),
@@ -55,8 +55,10 @@ class EmailFragment :
 
         val otp = (111111 until 999999).random()
 
-        runBlocking {
-            showLoadingBar()
+        showLoadingBar()
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+
             RetrofitInstance.api.sendVerificationMail(
                 SmsApiBody(
                     listOf(Content("text/plain", "OTP is $otp")),
@@ -70,8 +72,8 @@ class EmailFragment :
                     ReplyTo(Constants.COMPANY_MAIL, Constants.COMPANY_NAME)
                 )
             )
+            hideLoadingBar()
         }
-        hideLoadingBar()
 
         findNavController().navigate(
             EmailFragmentDirections.actionSignUpFragmentToOtpVerificationFragment(email, otp)
