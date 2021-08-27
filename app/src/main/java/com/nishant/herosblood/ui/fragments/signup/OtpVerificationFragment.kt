@@ -25,11 +25,7 @@ class OtpVerificationFragment : Fragment(R.layout.fragment_otp_verification) {
         binding.otpView.setOtpCompletionListener { userOtp ->
             currentOtp = userOtp.toInt()
             if (currentOtp == otp) {
-                findNavController().navigate(
-                    OtpVerificationFragmentDirections.actionOtpVerificationFragmentToNameAndPasswordFragment(
-                        email
-                    )
-                )
+                navigate(email)
             } else {
                 binding.otpView.error = "OTP does not match"
             }
@@ -40,14 +36,18 @@ class OtpVerificationFragment : Fragment(R.layout.fragment_otp_verification) {
             if (currentOtp == -1 && currentOtp.toString().length < 6) {
                 binding.otpView.error = "Please enter OTP"
             } else if (currentOtp == otp) {
-                findNavController().navigate(
-                    OtpVerificationFragmentDirections.actionOtpVerificationFragmentToNameAndPasswordFragment(
-                        email
-                    )
-                )
+                navigate(email)
             } else {
                 binding.otpView.error = "OTP does not match"
             }
         }
+    }
+
+    private fun navigate(email: String) {
+        findNavController().navigate(
+            OtpVerificationFragmentDirections.actionOtpVerificationFragmentToNameAndPasswordFragment(
+                email
+            )
+        )
     }
 }

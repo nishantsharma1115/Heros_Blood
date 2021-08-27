@@ -6,7 +6,9 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.nishant.herosblood.R
@@ -14,6 +16,8 @@ import com.nishant.herosblood.api.RetrofitInstance
 import com.nishant.herosblood.databinding.FragmentEmailBinding
 import com.nishant.herosblood.models.*
 import com.nishant.herosblood.util.Constants
+import com.nishant.herosblood.util.Resource
+import com.nishant.herosblood.viewmodels.AuthViewModel
 
 class EmailFragment :
     Fragment(R.layout.fragment_email),
@@ -21,17 +25,54 @@ class EmailFragment :
     View.OnClickListener {
 
     private lateinit var binding: FragmentEmailBinding
+    private lateinit var authViewModel: AuthViewModel
+    private var email = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentEmailBinding.bind(view)
+        authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
 
         binding.btnSignUp.setOnClickListener {
-            val email = binding.edtEmailEditText.text.toString()
+            binding.edtEmail.error = null
+            email = binding.edtEmailEditText.text.toString().trim()
             if (checkForEmailValidation(email)) {
-                sendOtp(email)
+                checkForExistingUser(email)
             }
         }
+
+        binding.edtEmailEditText.addTextChangedListener {
+            if (it.toString().isNotEmpty()) {
+                binding.edtEmail.error = null
+            }
+        }
+
+        authViewModel.loginStatus.observe(viewLifecycleOwner, { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showLoadingBar()
+                }
+                is Resource.Success -> {
+                    hideLoadingBar()
+                    binding.edtEmail.error = "User already exist"
+                    binding.edtEmail.requestFocus()
+                }
+                is Resource.Error -> {
+                    hideLoadingBar()
+                    response.message?.let {
+                        if ("There is no user record corresponding to this identifier" in it) {
+                            sendOtp(email)
+                        } else if ("The password is invalid" in it) {
+                            binding.edtEmail.error = "User already exist"
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    private fun checkForExistingUser(email: String) {
+        authViewModel.loginUser(email, PASSWORD)
     }
 
     private fun checkForEmailValidation(email: String): Boolean {
@@ -44,6 +85,12 @@ class EmailFragment :
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             binding.edtEmail.error = "Invalid Email Format"
+            binding.edtEmail.requestFocus()
+            return false
+        }
+
+        if (email == "heroesblood02@gmail.com") {
+            binding.edtEmail.error = "User already exist"
             binding.edtEmail.requestFocus()
             return false
         }
@@ -73,11 +120,11 @@ class EmailFragment :
                 )
             )
             hideLoadingBar()
+            authViewModel.clearLoginStatus()
+            findNavController().navigate(
+                EmailFragmentDirections.actionSignUpFragmentToOtpVerificationFragment(email, otp)
+            )
         }
-
-        findNavController().navigate(
-            EmailFragmentDirections.actionSignUpFragmentToOtpVerificationFragment(email, otp)
-        )
     }
 
     private fun showLoadingBar() {
@@ -113,5 +160,9 @@ class EmailFragment :
                 }
             }
         }
+    }
+
+    companion object {
+        private const val PASSWORD = "000000000"
     }
 }

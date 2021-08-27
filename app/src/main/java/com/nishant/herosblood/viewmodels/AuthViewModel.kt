@@ -61,4 +61,8 @@ class AuthViewModel(
             _loginStatus.postValue(Resource.Error(it.message.toString()))
         })
     }
+
+    fun clearLoginStatus() {
+        _loginStatus.postValue(null)
+    }
 }
