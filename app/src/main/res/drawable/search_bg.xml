@@ -1,9 +1,10 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="320dp"
-    android:height="35dp"
-    android:viewportWidth="320"
-    android:viewportHeight="35">
-  <path
-      android:pathData="M10,0L310,0A10,10 0,0 1,320 10L320,25A10,10 0,0 1,310 35L10,35A10,10 0,0 1,0 25L0,10A10,10 0,0 1,10 0z"
-      android:fillColor="#fff"/>
-</vector>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <gradient
+        android:endColor="#FDE6E9"
+        android:startColor="#F4B6BE" />
+
+    <corners android:radius="20dp" />
+
+</shape>

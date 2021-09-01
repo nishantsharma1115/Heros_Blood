@@ -2,105 +2,115 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/shimmerLayout"
-    android:background="@color/redColor"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
-
-    <TextView
-        android:id="@+id/shimmerTxtHello"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:background="#dddddd"
-        android:fontFamily="@font/high_tower"
-        android:text="@string/hello"
-        android:textColor="#dddddd"
-        android:textSize="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/shimmerTxtFullName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:background="#dddddd"
-        android:fontFamily="@font/high_tower"
-        android:text="Nishant Sharma"
-        android:textColor="#dddddd"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/shimmerTxtHello"
-        app:layout_constraintTop_toTopOf="@id/shimmerTxtHello" />
+    android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/shimmerRegistered"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        app:layout_constraintStart_toStartOf="@id/shimmerTxtHello"
-        app:layout_constraintTop_toBottomOf="@id/shimmerTxtHello">
+        android:layout_margin="20dp"
+        android:background="@drawable/dashboard_card_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/shimmerTxtRegistered"
+            android:id="@+id/shimmerTxtHello"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:background="#dddddd"
             android:fontFamily="@font/high_tower"
-            android:text="@string/registered_as_a_donor"
+            android:text="@string/hello"
             android:textColor="#dddddd"
-            android:textSize="20sp"
+            android:textSize="25sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/shimmerVerifiedIcon"
-            android:layout_width="25dp"
-            android:layout_height="22dp"
+        <TextView
+            android:id="@+id/shimmerTxtFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:contentDescription="@string/verifiedicon"
+            android:background="#dddddd"
+            android:fontFamily="@font/high_tower"
+            android:text="Nishant Sharma"
+            android:textColor="#dddddd"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/shimmerTxtHello"
+            app:layout_constraintTop_toTopOf="@id/shimmerTxtHello" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/shimmerRegistered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@id/shimmerTxtHello"
+            app:layout_constraintTop_toBottomOf="@id/shimmerTxtHello">
+
+            <TextView
+                android:id="@+id/shimmerTxtRegistered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#dddddd"
+                android:fontFamily="@font/high_tower"
+                android:text="@string/registered_as_a_donor"
+                android:textColor="#dddddd"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/shimmerVerifiedIcon"
+                android:layout_width="25dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="5dp"
+                android:contentDescription="@string/verifiedicon"
+                android:src="#dddddd"
+                app:layout_constraintStart_toEndOf="@id/shimmerTxtRegistered"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/shimmerImgLocation"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginBottom="20dp"
+            android:contentDescription="@string/location_icon"
             android:src="#dddddd"
-            app:layout_constraintStart_toEndOf="@id/shimmerTxtRegistered"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/shimmerTxtHello"
+            app:layout_constraintTop_toBottomOf="@id/shimmerTxtHello" />
+
+        <TextView
+            android:id="@+id/shimmerTxtLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:background="#dddddd"
+            android:fontFamily="@font/high_tower"
+            android:text="Dhimishri"
+            android:textColor="#dddddd"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/shimmerImgLocation"
+            app:layout_constraintStart_toEndOf="@id/shimmerImgLocation"
+            app:layout_constraintTop_toTopOf="@id/shimmerImgLocation" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/shimmerImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="20dp"
+            android:src="#dddddd"
+            app:layout_constraintBottom_toBottomOf="@id/shimmerImgLocation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/shimmerTxtHello" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ImageView
-        android:id="@+id/shimmerImgLocation"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="33dp"
-        android:contentDescription="@string/location_icon"
-        android:src="#dddddd"
-        app:layout_constraintStart_toStartOf="@id/shimmerTxtHello"
-        app:layout_constraintTop_toBottomOf="@id/shimmerTxtHello" />
-
-    <TextView
-        android:id="@+id/shimmerTxtLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:background="#dddddd"
-        android:fontFamily="@font/high_tower"
-        android:text="Dhimishri"
-        android:textColor="#dddddd"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/shimmerImgLocation"
-        app:layout_constraintStart_toEndOf="@id/shimmerImgLocation"
-        app:layout_constraintTop_toTopOf="@id/shimmerImgLocation" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/shimmerImageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="20dp"
-        android:src="#dddddd"
-        app:layout_constraintBottom_toBottomOf="@id/shimmerImgLocation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/shimmerTxtHello" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

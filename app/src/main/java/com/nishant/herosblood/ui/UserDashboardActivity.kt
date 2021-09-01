@@ -96,11 +96,13 @@ class UserDashboardActivity : AppCompatActivity() {
             }
         })
 
-        binding.txtDonorClickHere.setOnClickListener {
-            if (isDataReceived) {
-                Intent(this, UserRegistrationActivity::class.java).also { intent ->
-                    intent.putExtra("UserData", user as Serializable)
-                    startActivity(intent)
+        if (!user.registered.isNullOrEmpty() && user.registered == "false") {
+            binding.registrationStatus.setOnClickListener {
+                if (isDataReceived) {
+                    Intent(this, UserRegistrationActivity::class.java).also { intent ->
+                        intent.putExtra("UserData", user as Serializable)
+                        startActivity(intent)
+                    }
                 }
             }
         }
@@ -113,15 +115,21 @@ class UserDashboardActivity : AppCompatActivity() {
                 is Resource.Success -> {
                     user = response.data as UserData
                     isDataReceived = true
-                    binding.layoutUser.visibility = View.VISIBLE
+                    binding.layoutUserDetails.visibility = View.VISIBLE
                     binding.user = user
                     binding.layoutShimmerEffect.stopShimmer()
                     binding.layoutShimmerEffect.visibility = View.GONE
                     user.let {
                         if (it.registered == "false") {
-                            binding.registered.visibility = View.GONE
+                            binding.registrationStatus.text = "Want to be a donor? Click Here"
                         } else if (it.registered == "true") {
-                            binding.notRegistered.visibility = View.GONE
+                            binding.registrationStatus.text = "Registered as a Donor"
+                            binding.registrationStatus.setCompoundDrawablesWithIntrinsicBounds(
+                                0,
+                                0,
+                                R.drawable.verified_icon,
+                                0
+                            )
                         }
                     }
                     if (user.profilePictureUrl.equals("")) {
