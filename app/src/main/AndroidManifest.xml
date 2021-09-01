@@ -39,9 +39,7 @@
             android:name=".ui.UserDashboardActivity"
             android:theme="@style/SplashScreenTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity
-            android:name=".ui.SignUpActivity"
-            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.SignUpActivity" />
         <activity
             android:name=".ui.LoginActivity"
             android:theme="@style/FullScreenTheme" />

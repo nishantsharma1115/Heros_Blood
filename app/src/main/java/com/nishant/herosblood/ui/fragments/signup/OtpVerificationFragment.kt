@@ -24,6 +24,9 @@ class OtpVerificationFragment : Fragment(R.layout.fragment_otp_verification) {
 
         binding.otpView.setOtpCompletionListener { userOtp ->
             currentOtp = userOtp.toInt()
+        }
+
+        binding.btnVerify.setOnClickListener {
             if (currentOtp == otp) {
                 navigate(email)
             } else {

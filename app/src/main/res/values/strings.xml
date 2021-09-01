@@ -62,4 +62,8 @@
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
     <string name="enter_your_name">Enter your name</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="send_link">Send Link</string>
+    <string name="email_does_not_exist">Email Does not Exist</string>
 </resources>

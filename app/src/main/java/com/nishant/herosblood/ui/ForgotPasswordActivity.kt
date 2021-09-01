@@ -90,6 +90,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
             .setPositiveButton("View Mail") { _, _ ->
                 val intent = Intent(Intent.ACTION_MAIN)
                 intent.addCategory(Intent.CATEGORY_APP_EMAIL)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
             }
             .show()

@@ -1,6 +1,8 @@
 package com.nishant.herosblood.ui.fragments.signup
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.KeyEvent
 import android.view.View
@@ -15,6 +17,7 @@ import com.nishant.herosblood.R
 import com.nishant.herosblood.api.RetrofitInstance
 import com.nishant.herosblood.databinding.FragmentEmailBinding
 import com.nishant.herosblood.models.*
+import com.nishant.herosblood.ui.LoginActivity
 import com.nishant.herosblood.util.Constants
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.AuthViewModel
@@ -69,6 +72,13 @@ class EmailFragment :
                 }
             }
         })
+
+        binding.txtSignIn.setOnClickListener {
+            Intent(activity, LoginActivity::class.java).apply {
+                startActivity(this)
+                activity?.finish()
+            }
+        }
     }
 
     private fun checkForExistingUser(email: String) {
@@ -101,6 +111,8 @@ class EmailFragment :
     private fun sendOtp(email: String) {
 
         val otp = (111111 until 999999).random()
+
+        Log.d("otp", otp.toString())
 
         showLoadingBar()
 

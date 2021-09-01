@@ -3,6 +3,7 @@ package com.nishant.herosblood.ui.fragments.signup
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -28,6 +29,7 @@ class NameAndPasswordFragment : Fragment(R.layout.fragment_name_and_password) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         binding = FragmentNameAndPasswordBinding.bind(view)
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
