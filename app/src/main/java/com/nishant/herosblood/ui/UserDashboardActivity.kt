@@ -200,8 +200,8 @@ class UserDashboardActivity : AppCompatActivity() {
         ) {
             locationManager.requestLocationUpdates(
                 LocationManager.NETWORK_PROVIDER,
-                600000L,
-                1000F,
+                0L,
+                0F,
                 locationListener
             )
         } else {

@@ -45,7 +45,10 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
         }
 
         binding.txtCreateAccount.setOnClickListener {
-            startActivity(Intent(this, SignUpActivity::class.java))
+            Intent(this, SignUpActivity::class.java).apply {
+                startActivity(this)
+                finish()
+            }
         }
         binding.btnLogin.setOnClickListener {
             loginUser(
