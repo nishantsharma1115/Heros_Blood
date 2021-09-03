@@ -8,9 +8,8 @@
 
 ||||
 |:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
-| ![](media/Screenshot_20210310_091755.jpg) | ![](media/Screenshot_20210310_091803.jpg) | ![](media/Screenshot_20210310_091818.jpg) |
-| ![](media/Screenshot_20210310_091850.jpg) | ![](media/Screenshot_20210310_091859.jpg) | ![](media/Screenshot_20210310_091916.jpg) |
-| ![](media/Screenshot_20210310_091908.jpg) | ![](media/Screenshot_20210310_091933.jpg) |
+| ![](media/intro_screen.jpg) | ![](media/login_screen.jpg) | ![](media/dashboard_screen.jpg) |
+| ![](media/profile_screen.jpg) | ![](media/donor_list_screen.jpg) | ![](media/donor_profile_screen.jpg) |
 
 
 ## Built With 🛠
