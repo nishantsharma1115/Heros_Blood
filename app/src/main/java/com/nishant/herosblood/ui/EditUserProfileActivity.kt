@@ -39,7 +39,6 @@ class EditUserProfileActivity : AppCompatActivity() {
         override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
             return CropImage.getActivityResult(intent)?.uri
         }
-
     }
     private lateinit var cropActivityResultLauncher: ActivityResultLauncher<Any?>
     private var user: UserData = UserData()
@@ -121,39 +120,53 @@ class EditUserProfileActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        dataViewModel.getProfilePictureStatus.observe(this, { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showLoadingBar()
-                }
-                is Resource.Success -> {
-                    hideLoadingBar()
-                    FirebaseStorage.getInstance().reference.child("ProfilePicture")
-                        .child(user.userId!!).downloadUrl.addOnSuccessListener { uri ->
-                            updateUserData(uri)
-                        }
-                }
-                is Resource.Error -> {
-                    hideLoadingBar()
-                    Toast.makeText(
-                        this,
-                        resources.getString(R.string.checkInternetConnection),
-                        Toast.LENGTH_LONG
-                    ).show()
+        dataViewModel.getProfilePictureStatus.observe(
+            this,
+            { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        showLoadingBar()
+                    }
+                    is Resource.Success -> {
+                        hideLoadingBar()
+                        FirebaseStorage.getInstance().reference.child("ProfilePicture")
+                            .child(user.userId!!).downloadUrl.addOnSuccessListener { uri ->
+                                updateUserData(uri)
+                            }
+                    }
+                    is Resource.Error -> {
+                        hideLoadingBar()
+                        Toast.makeText(
+                            this,
+                            resources.getString(R.string.checkInternetConnection),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 }
             }
-        })
-        dataViewModel.saveUserDataStatus.observe(this, { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
-                    showLoadingBar()
-                }
-                is Resource.Success -> {
-                    if (response.data == true) {
-                        hideLoadingBar()
-                        onBackPressed()
-                    } else {
+        )
+        dataViewModel.saveUserDataStatus.observe(
+            this,
+            { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+                        showLoadingBar()
+                    }
+                    is Resource.Success -> {
+                        if (response.data == true) {
+                            hideLoadingBar()
+                            onBackPressed()
+                        } else {
+                            hideLoadingBar()
+                            Toast.makeText(
+                                this,
+                                "Check Internet Connection",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                    is Resource.Error -> {
                         hideLoadingBar()
                         Toast.makeText(
                             this,
@@ -162,16 +175,8 @@ class EditUserProfileActivity : AppCompatActivity() {
                         ).show()
                     }
                 }
-                is Resource.Error -> {
-                    hideLoadingBar()
-                    Toast.makeText(
-                        this,
-                        "Check Internet Connection",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
             }
-        })
+        )
     }
 
     private fun saveUserData() {
@@ -203,11 +208,11 @@ class EditUserProfileActivity : AppCompatActivity() {
 
     private fun isDataChange(): Boolean {
         if (
-            binding.name.text.toString() == user.name
-            && binding.address.text.toString() == user.fullAddress
-            && binding.email.text.toString() == user.email
-            && binding.mobile.text.toString() == user.phoneNumber
-            && selectedBloodGroup == user.bloodGroup
+            binding.name.text.toString() == user.name &&
+            binding.address.text.toString() == user.fullAddress &&
+            binding.email.text.toString() == user.email &&
+            binding.mobile.text.toString() == user.phoneNumber &&
+            selectedBloodGroup == user.bloodGroup
         ) {
             return false
         }

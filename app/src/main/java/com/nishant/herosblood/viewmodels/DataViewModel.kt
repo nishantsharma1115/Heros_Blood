@@ -24,30 +24,38 @@ class DataViewModel(
         newValue: String
     ) {
         _updateUserAvailabilityStatus.postValue(Resource.Loading())
-        dataRepository.updateUserAvailability(userId, newValue, { task ->
-            if (task.isSuccessful) {
-                _updateUserAvailabilityStatus.postValue(Resource.Success(true))
-            } else {
-                _updateUserAvailabilityStatus.postValue(Resource.Success(false))
+        dataRepository.updateUserAvailability(
+            userId, newValue,
+            { task ->
+                if (task.isSuccessful) {
+                    _updateUserAvailabilityStatus.postValue(Resource.Success(true))
+                } else {
+                    _updateUserAvailabilityStatus.postValue(Resource.Success(false))
+                }
+            },
+            {
+                _updateUserAvailabilityStatus.postValue(Resource.Error(it.message.toString()))
             }
-        }, {
-            _updateUserAvailabilityStatus.postValue(Resource.Error(it.message.toString()))
-        })
+        )
     }
 
     private val _saveUserDataStatus: MutableLiveData<Resource<Boolean>> = MutableLiveData()
     val saveUserDataStatus: LiveData<Resource<Boolean>> = _saveUserDataStatus
     fun saveUserData(user: UserData) {
         _saveUserDataStatus.postValue(Resource.Loading())
-        dataRepository.saveUserData(user, { task ->
-            if (task.isSuccessful) {
-                _saveUserDataStatus.postValue(Resource.Success(true))
-            } else {
-                _saveUserDataStatus.postValue(Resource.Success(false))
+        dataRepository.saveUserData(
+            user,
+            { task ->
+                if (task.isSuccessful) {
+                    _saveUserDataStatus.postValue(Resource.Success(true))
+                } else {
+                    _saveUserDataStatus.postValue(Resource.Success(false))
+                }
+            },
+            {
+                _saveUserDataStatus.postValue(Resource.Error(it.message.toString()))
             }
-        }, {
-            _saveUserDataStatus.postValue(Resource.Error(it.message.toString()))
-        })
+        )
     }
 
     private val _readUserDataStatus: MutableLiveData<Resource<UserData>> = MutableLiveData()
@@ -56,18 +64,22 @@ class DataViewModel(
         userId: String
     ) {
         _readUserDataStatus.postValue(Resource.Loading())
-        dataRepository.readUserData(userId, { document ->
-            if (document.exists()) {
-                val user = document.toObject(UserData::class.java)
-                user?.let {
-                    _readUserDataStatus.postValue(Resource.Success(user))
+        dataRepository.readUserData(
+            userId,
+            { document ->
+                if (document.exists()) {
+                    val user = document.toObject(UserData::class.java)
+                    user?.let {
+                        _readUserDataStatus.postValue(Resource.Success(user))
+                    }
+                } else {
+                    _readUserDataStatus.postValue(Resource.Success(UserData()))
                 }
-            } else {
-                _readUserDataStatus.postValue(Resource.Success(UserData()))
+            },
+            {
+                _readUserDataStatus.postValue(Resource.Error(it.message.toString()))
             }
-        }, {
-            _readUserDataStatus.postValue(Resource.Error(it.message.toString()))
-        })
+        )
     }
 
     private val _getAllDonorsStatus: MutableLiveData<Resource<DifferentDonorLists>> =
@@ -77,38 +89,42 @@ class DataViewModel(
         _getAllDonorsStatus.postValue(Resource.Loading())
         val donorsList = DifferentDonorLists()
 
-        dataRepository.getAllDonors(currentUserId, {
-            for (document in it) {
-                val user = document.toObject(UserData::class.java)
-                if (user.bloodGroup.equals("A+")) {
-                    donorsList.aPositiveDonors.add(user)
+        dataRepository.getAllDonors(
+            currentUserId,
+            {
+                for (document in it) {
+                    val user = document.toObject(UserData::class.java)
+                    if (user.bloodGroup.equals("A+")) {
+                        donorsList.aPositiveDonors.add(user)
+                    }
+                    if (user.bloodGroup.equals("A-")) {
+                        donorsList.aNegativeDonors.add(user)
+                    }
+                    if (user.bloodGroup.equals("B+")) {
+                        donorsList.bPositiveDonors.add(user)
+                    }
+                    if (user.bloodGroup.equals("B-")) {
+                        donorsList.bNegativeDonors.add(user)
+                    }
+                    if (user.bloodGroup.equals("O+")) {
+                        donorsList.oPositiveDonors.add(user)
+                    }
+                    if (user.bloodGroup.equals("O-")) {
+                        donorsList.oNegativeDonors.add(user)
+                    }
+                    if (user.bloodGroup.equals("AB+")) {
+                        donorsList.abPositiveDonors.add(user)
+                    }
+                    if (user.bloodGroup.equals("AB-")) {
+                        donorsList.abNegativeDonors.add(user)
+                    }
                 }
-                if (user.bloodGroup.equals("A-")) {
-                    donorsList.aNegativeDonors.add(user)
-                }
-                if (user.bloodGroup.equals("B+")) {
-                    donorsList.bPositiveDonors.add(user)
-                }
-                if (user.bloodGroup.equals("B-")) {
-                    donorsList.bNegativeDonors.add(user)
-                }
-                if (user.bloodGroup.equals("O+")) {
-                    donorsList.oPositiveDonors.add(user)
-                }
-                if (user.bloodGroup.equals("O-")) {
-                    donorsList.oNegativeDonors.add(user)
-                }
-                if (user.bloodGroup.equals("AB+")) {
-                    donorsList.abPositiveDonors.add(user)
-                }
-                if (user.bloodGroup.equals("AB-")) {
-                    donorsList.abNegativeDonors.add(user)
-                }
+                _getAllDonorsStatus.postValue(Resource.Success(donorsList))
+            },
+            {
+                _getAllDonorsStatus.postValue(Resource.Error(it.message.toString()))
             }
-            _getAllDonorsStatus.postValue(Resource.Success(donorsList))
-        }, {
-            _getAllDonorsStatus.postValue(Resource.Error(it.message.toString()))
-        })
+        )
     }
 
     private val _getDonorListStatus: MutableLiveData<Resource<ArrayList<UserData>>> =
@@ -120,20 +136,24 @@ class DataViewModel(
     ) = viewModelScope.launch {
         val donorList: ArrayList<UserData> = ArrayList()
         _getDonorListStatus.postValue(Resource.Loading())
-        dataRepository.getDonorList(userId, bloodType, { snapshot ->
-            if (!snapshot.isEmpty) {
-                for (donors in snapshot) {
-                    val donor: UserData = donors.toObject(UserData::class.java)
-                    donorList.add(donor)
+        dataRepository.getDonorList(
+            userId, bloodType,
+            { snapshot ->
+                if (!snapshot.isEmpty) {
+                    for (donors in snapshot) {
+                        val donor: UserData = donors.toObject(UserData::class.java)
+                        donorList.add(donor)
+                    }
+                    _getDonorListStatus.postValue(Resource.Success(donorList))
+                } else {
+                    _getDonorListStatus.postValue(Resource.Success(donorList))
                 }
-                _getDonorListStatus.postValue(Resource.Success(donorList))
-            } else {
-                _getDonorListStatus.postValue(Resource.Success(donorList))
+            },
+            {
+                Log.d("Error: ", it.message.toString())
+                _getDonorListStatus.postValue(Resource.Error("Some Error Occurred"))
             }
-        }, {
-            Log.d("Error: ", it.message.toString())
-            _getDonorListStatus.postValue(Resource.Error("Some Error Occurred"))
-        })
+        )
     }
 
     private val _getProfilePictureStatus: MutableLiveData<Resource<Boolean>> = MutableLiveData()
@@ -143,14 +163,18 @@ class DataViewModel(
         file: Uri
     ) = viewModelScope.launch {
         _getProfilePictureStatus.postValue(Resource.Loading())
-        dataRepository.uploadProfilePicture(userId, file, { task ->
-            if (task.isSuccessful) {
-                _getProfilePictureStatus.postValue(Resource.Success(true))
-            } else {
-                _getProfilePictureStatus.postValue(Resource.Success(false))
+        dataRepository.uploadProfilePicture(
+            userId, file,
+            { task ->
+                if (task.isSuccessful) {
+                    _getProfilePictureStatus.postValue(Resource.Success(true))
+                } else {
+                    _getProfilePictureStatus.postValue(Resource.Success(false))
+                }
+            },
+            { exception ->
+                _getProfilePictureStatus.postValue(Resource.Error(exception.message.toString()))
             }
-        }, { exception ->
-            _getProfilePictureStatus.postValue(Resource.Error(exception.message.toString()))
-        })
+        )
     }
 }

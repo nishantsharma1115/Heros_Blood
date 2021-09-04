@@ -118,19 +118,7 @@ class EmailFragment :
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
 
-            RetrofitInstance.api.sendVerificationMail(
-                SmsApiBody(
-                    listOf(Content("text/plain", "OTP is $otp")),
-                    From(Constants.COMPANY_MAIL, Constants.COMPANY_NAME),
-                    listOf(
-                        Personalization(
-                            "Otp Verification",
-                            listOf(To(email, ""))
-                        )
-                    ),
-                    ReplyTo(Constants.COMPANY_MAIL, Constants.COMPANY_NAME)
-                )
-            )
+//            Retrofit
             hideLoadingBar()
             authViewModel.clearLoginStatus()
             findNavController().navigate(
