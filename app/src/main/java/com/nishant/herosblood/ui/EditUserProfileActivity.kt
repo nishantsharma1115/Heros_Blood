@@ -6,12 +6,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
@@ -46,7 +44,7 @@ class EditUserProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditUserProfileBinding
     private var isProfilePictureUpdated = false
     private var photoUri: Uri? = null
-    private lateinit var selectedBloodGroup: String
+//    private lateinit var selectedBloodGroup: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,25 +62,27 @@ class EditUserProfileActivity : AppCompatActivity() {
 
         val bloodType = resources.getStringArray(R.array.blood_group)
         val bloodGroupAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, bloodType)
-        binding.bloodGroupList.adapter = bloodGroupAdapter
+//        binding.bloodGroupList.adapter = bloodGroupAdapter
 
-        binding.bloodGroupList.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    p0: AdapterView<*>?,
-                    p1: View?,
-                    position: Int,
-                    p3: Long
-                ) {
-                    selectedBloodGroup = bloodType[position]
-                }
+        autoCompleteListAdapter(bloodType, binding.actvBloodGroup)
 
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    val error = binding.bloodGroupList.selectedView as TextView
-                    error.error = "Required"
-                    error.text = resources.getString(R.string.selectBloodGroup)
-                }
-            }
+//        binding.bloodGroupList.onItemSelectedListener =
+//            object : AdapterView.OnItemSelectedListener {
+//                override fun onItemSelected(
+//                    p0: AdapterView<*>?,
+//                    p1: View?,
+//                    position: Int,
+//                    p3: Long
+//                ) {
+//                    selectedBloodGroup = bloodType[position]
+//                }
+//
+//                override fun onNothingSelected(p0: AdapterView<*>?) {
+//                    val error = binding.bloodGroupList.selectedView as TextView
+//                    error.error = "Required"
+//                    error.text = resources.getString(R.string.selectBloodGroup)
+//                }
+//            }
 
         cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract) {
             it?.let { uri ->
@@ -179,40 +179,57 @@ class EditUserProfileActivity : AppCompatActivity() {
         )
     }
 
+    private fun autoCompleteListAdapter(
+        list: Array<String>,
+        autoCompleteTextView: AutoCompleteTextView
+    ) {
+        val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, list)
+        autoCompleteTextView.setAdapter(arrayAdapter)
+    }
+
     private fun saveUserData() {
         if (isProfilePictureUpdated) {
             dataViewModel.uploadProfilePicture(user.userId!!, photoUri!!)
         } else if (isDataChange()) {
-            user.apply {
-                this.name = binding.name.text.toString()
-                this.fullAddress = binding.address.text.toString()
-                this.email = binding.email.text.toString()
-                this.phoneNumber = binding.mobile.text.toString()
-                this.bloodGroup = selectedBloodGroup
+            if (isBloodGroupSelected()) {
+                user.apply {
+                    this.name = binding.name.editText?.text.toString()
+                    this.fullAddress = binding.address.editText?.text.toString()
+                    this.email = binding.email.editText?.text.toString()
+                    this.phoneNumber = binding.mobile.editText?.text.toString()
+                    this.bloodGroup = binding.etBloodGroup.editText?.text.toString()
+//                this.bloodGroup = selectedBloodGroup
+                }
+                dataViewModel.saveUserData(user)
+            } else {
+                binding.etBloodGroup.error = "Select one"
+                Log.d("Test2", binding.etBloodGroup.editText?.text.toString())
             }
-            dataViewModel.saveUserData(user)
         }
     }
 
     private fun updateUserData(uri: Uri) {
         user.apply {
-            this.name = binding.name.text.toString()
-            this.fullAddress = binding.address.text.toString()
-            this.email = binding.email.text.toString()
-            this.phoneNumber = binding.mobile.text.toString()
+            this.name = binding.name.editText?.text.toString()
+            this.fullAddress = binding.address.editText?.text.toString()
+            this.email = binding.email.editText?.text.toString()
+            this.phoneNumber = binding.mobile.editText?.text.toString()
             this.profilePictureUrl = uri.toString()
-            this.bloodGroup = selectedBloodGroup
+            this.bloodGroup = binding.etBloodGroup.editText?.text.toString()
         }
         dataViewModel.saveUserData(user)
     }
 
+    private fun isBloodGroupSelected(): Boolean {
+        return !(binding.etBloodGroup.editText?.text?.isEmpty() == true || binding.etBloodGroup.editText?.text?.toString() == "Blood group")
+    }
+
     private fun isDataChange(): Boolean {
         if (
-            binding.name.text.toString() == user.name &&
-            binding.address.text.toString() == user.fullAddress &&
-            binding.email.text.toString() == user.email &&
-            binding.mobile.text.toString() == user.phoneNumber &&
-            selectedBloodGroup == user.bloodGroup
+            binding.name.editText?.text.toString() == user.name &&
+            binding.address.editText?.text.toString() == user.fullAddress &&
+            binding.email.editText?.text.toString() == user.email &&
+            binding.mobile.editText?.text.toString() == user.phoneNumber
         ) {
             return false
         }
