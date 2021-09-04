@@ -30,32 +30,35 @@ class DonorListActivity : AppCompatActivity() {
             bloodType
         )
 
-        dataViewModel.getDonorListStatus.observe(this, { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    binding.shimmerLayoutDonorList.startShimmer()
-                }
-                is Resource.Success -> {
-                    if (response.data?.size!! <= 0) {
-                        binding.noDonor.visibility = View.VISIBLE
+        dataViewModel.getDonorListStatus.observe(
+            this,
+            { response ->
+                when (response) {
+                    is Resource.Loading -> {
+                        binding.shimmerLayoutDonorList.startShimmer()
+                    }
+                    is Resource.Success -> {
+                        if (response.data?.size!! <= 0) {
+                            binding.noDonor.visibility = View.VISIBLE
+                            binding.shimmerLayoutDonorList.stopShimmer()
+                            binding.shimmerLayoutDonorList.visibility = View.GONE
+                            binding.noDonor.visibility = View.VISIBLE
+                        } else {
+                            binding.rvDonorList.adapter = DonorListAdapters(this, response.data)
+                            binding.rvDonorList.layoutManager = LinearLayoutManager(this)
+                            binding.rvDonorList.setHasFixedSize(true)
+                            binding.shimmerLayoutDonorList.stopShimmer()
+                            binding.shimmerLayoutDonorList.visibility = View.GONE
+                            binding.rvDonorList.visibility = View.VISIBLE
+                        }
+                    }
+                    is Resource.Error -> {
                         binding.shimmerLayoutDonorList.stopShimmer()
                         binding.shimmerLayoutDonorList.visibility = View.GONE
-                        binding.noDonor.visibility = View.VISIBLE
-                    } else {
-                        binding.rvDonorList.adapter = DonorListAdapters(this, response.data)
-                        binding.rvDonorList.layoutManager = LinearLayoutManager(this)
-                        binding.rvDonorList.setHasFixedSize(true)
-                        binding.shimmerLayoutDonorList.stopShimmer()
-                        binding.shimmerLayoutDonorList.visibility = View.GONE
-                        binding.rvDonorList.visibility = View.VISIBLE
+                        Toast.makeText(this, "Check Internet Connection", Toast.LENGTH_LONG).show()
                     }
                 }
-                is Resource.Error -> {
-                    binding.shimmerLayoutDonorList.stopShimmer()
-                    binding.shimmerLayoutDonorList.visibility = View.GONE
-                    Toast.makeText(this, "Check Internet Connection", Toast.LENGTH_LONG).show()
-                }
             }
-        })
+        )
     }
 }

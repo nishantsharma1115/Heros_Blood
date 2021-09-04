@@ -18,7 +18,9 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="-167dp"
+            tools:layout_editor_absoluteY="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_background"
@@ -82,179 +84,299 @@
                     app:layout_constraintBottom_toBottomOf="@id/img_profilePicture"
                     app:layout_constraintEnd_toEndOf="@id/img_profilePicture" />
 
-                <TextView
-                    android:id="@+id/txtName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="40dp"
-                    android:paddingStart="3dp"
-                    android:paddingEnd="5dp"
-                    android:text="@string/name"
-                    android:textSize="15sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/img_profilePicture" />
 
-                <EditText
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:hint="@string/enter_your_name"
-                    android:importantForAutofill="no"
-                    android:inputType="textPersonName|textCapWords"
-                    android:labelFor="@id/name"
-                    android:text="@{currentUser.name}"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="44dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/white"
+                    android:hint="Enter your Name"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/txtName"
-                    app:layout_constraintTop_toBottomOf="@id/txtName"
-                    tools:ignore="LabelFor" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/changeProfilePicture"
+                    app:startIconDrawable="@drawable/user_icon"
+                    app:startIconTint="@color/redColor">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName"
+                        android:lines="1"
+                        android:text="@{currentUser.name}"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
                     android:id="@+id/llWeightAndBloodGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="16dp"
                     android:orientation="horizontal"
                     android:weightSum="3"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/name">
 
-                    <LinearLayout
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/weight"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:orientation="vertical">
+                        android:background="@color/white"
+                        android:hint="Weight"
+                        app:boxCornerRadiusBottomEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusTopStart="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/changeProfilePicture"
+                        app:startIconDrawable="@drawable/ic_weight"
+                        app:startIconTint="@color/redColor">
 
-                        <TextView
-                            android:id="@+id/txtWeight"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingStart="3dp"
-                            android:paddingEnd="5dp"
-                            android:text="@string/weight_in_kg"
-                            android:textSize="15sp" />
-
-                        <EditText
-                            android:id="@+id/weight"
+                        <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="30dp"
-                            android:hint="@string/your_weight"
-                            android:importantForAutofill="no"
+                            android:imeOptions="actionNext"
                             android:inputType="number"
-                            android:labelFor="@id/name"
-                            android:text="@{}"
-                            android:textColor="@color/black"
-                            android:textSize="18sp" />
-                    </LinearLayout>
+                            android:lines="1"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <Spinner
-                        android:id="@+id/bloodGroupList"
-                        android:layout_width="0dp"
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etBloodGroup"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="25dp"
+                        android:layout_marginStart="16dp"
                         android:layout_weight="1"
-                        android:spinnerMode="dialog"
+                        android:background="@color/white"
+                        android:hint="Blood group"
+                        app:boxCornerRadiusBottomEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusTopStart="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/imgPersonIcon" />
+                        app:layout_constraintTop_toTopOf="@+id/changeProfilePicture"
+                        app:startIconDrawable="@drawable/ic_drop"
+                        app:startIconTint="@color/redColor">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/actvBloodGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:textColor="@color/redColor"
+                            android:textColorLink="@color/redColor" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <!--                    <Spinner-->
+                    <!--                        android:id="@+id/bloodGroupList"-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="25dp"-->
+                    <!--                        android:layout_marginTop="10dp"-->
+                    <!--                        android:layout_marginEnd="25dp"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:spinnerMode="dialog"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintHorizontal_bias="0.5"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@+id/imgPersonIcon" />-->
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/txtAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:paddingStart="3dp"
-                    android:paddingEnd="5dp"
-                    android:text="@string/address"
-                    android:textSize="15sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/llWeightAndBloodGroup" />
+<!--                <TextView-->
+<!--                    android:id="@+id/txtAddress"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="20dp"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:paddingStart="3dp"-->
+<!--                    android:paddingEnd="5dp"-->
+<!--                    android:text="@string/address"-->
+<!--                    android:textSize="15sp"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/llWeightAndBloodGroup" />-->
 
-                <EditText
+<!--                <EditText-->
+<!--                    android:id="@+id/address"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="20dp"-->
+<!--                    android:hint="@string/enter_your_address"-->
+<!--                    android:importantForAutofill="no"-->
+<!--                    android:inputType="textPersonName|textCapWords"-->
+<!--                    android:labelFor="@id/name"-->
+<!--                    android:text="@{currentUser.fullAddress}"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="18sp"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="@id/txtAddress"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/txtAddress" />-->
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/address"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:hint="@string/enter_your_address"
-                    android:importantForAutofill="no"
-                    android:inputType="textPersonName|textCapWords"
-                    android:labelFor="@id/name"
-                    android:text="@{currentUser.fullAddress}"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/txtAddress"
-                    app:layout_constraintTop_toBottomOf="@id/txtAddress" />
-
-                <TextView
-                    android:id="@+id/txtEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
-                    android:paddingStart="3dp"
-                    android:paddingEnd="5dp"
-                    android:text="@string/email"
-                    android:textSize="15sp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/white"
+                    android:hint="Enter your address"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/address" />
+                    app:layout_constraintTop_toBottomOf="@+id/llWeightAndBloodGroup"
+                    app:startIconDrawable="@drawable/address_icon"
+                    app:startIconTint="@color/redColor">
 
-                <EditText
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:text="@{currentUser.address}"
+                        android:lines="1"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+<!--                <TextView-->
+<!--                    android:id="@+id/txtEmail"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="20dp"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:paddingStart="3dp"-->
+<!--                    android:paddingEnd="5dp"-->
+<!--                    android:text="@string/email"-->
+<!--                    android:textSize="15sp"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/address" />-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/email"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="30dp"-->
+<!--                    android:hint="@string/enter_your_email"-->
+<!--                    android:importantForAutofill="no"-->
+<!--                    android:inputType="textEmailAddress"-->
+<!--                    android:labelFor="@id/name"-->
+<!--                    android:text="@{currentUser.email}"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="18sp"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="@id/txtEmail"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/txtEmail" />-->
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="30dp"
-                    android:hint="@string/enter_your_email"
-                    android:importantForAutofill="no"
-                    android:inputType="textEmailAddress"
-                    android:labelFor="@id/name"
-                    android:text="@{currentUser.email}"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/txtEmail"
-                    app:layout_constraintTop_toBottomOf="@id/txtEmail" />
-
-                <TextView
-                    android:id="@+id/txtMobile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
-                    android:paddingStart="3dp"
-                    android:paddingEnd="5dp"
-                    android:text="@string/mobile_number"
-                    android:textSize="15sp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/white"
+                    android:hint="Enter your email"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/email" />
+                    app:layout_constraintTop_toBottomOf="@+id/address"
+                    app:startIconDrawable="@drawable/email_icon"
+                    app:startIconTint="@color/redColor">
 
-                <EditText
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
+                        android:lines="1"
+                        android:text="@{currentUser.email}"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+<!--                <TextView-->
+<!--                    android:id="@+id/txtMobile"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="20dp"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:paddingStart="3dp"-->
+<!--                    android:paddingEnd="5dp"-->
+<!--                    android:text="@string/mobile_number"-->
+<!--                    android:textSize="15sp"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/email" />-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/mobile"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="30dp"-->
+<!--                    android:hint="@string/enter_your_mobile_number"-->
+<!--                    android:importantForAutofill="no"-->
+<!--                    android:inputType="number"-->
+<!--                    android:labelFor="@id/name"-->
+<!--                    android:text="@{currentUser.phoneNumber}"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="18sp"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="@id/txtMobile"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/txtMobile" />-->
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/mobile"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="30dp"
-                    android:hint="@string/enter_your_mobile_number"
-                    android:importantForAutofill="no"
-                    android:inputType="number"
-                    android:labelFor="@id/name"
-                    android:text="@{currentUser.phoneNumber}"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/white"
+                    android:hint="Mobile number"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/txtMobile"
-                    app:layout_constraintTop_toBottomOf="@id/txtMobile" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/email"
+                    app:startIconDrawable="@drawable/call_icon"
+                    app:startIconTint="@color/redColor">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:lines="1"
+                        android:text="@{currentUser.phoneNumber}"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
                     android:id="@+id/llBottomButtons"
