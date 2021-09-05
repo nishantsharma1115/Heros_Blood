@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
@@ -26,6 +27,8 @@ import com.nishant.herosblood.ui.fragments.bottomsheet.DashboardBottomSheet
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.DataViewModel
 import com.nishant.herosblood.viewmodels.LocationViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.Serializable
 import java.util.*
 
@@ -41,22 +44,23 @@ class UserDashboardActivity : AppCompatActivity() {
 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            val geoCoder = Geocoder(applicationContext, Locale.getDefault())
-            val address = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
-
-            val locationData = UserLocationData(
-                mAuth.currentUser?.uid.toString(),
-                location.latitude.toString(),
-                location.longitude.toString(),
-                address[0].getAddressLine(0),
-                address[0].locality,
-                address[0].adminArea,
-                address[0].countryName,
-                address[0].postalCode,
-                address[0].featureName
-            )
-            binding.location = locationData.locality
-            locationViewModel.saveUserLocation(locationData)
+            lifecycleScope.launch(Dispatchers.IO) {
+                val geoCoder = Geocoder(applicationContext, Locale.getDefault())
+                val address = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
+                val locationData = UserLocationData(
+                    mAuth.currentUser?.uid.toString(),
+                    location.latitude.toString(),
+                    location.longitude.toString(),
+                    address[0].getAddressLine(0),
+                    address[0].locality,
+                    address[0].adminArea,
+                    address[0].countryName,
+                    address[0].postalCode,
+                    address[0].featureName
+                )
+                binding.location = locationData.locality
+                locationViewModel.saveUserLocation(locationData)
+            }
         }
 
         override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {}
