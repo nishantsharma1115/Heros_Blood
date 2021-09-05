@@ -2,14 +2,14 @@
 
 **Heroes Blood** is a Blood donation Android application 📱 built using *Modern Android development* tools.
 
-## **Currently in apha version**🛠
+## **Currently in alpha version**🛠
 
 ## 📸 Screenshots
 
 ||||
 |:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
 | ![](media/intro_screen.jpg) | ![](media/login_screen.jpg) | ![](media/dashboard_screen.jpg) |
-| ![](media/profile_screen.jpg) | ![](media/donor_list_screen.jpg) | ![](media/donor_profile_screen.jpg) |
+| ![](media/profile_screen.jpg) | ![](media/user_edit_profile.jpg) | ![](media/donor_profile_screen.jpg) |
 
 
 ## Built With 🛠
@@ -23,7 +23,7 @@
 - [Backend](https://firebase.google.com) - Google Firebase
   - Firebase Auth - To support email based authentication
   - Firebase Firestore - A NoSQL database to store all data 
-  - Firebase Storage - A clous storage to store all images
+  - Firebase Storage - A cloud storage to store all images
 - [Retrofit](https://square.github.io/retrofit/) - A type-safe HTTP client for Android and Java.
 - [Google Map SDk](https://developers.google.com/maps/documentation/android-sdk/start) - The Google Maps Api helps us to lay down the map into our Android App. It can have different types of map like satellite, terrain and many more. Adding these features on the map helps us to add cool features to our app and make our app able to guide to places to which the user wants.
 - [GSON](https://github.com/google/gson) - A modern JSON library for Kotlin and Java.
@@ -71,4 +71,4 @@ This app uses [***MVVM (Model View View-Model)***](https://developer.android.com
  ## Contact
 If you need any help, you can connect with me.
 
-Visit:- [Nishant Sharma](https://nishantsharma1115.github.io) | [LinikedIn](https://linkedin.com/in/nishantsharma1115) | [Instagram](https://www.instagram.com/_ni5hant_/) | [Facebook](https://www.facebook.com/nishant1115/)
+Visit:- [Nishant Sharma](https://nishantsharma1115.github.io) | [LinkedIn](https://linkedin.com/in/nishantsharma1115) | [Instagram](https://www.instagram.com/_ni5hant_/) | [Facebook](https://www.facebook.com/nishant1115/)
