@@ -19,16 +19,17 @@
 
     <TextView
         android:id="@+id/userName"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:ellipsize="end"
+        android:maxLength="20"
         android:maxLines="1"
         android:text="Nishant Sharma"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@id/userLocation"
+        app:layout_constraintEnd_toStartOf="@id/availabilityStatus"
         app:layout_constraintStart_toEndOf="@id/userProfilePicture"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_goneMarginEnd="10dp" />
