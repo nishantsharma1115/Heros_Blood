@@ -14,7 +14,9 @@ import com.nishant.herosblood.ui.UserRegistrationActivity
 import kotlinx.android.synthetic.main.bottom_sheet_dashboard.*
 import java.io.Serializable
 
-class DashboardBottomSheet : BottomSheetDialogFragment() {
+class DashboardBottomSheet(
+    private val userData: UserData
+) : BottomSheetDialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,19 +44,6 @@ class DashboardBottomSheet : BottomSheetDialogFragment() {
             val intent = Intent(activity, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
-        }
-    }
-
-    companion object {
-
-        private var userData: UserData = UserData()
-
-        @JvmStatic
-        fun newInstance(bundle: Bundle, user: UserData): DashboardBottomSheet {
-            val fragment = DashboardBottomSheet()
-            fragment.arguments = bundle
-            userData = user
-            return fragment
         }
     }
 }

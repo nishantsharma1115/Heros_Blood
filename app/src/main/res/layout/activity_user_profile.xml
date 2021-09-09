@@ -70,7 +70,7 @@
                                 android:id="@+id/txt_weight"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/_50"
+                                android:text="@{user.weight}"
                                 android:textColor="@color/redColor"
                                 android:textSize="30sp" />
 

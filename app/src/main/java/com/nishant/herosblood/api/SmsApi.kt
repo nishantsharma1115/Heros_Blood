@@ -1,6 +1,6 @@
 package com.nishant.herosblood.api
 
-import com.nishant.herosblood.models.SmsApiBody
+import com.nishant.herosblood.models.smsbody.SmsApiBody
 import com.nishant.herosblood.util.Constants
 import retrofit2.http.Body
 import retrofit2.http.Headers

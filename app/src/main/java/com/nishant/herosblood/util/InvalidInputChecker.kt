@@ -9,6 +9,10 @@ class InvalidInputChecker {
         user: UserData,
         errorInput: (ValidationInput) -> Unit
     ) {
+        if (user.weight.isNullOrEmpty()) {
+            errorInput(ValidationInput.EmptyWeight)
+            return
+        }
         if (user.address.isNullOrEmpty()) {
             errorInput(ValidationInput.EmptyAddress)
             return

@@ -56,24 +56,102 @@
                     app:layout_constraintTop_toTopOf="@+id/img_profilePicture"
                     app:layout_constraintVertical_bias="0.876" />
 
-                <Spinner
-                    android:id="@+id/bloodGroupList"
-                    style="@style/spinner_style"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/llWeightAndBloodGroup"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="28dp"
                     android:layout_marginEnd="25dp"
-                    android:background="@drawable/search_bg"
-                    android:entries="@array/blood_group"
-                    android:spinnerMode="dropdown"
+                    android:baselineAligned="true"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgUploadImage" />
+                    app:layout_constraintTop_toBottomOf="@id/imgUploadImage">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/weight"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="15dp"
+                            android:background="@color/white"
+                            android:hint="Weight"
+                            app:boxCornerRadiusBottomEnd="8dp"
+                            app:boxCornerRadiusBottomStart="8dp"
+                            app:boxCornerRadiusTopEnd="8dp"
+                            app:boxCornerRadiusTopStart="8dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/txtKg"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:startIconDrawable="@drawable/ic_weight"
+                            app:startIconTint="@color/redColor">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtWeight"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext"
+                                android:inputType="number"
+                                android:lines="1"
+                                android:maxLength="3"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <TextView
+                            android:id="@+id/txtKg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="KG"
+                            android:textAlignment="center"
+                            android:textColor="@color/greyColor"
+                            android:textSize="20sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etBloodGroup"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:hint="Blood group"
+                        app:boxCornerRadiusBottomEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusTopStart="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/changeProfilePicture"
+                        app:startIconDrawable="@drawable/ic_drop"
+                        app:startIconTint="@color/redColor">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/actvBloodGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:textColor="@color/redColor"
+                            android:textColorLink="@color/redColor" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/edt_Address"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
@@ -88,9 +166,10 @@
                     app:hintEnabled="true"
                     app:hintTextColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/bloodGroupList">
+                    app:layout_constraintTop_toBottomOf="@+id/llWeightAndBloodGroup"
+                    app:startIconDrawable="@drawable/address_icon"
+                    app:startIconTint="@color/redColor">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_addressEditText"
@@ -101,6 +180,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/edt_State"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
@@ -117,7 +197,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edt_Address">
+                    app:layout_constraintTop_toBottomOf="@+id/edt_Address"
+                    app:startIconDrawable="@drawable/address_icon"
+                    app:startIconTint="@color/redColor">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_stateEditText"
@@ -128,6 +210,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/edt_City"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
@@ -144,7 +227,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edt_State">
+                    app:layout_constraintTop_toBottomOf="@+id/edt_State"
+                    app:startIconDrawable="@drawable/address_icon"
+                    app:startIconTint="@color/redColor">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_cityEditText"
@@ -155,6 +240,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/edt_Pin_code"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
@@ -171,7 +257,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edt_City">
+                    app:layout_constraintTop_toBottomOf="@+id/edt_City"
+                    app:startIconDrawable="@drawable/location_icon"
+                    app:startIconTint="@color/redColor">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_pin_codeEditText"
@@ -182,6 +270,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/edt_phone_No"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
@@ -198,7 +287,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edt_Pin_code">
+                    app:layout_constraintTop_toBottomOf="@+id/edt_Pin_code"
+                    app:startIconDrawable="@drawable/call_icon"
+                    app:startIconTint="@color/redColor">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_phone_noEditText"
@@ -215,26 +306,27 @@
                     android:text="Available to donate Blood"
                     android:textColor="@color/black"
                     android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@id/availabilityToggle"
                     app:layout_constraintStart_toStartOf="@id/edt_phone_No"
-                    app:layout_constraintTop_toBottomOf="@id/edt_phone_No" />
+                    app:layout_constraintTop_toTopOf="@id/availabilityToggle" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/availabilityToggle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@id/availabilityText"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="@id/edt_phone_No"
-                    app:layout_constraintTop_toTopOf="@id/availabilityText"
+                    app:layout_constraintTop_toBottomOf="@id/edt_phone_No"
                     app:thumbTint="@color/redColor"
                     app:useMaterialThemeColors="false" />
 
                 <Button
                     android:id="@+id/btn_save"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="223dp"
+                    android:layout_marginStart="25dp"
                     android:layout_marginTop="30dp"
-                    android:layout_marginEnd="50dp"
+                    android:layout_marginEnd="25dp"
                     android:layout_marginBottom="50dp"
                     android:backgroundTint="@color/redColor"
                     android:paddingStart="35sp"

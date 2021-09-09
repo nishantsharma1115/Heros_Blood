@@ -5,7 +5,7 @@ sealed class ValidationInput {
     object EmptyName : ValidationInput()
     object EmptyEmail : ValidationInput()
     object EmptyPhoneNumber : ValidationInput()
-    object EmptyBloodGroup : ValidationInput()
+    object EmptyWeight : ValidationInput()
     object EmptyAddress : ValidationInput()
     object EmptyState : ValidationInput()
     object EmptyCity : ValidationInput()

@@ -8,14 +8,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.storage.FirebaseStorage
@@ -34,7 +34,6 @@ class UserRegistrationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUserRegistrationBinding
     private lateinit var dataViewModel: DataViewModel
     private val invalidInputChecker: InvalidInputChecker = InvalidInputChecker()
-    private lateinit var bloodGroup: String
     private lateinit var bloodType: Array<String>
     private lateinit var cropActivityResultLauncher: ActivityResultLauncher<Any?>
     private var isProfileChanged = false
@@ -59,24 +58,13 @@ class UserRegistrationActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_user_registration)
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         val user = intent.getSerializableExtra("UserData") as UserData
-        setBloodSpinner()
-        binding.bloodGroupList.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    p0: AdapterView<*>?,
-                    p1: View?,
-                    position: Int,
-                    p3: Long
-                ) {
-                    bloodGroup = bloodType[position]
-                }
 
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    val error = binding.bloodGroupList.selectedView as TextView
-                    error.error = "Required"
-                    error.text = resources.getString(R.string.selectBloodGroup)
-                }
-            }
+        binding.edtWeight.addTextChangedListener {
+            binding.weight.error = null
+        }
+
+        bloodType = resources.getStringArray(R.array.blood_group) as Array<String>
+        autoCompleteListAdapter(bloodType, binding.actvBloodGroup)
 
         binding.availabilityToggle.setOnCheckedChangeListener { button, b ->
             if (!b) {
@@ -112,7 +100,7 @@ class UserRegistrationActivity : AppCompatActivity() {
 
         binding.btnSave.setOnClickListener {
             setUserData(user)
-            if (validateInput(user)) {
+            if (validateInput(user) && isBloodGroupSelected()) {
                 if (isProfileChanged) {
                     dataViewModel.uploadProfilePicture(user.userId!!, photoUri)
                 } else {
@@ -177,8 +165,20 @@ class UserRegistrationActivity : AppCompatActivity() {
         })
     }
 
+    private fun isBloodGroupSelected(): Boolean {
+        return !(binding.etBloodGroup.editText?.text?.isEmpty() == true || binding.etBloodGroup.editText?.text?.toString() == "Blood group")
+    }
+
+    private fun autoCompleteListAdapter(
+        list: Array<String>,
+        autoCompleteTextView: AutoCompleteTextView
+    ) {
+        val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, list)
+        autoCompleteTextView.setAdapter(arrayAdapter)
+    }
+
     private fun setUserData(user: UserData) {
-        user.bloodGroup = bloodGroup
+        user.bloodGroup = binding.etBloodGroup.editText?.text.toString()
         user.state = binding.edtStateEditText.text.toString()
         user.city = binding.edtCityEditText.text.toString()
         user.pincode = binding.edtPinCodeEditText.text.toString()
@@ -186,21 +186,16 @@ class UserRegistrationActivity : AppCompatActivity() {
         user.fullAddress = user.address + " " + user.city + " " + user.state + " " + user.pincode
         user.phoneNumber = binding.edtPhoneNoEditText.text.toString()
         user.registered = "true"
+        user.weight = binding.edtWeight.text.toString()
     }
 
     private fun validateInput(user: UserData): Boolean {
 
         var isValid = false
 
-        if (user.bloodGroup == "Select Blood Group") {
-            val errorShown = binding.bloodGroupList.selectedView as TextView
-            errorShown.error = "Required"
-            errorShown.text = resources.getString(R.string.selectBloodGroup)
-            return false
-        }
-
         invalidInputChecker.checkForRegistrationValidInputs(user) { error ->
             when (error) {
+                is ValidationInput.EmptyWeight -> binding.weight.error = "Required"
                 is ValidationInput.EmptyAddress -> binding.edtAddress.error = "Required"
                 is ValidationInput.EmptyState -> binding.edtState.error = "Required"
                 is ValidationInput.EmptyCity -> binding.edtCity.error = "Required"
@@ -230,11 +225,5 @@ class UserRegistrationActivity : AppCompatActivity() {
     private fun hideLoadingBar() {
         binding.layoutBackground.alpha = 1F
         binding.progressBar.visibility = View.GONE
-    }
-
-    private fun setBloodSpinner() {
-        bloodType = resources.getStringArray(R.array.blood_group) as Array<String>
-        val bloodGroupAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, bloodType)
-        binding.bloodGroupList.adapter = bloodGroupAdapter
     }
 }

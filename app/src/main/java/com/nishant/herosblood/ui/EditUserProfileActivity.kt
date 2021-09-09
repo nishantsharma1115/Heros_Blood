@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
@@ -44,7 +43,6 @@ class EditUserProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditUserProfileBinding
     private var isProfilePictureUpdated = false
     private var photoUri: Uri? = null
-//    private lateinit var selectedBloodGroup: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,28 +59,7 @@ class EditUserProfileActivity : AppCompatActivity() {
         }
 
         val bloodType = resources.getStringArray(R.array.blood_group)
-        val bloodGroupAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, bloodType)
-//        binding.bloodGroupList.adapter = bloodGroupAdapter
-
         autoCompleteListAdapter(bloodType, binding.actvBloodGroup)
-
-//        binding.bloodGroupList.onItemSelectedListener =
-//            object : AdapterView.OnItemSelectedListener {
-//                override fun onItemSelected(
-//                    p0: AdapterView<*>?,
-//                    p1: View?,
-//                    position: Int,
-//                    p3: Long
-//                ) {
-//                    selectedBloodGroup = bloodType[position]
-//                }
-//
-//                override fun onNothingSelected(p0: AdapterView<*>?) {
-//                    val error = binding.bloodGroupList.selectedView as TextView
-//                    error.error = "Required"
-//                    error.text = resources.getString(R.string.selectBloodGroup)
-//                }
-//            }
 
         cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract) {
             it?.let { uri ->
@@ -198,12 +175,11 @@ class EditUserProfileActivity : AppCompatActivity() {
                     this.email = binding.email.editText?.text.toString()
                     this.phoneNumber = binding.mobile.editText?.text.toString()
                     this.bloodGroup = binding.etBloodGroup.editText?.text.toString()
-//                this.bloodGroup = selectedBloodGroup
+                    this.weight = binding.edtWeight.text.toString()
                 }
                 dataViewModel.saveUserData(user)
             } else {
                 binding.etBloodGroup.error = "Select one"
-                Log.d("Test2", binding.etBloodGroup.editText?.text.toString())
             }
         }
     }
@@ -216,6 +192,7 @@ class EditUserProfileActivity : AppCompatActivity() {
             this.phoneNumber = binding.mobile.editText?.text.toString()
             this.profilePictureUrl = uri.toString()
             this.bloodGroup = binding.etBloodGroup.editText?.text.toString()
+            this.weight = binding.edtWeight.text.toString()
         }
         dataViewModel.saveUserData(user)
     }
@@ -229,7 +206,8 @@ class EditUserProfileActivity : AppCompatActivity() {
             binding.name.editText?.text.toString() == user.name &&
             binding.address.editText?.text.toString() == user.fullAddress &&
             binding.email.editText?.text.toString() == user.email &&
-            binding.mobile.editText?.text.toString() == user.phoneNumber
+            binding.mobile.editText?.text.toString() == user.phoneNumber &&
+            binding.edtWeight.text.toString() == user.weight
         ) {
             return false
         }

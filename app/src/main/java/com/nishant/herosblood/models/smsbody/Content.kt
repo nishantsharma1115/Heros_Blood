@@ -1,4 +1,4 @@
-package com.nishant.herosblood.models
+package com.nishant.herosblood.models.smsbody
 
 data class Content(
     val type: String,

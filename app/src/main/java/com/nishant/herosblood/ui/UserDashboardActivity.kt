@@ -155,7 +155,7 @@ class UserDashboardActivity : AppCompatActivity() {
         binding.imgProfilePicture.setOnClickListener {
             if (user.registered == "false") {
                 supportFragmentManager.let { fragmentManager ->
-                    DashboardBottomSheet().apply {
+                    DashboardBottomSheet(user).apply {
                         show(fragmentManager, tag)
                     }
                 }

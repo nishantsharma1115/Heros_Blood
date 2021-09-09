@@ -111,8 +111,8 @@
                         android:imeOptions="actionNext"
                         android:inputType="textPersonName"
                         android:lines="1"
-                        android:text="@{currentUser.name}"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:text="@{currentUser.name}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -122,6 +122,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="16dp"
+                    android:baselineAligned="false"
                     android:orientation="horizontal"
                     android:weightSum="3"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -147,12 +148,14 @@
                         app:startIconTint="@color/redColor">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtWeight"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionNext"
                             android:inputType="number"
                             android:lines="1"
-                            android:maxLines="1" />
+                            android:maxLines="1"
+                            android:text="@{currentUser.weight}" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -201,34 +204,34 @@
 
                 </LinearLayout>
 
-<!--                <TextView-->
-<!--                    android:id="@+id/txtAddress"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:paddingStart="3dp"-->
-<!--                    android:paddingEnd="5dp"-->
-<!--                    android:text="@string/address"-->
-<!--                    android:textSize="15sp"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/llWeightAndBloodGroup" />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/txtAddress"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginStart="20dp"-->
+                <!--                    android:layout_marginTop="10dp"-->
+                <!--                    android:paddingStart="3dp"-->
+                <!--                    android:paddingEnd="5dp"-->
+                <!--                    android:text="@string/address"-->
+                <!--                    android:textSize="15sp"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/llWeightAndBloodGroup" />-->
 
-<!--                <EditText-->
-<!--                    android:id="@+id/address"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="20dp"-->
-<!--                    android:hint="@string/enter_your_address"-->
-<!--                    android:importantForAutofill="no"-->
-<!--                    android:inputType="textPersonName|textCapWords"-->
-<!--                    android:labelFor="@id/name"-->
-<!--                    android:text="@{currentUser.fullAddress}"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="18sp"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="@id/txtAddress"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/txtAddress" />-->
+                <!--                <EditText-->
+                <!--                    android:id="@+id/address"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginEnd="20dp"-->
+                <!--                    android:hint="@string/enter_your_address"-->
+                <!--                    android:importantForAutofill="no"-->
+                <!--                    android:inputType="textPersonName|textCapWords"-->
+                <!--                    android:labelFor="@id/name"-->
+                <!--                    android:text="@{currentUser.fullAddress}"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    android:textSize="18sp"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="@id/txtAddress"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/txtAddress" />-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/address"
@@ -255,39 +258,39 @@
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
                         android:inputType="text"
-                        android:text="@{currentUser.address}"
                         android:lines="1"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:text="@{currentUser.address}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-<!--                <TextView-->
-<!--                    android:id="@+id/txtEmail"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:paddingStart="3dp"-->
-<!--                    android:paddingEnd="5dp"-->
-<!--                    android:text="@string/email"-->
-<!--                    android:textSize="15sp"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/address" />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/txtEmail"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginStart="20dp"-->
+                <!--                    android:layout_marginTop="10dp"-->
+                <!--                    android:paddingStart="3dp"-->
+                <!--                    android:paddingEnd="5dp"-->
+                <!--                    android:text="@string/email"-->
+                <!--                    android:textSize="15sp"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/address" />-->
 
-<!--                <EditText-->
-<!--                    android:id="@+id/email"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="30dp"-->
-<!--                    android:hint="@string/enter_your_email"-->
-<!--                    android:importantForAutofill="no"-->
-<!--                    android:inputType="textEmailAddress"-->
-<!--                    android:labelFor="@id/name"-->
-<!--                    android:text="@{currentUser.email}"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="18sp"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="@id/txtEmail"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/txtEmail" />-->
+                <!--                <EditText-->
+                <!--                    android:id="@+id/email"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginEnd="30dp"-->
+                <!--                    android:hint="@string/enter_your_email"-->
+                <!--                    android:importantForAutofill="no"-->
+                <!--                    android:inputType="textEmailAddress"-->
+                <!--                    android:labelFor="@id/name"-->
+                <!--                    android:text="@{currentUser.email}"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    android:textSize="18sp"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="@id/txtEmail"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/txtEmail" />-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email"
@@ -315,38 +318,38 @@
                         android:imeOptions="actionNext"
                         android:inputType="textEmailAddress"
                         android:lines="1"
-                        android:text="@{currentUser.email}"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:text="@{currentUser.email}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-<!--                <TextView-->
-<!--                    android:id="@+id/txtMobile"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:paddingStart="3dp"-->
-<!--                    android:paddingEnd="5dp"-->
-<!--                    android:text="@string/mobile_number"-->
-<!--                    android:textSize="15sp"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/email" />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/txtMobile"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginStart="20dp"-->
+                <!--                    android:layout_marginTop="10dp"-->
+                <!--                    android:paddingStart="3dp"-->
+                <!--                    android:paddingEnd="5dp"-->
+                <!--                    android:text="@string/mobile_number"-->
+                <!--                    android:textSize="15sp"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/email" />-->
 
-<!--                <EditText-->
-<!--                    android:id="@+id/mobile"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="30dp"-->
-<!--                    android:hint="@string/enter_your_mobile_number"-->
-<!--                    android:importantForAutofill="no"-->
-<!--                    android:inputType="number"-->
-<!--                    android:labelFor="@id/name"-->
-<!--                    android:text="@{currentUser.phoneNumber}"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="18sp"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="@id/txtMobile"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/txtMobile" />-->
+                <!--                <EditText-->
+                <!--                    android:id="@+id/mobile"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginEnd="30dp"-->
+                <!--                    android:hint="@string/enter_your_mobile_number"-->
+                <!--                    android:importantForAutofill="no"-->
+                <!--                    android:inputType="number"-->
+                <!--                    android:labelFor="@id/name"-->
+                <!--                    android:text="@{currentUser.phoneNumber}"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    android:textSize="18sp"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="@id/txtMobile"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/txtMobile" />-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/mobile"
@@ -374,8 +377,8 @@
                         android:imeOptions="actionNext"
                         android:inputType="number"
                         android:lines="1"
-                        android:text="@{currentUser.phoneNumber}"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:text="@{currentUser.phoneNumber}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout

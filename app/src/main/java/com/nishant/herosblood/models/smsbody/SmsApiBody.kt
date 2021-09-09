@@ -1,4 +1,4 @@
-package com.nishant.herosblood.models
+package com.nishant.herosblood.models.smsbody
 
 data class SmsApiBody(
     val content: List<Content>,

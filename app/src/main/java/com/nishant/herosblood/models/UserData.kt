@@ -10,6 +10,7 @@ data class UserData(
     var name: String? = null,
     var bloodGroup: String? = null,
     var address: String? = null,
+    var weight: String? = null,
     var state: String? = null,
     var city: String? = null,
     var pincode: String? = null,
