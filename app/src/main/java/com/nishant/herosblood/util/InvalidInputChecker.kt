@@ -3,7 +3,7 @@ package com.nishant.herosblood.util
 import android.util.Patterns
 import com.nishant.herosblood.models.UserData
 
-class InvalidInputChecker {
+object InvalidInputChecker {
 
     fun checkForRegistrationValidInputs(
         user: UserData,

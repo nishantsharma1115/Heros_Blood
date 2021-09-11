@@ -3,7 +3,6 @@ package com.nishant.herosblood.ui
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.nishant.herosblood.R
@@ -25,7 +24,8 @@ class IntroScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.FullScreenTheme)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_intro_screen)
+        binding = ActivityIntroScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         binding.btnLogin.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))

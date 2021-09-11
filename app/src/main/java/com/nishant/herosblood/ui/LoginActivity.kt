@@ -10,40 +10,40 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.nishant.herosblood.R
 import com.nishant.herosblood.databinding.ActivityLoginBinding
 import com.nishant.herosblood.util.InvalidInputChecker
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.util.ValidationInput
 import com.nishant.herosblood.viewmodels.AuthViewModel
 
-class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListener {
+class LoginActivity : AppCompatActivity(), View.OnKeyListener {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewModel: AuthViewModel
-    private val invalidInputChecker: InvalidInputChecker = InvalidInputChecker()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
         viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
 
-        binding.layoutBackground.setOnClickListener(this)
-        binding.txtLogo.setOnClickListener(this)
-        binding.txtSignIn.setOnClickListener(this)
-        binding.txtNewUser.setOnClickListener(this)
-        binding.txtForgotPassword.setOnClickListener(this)
-
-        binding.edtEmailEditText.addTextChangedListener {
-            binding.edtEmail.error = null
+        binding.layoutBackground.setOnClickListener {
+            hideKeyboard()
         }
-        binding.edtPasswordEditText.addTextChangedListener {
-            binding.edtPassword.error = null
+        binding.txtLogo.setOnClickListener {
+            hideKeyboard()
         }
-
+        binding.txtSignIn.setOnClickListener {
+            hideKeyboard()
+        }
+        binding.txtNewUser.setOnClickListener {
+            hideKeyboard()
+        }
+        binding.txtForgotPassword.setOnClickListener {
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+        }
         binding.txtCreateAccount.setOnClickListener {
             Intent(this, SignUpActivity::class.java).apply {
                 startActivity(this)
@@ -57,16 +57,16 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
             )
         }
 
+        binding.edtEmailEditText.addTextChangedListener {
+            binding.edtEmail.error = null
+        }
+        binding.edtPasswordEditText.addTextChangedListener {
+            binding.edtPassword.error = null
+        }
+
         viewModel.loginStatus.observe(this, { response ->
             when (response) {
                 is Resource.Loading -> {
-                    if (binding.edtEmail.isErrorEnabled) {
-                        binding.edtEmail.isErrorEnabled = false
-                    }
-                    if (binding.edtPassword.isErrorEnabled) {
-                        binding.edtPassword.isErrorEnabled = false
-                    }
-                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
                     showLoadingBar()
                 }
                 is Resource.Success -> {
@@ -77,19 +77,23 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
                 is Resource.Error -> {
                     hideLoadingBar()
                     response.message?.let {
-                        if ("There is no user record corresponding to this identifier" in it) {
-                            binding.edtEmail.error = "User not found!!"
-                        } else if ("The password is invalid" in it) {
-                            binding.edtPassword.error = "Incorrect Password"
-                        }
+                        showError(it)
                     }
                 }
             }
         })
     }
 
+    private fun showError(msg: String) {
+        if ("There is no user record corresponding to this identifier" in msg) {
+            binding.edtEmail.error = "User not found!!"
+        } else if ("The password is invalid" in msg) {
+            binding.edtPassword.error = "Incorrect Password"
+        }
+    }
+
     private fun loginUser(email: String, password: String) {
-        invalidInputChecker.checkForLoginValidInputs(email, password) { error ->
+        InvalidInputChecker.checkForLoginValidInputs(email, password) { error ->
             when (error) {
                 is ValidationInput.EmptyEmail -> binding.edtEmail.error = "Can not be empty"
                 is ValidationInput.EmptyPassword -> binding.edtPassword.error = "Can not be empty"
@@ -115,23 +119,18 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener, View.OnClickListe
         return false
     }
 
-    override fun onClick(view: View?) {
-        view?.let { it ->
-            if (it.id == R.id.layout_background || it.id == R.id.txt_logo || it.id == R.id.txt_signIn || it.id == R.id.txt_newUser) {
-                currentFocus.let { focus ->
-                    val inputMethodManager =
-                        ContextCompat.getSystemService(this, InputMethodManager::class.java)
-                    inputMethodManager?.hideSoftInputFromWindow(focus?.windowToken, 0)
-                }
-            }
-            if (it.id == R.id.txtForgotPassword) {
-                startActivity(Intent(this, ForgotPasswordActivity::class.java))
-            }
-
+    private fun hideKeyboard() {
+        currentFocus.let { focus ->
+            val inputMethodManager =
+                ContextCompat.getSystemService(this, InputMethodManager::class.java)
+            inputMethodManager?.hideSoftInputFromWindow(focus?.windowToken, 0)
         }
     }
 
     private fun showLoadingBar() {
+        binding.edtEmail.error = null
+        binding.edtPassword.error = null
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
         binding.layoutBackground.alpha = 0.1F
         binding.progressBar.visibility = View.VISIBLE
     }

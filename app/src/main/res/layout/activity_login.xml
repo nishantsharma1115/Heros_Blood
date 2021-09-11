@@ -58,6 +58,7 @@
                     android:id="@+id/linearLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txt_signIn">
@@ -102,7 +103,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                    app:startIconDrawable="@drawable/email_icon">
+                    app:startIconDrawable="@drawable/email_icon"
+                    app:startIconTint="@color/redColor">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_emailEditText"
@@ -127,7 +129,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/edt_email"
-                    app:startIconDrawable="@drawable/password_icon">
+                    app:startIconDrawable="@drawable/password_icon"
+                    app:startIconTint="@color/redColor">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_passwordEditText"
@@ -148,17 +151,20 @@
 
                 <Button
                     android:id="@+id/btn_login"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:backgroundTint="@color/redColor"
                     android:paddingStart="35sp"
+                    android:paddingTop="12dp"
                     android:paddingEnd="35sp"
+                    android:paddingBottom="12dp"
                     android:text="@string/btn_login"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/edt_Password"
+                    app:layout_constraintStart_toStartOf="@id/edt_Password"
                     app:layout_constraintTop_toBottomOf="@id/txtForgotPassword" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

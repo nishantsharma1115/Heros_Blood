@@ -33,7 +33,6 @@ class UserRegistrationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUserRegistrationBinding
     private lateinit var dataViewModel: DataViewModel
-    private val invalidInputChecker: InvalidInputChecker = InvalidInputChecker()
     private lateinit var bloodType: Array<String>
     private lateinit var cropActivityResultLauncher: ActivityResultLauncher<Any?>
     private var isProfileChanged = false
@@ -193,7 +192,7 @@ class UserRegistrationActivity : AppCompatActivity() {
 
         var isValid = false
 
-        invalidInputChecker.checkForRegistrationValidInputs(user) { error ->
+        InvalidInputChecker.checkForRegistrationValidInputs(user) { error ->
             when (error) {
                 is ValidationInput.EmptyWeight -> binding.weight.error = "Required"
                 is ValidationInput.EmptyAddress -> binding.edtAddress.error = "Required"
