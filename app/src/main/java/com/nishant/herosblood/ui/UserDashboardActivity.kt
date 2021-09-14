@@ -125,9 +125,9 @@ class UserDashboardActivity : AppCompatActivity() {
                     binding.layoutShimmerEffect.visibility = View.GONE
                     user.let {
                         if (it.registered == "false") {
-                            binding.registrationStatus.text = "Want to be a donor? Click Here"
+                            binding.registrationStatus.text = "Want to be a donor? Tap"
                         } else if (it.registered == "true") {
-                            binding.registrationStatus.text = "Registered as a Donor"
+                            binding.registrationStatus.text = "Registered as a Donor "
                             binding.registrationStatus.setCompoundDrawablesWithIntrinsicBounds(
                                 0,
                                 0,
@@ -139,7 +139,9 @@ class UserDashboardActivity : AppCompatActivity() {
                     if (user.profilePictureUrl.equals("")) {
                         binding.imgProfilePicture.load(R.drawable.profile_none)
                     } else {
-                        binding.imgProfilePicture.load(user.profilePictureUrl)
+                        binding.imgProfilePicture.load(user.profilePictureUrl) {
+                            placeholder(R.drawable.profile_none)
+                        }
                     }
                 }
                 is Resource.Error -> {

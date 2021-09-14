@@ -16,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.nishant.herosblood.R
 import com.nishant.herosblood.api.RetrofitInstance
 import com.nishant.herosblood.databinding.FragmentEmailBinding
-import com.nishant.herosblood.models.*
+import com.nishant.herosblood.models.smsbody.*
 import com.nishant.herosblood.ui.LoginActivity
 import com.nishant.herosblood.util.Constants
 import com.nishant.herosblood.util.Resource
@@ -118,7 +118,19 @@ class EmailFragment :
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
 
-//            Retrofit
+            RetrofitInstance.api.sendVerificationMail(
+                SmsApiBody(
+                    listOf(Content("text/plain", "OTP is $otp")),
+                    From(Constants.COMPANY_MAIL, Constants.COMPANY_NAME),
+                    listOf(
+                        Personalization(
+                            "Otp Verification",
+                            listOf(To(email, ""))
+                        )
+                    ),
+                    ReplyTo(Constants.COMPANY_MAIL, Constants.COMPANY_NAME)
+                )
+            )
             hideLoadingBar()
             authViewModel.clearLoginStatus()
             findNavController().navigate(
