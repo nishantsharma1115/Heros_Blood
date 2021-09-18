@@ -58,8 +58,8 @@ class EditUserProfileActivity : AppCompatActivity() {
             binding.imgProfilePicture.load(R.drawable.profile_none)
         }
 
-        val bloodType = resources.getStringArray(R.array.blood_group)
-        autoCompleteListAdapter(bloodType, binding.actvBloodGroup)
+//        val bloodType = resources.getStringArray(R.array.blood_group)
+//        autoCompleteListAdapter(bloodType, binding.actvBloodGroup)
 
         cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract) {
             it?.let { uri ->
@@ -156,13 +156,13 @@ class EditUserProfileActivity : AppCompatActivity() {
         )
     }
 
-    private fun autoCompleteListAdapter(
-        list: Array<String>,
-        autoCompleteTextView: AutoCompleteTextView
-    ) {
-        val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, list)
-        autoCompleteTextView.setAdapter(arrayAdapter)
-    }
+//    private fun autoCompleteListAdapter(
+//        list: Array<String>,
+//        autoCompleteTextView: AutoCompleteTextView
+//    ) {
+//        val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, list)
+//        autoCompleteTextView.setAdapter(arrayAdapter)
+//    }
 
     private fun saveUserData() {
         if (isProfilePictureUpdated) {
