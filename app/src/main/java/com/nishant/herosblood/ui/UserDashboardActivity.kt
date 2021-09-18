@@ -100,8 +100,8 @@ class UserDashboardActivity : AppCompatActivity() {
             }
         })
 
-        if (!user.registered.isNullOrEmpty() && user.registered == "false") {
-            binding.registrationStatus.setOnClickListener {
+        binding.registrationStatus.setOnClickListener {
+            if (!user.registered.isNullOrEmpty() && user.registered == "false") {
                 if (isDataReceived) {
                     Intent(this, UserRegistrationActivity::class.java).also { intent ->
                         intent.putExtra("UserData", user as Serializable)
@@ -136,7 +136,7 @@ class UserDashboardActivity : AppCompatActivity() {
                             )
                         }
                     }
-                    if (user.profilePictureUrl.equals("")) {
+                    if (user.profilePictureUrl.isNullOrEmpty()) {
                         binding.imgProfilePicture.load(R.drawable.profile_none)
                     } else {
                         binding.imgProfilePicture.load(user.profilePictureUrl) {
@@ -158,12 +158,16 @@ class UserDashboardActivity : AppCompatActivity() {
             if (user.registered == "false") {
                 supportFragmentManager.let { fragmentManager ->
                     DashboardBottomSheet(user).apply {
-                        show(fragmentManager, tag)
+                        show(fragmentManager, this.tag)
                     }
                 }
             } else {
                 startActivity(Intent(this, UserProfileActivity::class.java))
             }
+        }
+
+        binding.edtSearch.setOnClickListener {
+            startActivity(Intent(this, DonorSearchActivity::class.java))
         }
     }
 
@@ -206,7 +210,7 @@ class UserDashboardActivity : AppCompatActivity() {
         ) {
             locationManager.requestLocationUpdates(
                 LocationManager.NETWORK_PROVIDER,
-                0L,
+                60000L,
                 0F,
                 locationListener
             )

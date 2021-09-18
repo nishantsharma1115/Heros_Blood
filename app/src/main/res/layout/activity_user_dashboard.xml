@@ -126,24 +126,24 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <EditText
+            <TextView
                 android:id="@+id/edtSearch"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:background="@drawable/search_bg"
-                android:drawableStart="@drawable/search_icon"
-                android:drawableEnd="@drawable/filter_icon"
                 android:drawablePadding="10dp"
+                android:gravity="center_vertical"
                 android:hint="@string/search"
                 android:importantForAutofill="no"
-                android:inputType="text"
                 android:padding="8dp"
                 android:paddingStart="25dp"
                 android:paddingEnd="25dp"
                 android:textColorHint="@color/greyColor"
                 android:translationY="-15dp"
+                app:drawableEndCompat="@drawable/filter_icon"
+                app:drawableStartCompat="@drawable/search_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/innerUser"
                 app:layout_constraintStart_toStartOf="@id/innerUser"

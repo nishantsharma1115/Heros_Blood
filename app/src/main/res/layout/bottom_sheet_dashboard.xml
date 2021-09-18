@@ -1,31 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="10dp">
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="25dp">
 
         <TextView
             android:id="@+id/registerAsDonor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
             android:text="Register as a Donor"
             android:textColor="@color/black"
-            android:textSize="30sp" />
+            android:textSize="22sp"
+            app:drawableStartCompat="@drawable/register_icon" />
 
         <TextView
             android:id="@+id/logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
             android:text="Logout"
             android:textColor="@color/black"
-            android:textSize="30sp" />
+            android:textSize="22sp"
+            app:drawableStartCompat="@drawable/logout_icon" />
 
     </LinearLayout>
 </layout>

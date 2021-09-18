@@ -10,6 +10,7 @@ import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.repositories.DataRepository
 import com.nishant.herosblood.util.DifferentDonorLists
 import com.nishant.herosblood.util.Resource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DataViewModel(
@@ -150,10 +151,34 @@ class DataViewModel(
                 }
             },
             {
-                Log.d("Error: ", it.message.toString())
                 _getDonorListStatus.postValue(Resource.Error("Some Error Occurred"))
             }
         )
+    }
+
+    private var _getSearchDonorStatus = MutableLiveData<Resource<ArrayList<UserData>>>()
+    val getSearchDonorStatus: LiveData<Resource<ArrayList<UserData>>> = _getSearchDonorStatus
+    fun getSearchDonorList(
+        userId: String,
+        bloodType: String,
+        city: String
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        _getSearchDonorStatus.postValue(Resource.Loading())
+        dataRepository.getSearchDonorList(userId, bloodType, city, { querySnapshot ->
+            val donorList: ArrayList<UserData> = ArrayList()
+            if (querySnapshot.isEmpty) {
+                _getSearchDonorStatus.postValue(Resource.Success(donorList))
+            } else {
+                for (donors in querySnapshot) {
+                    val donor: UserData = donors.toObject(UserData::class.java)
+                    donorList.add(donor)
+                }
+                _getSearchDonorStatus.postValue(Resource.Success(donorList))
+            }
+        }, {
+            Log.d("exception", it.message.toString())
+            _getSearchDonorStatus.postValue(Resource.Error("Something went wrong"))
+        })
     }
 
     private val _getProfilePictureStatus: MutableLiveData<Resource<Boolean>> = MutableLiveData()

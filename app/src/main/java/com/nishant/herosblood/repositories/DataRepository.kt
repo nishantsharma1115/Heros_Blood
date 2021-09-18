@@ -84,6 +84,24 @@ class DataRepository {
         }
     }
 
+    suspend fun getSearchDonorList(
+        userId: String,
+        bloodType: String,
+        city: String,
+        completeCallback: (QuerySnapshot) -> Unit,
+        failureCallback: (Exception) -> Unit
+    ) {
+        withContext(Dispatchers.IO) {
+            db.collection("users")
+                .whereEqualTo("bloodGroup", bloodType)
+                .whereEqualTo("city", city)
+                .whereNotEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener(completeCallback)
+                .addOnFailureListener(failureCallback)
+        }
+    }
+
     fun uploadProfilePicture(
         userId: String,
         file: Uri,

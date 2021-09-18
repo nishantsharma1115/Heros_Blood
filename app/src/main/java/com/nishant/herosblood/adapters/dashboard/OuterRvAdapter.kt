@@ -44,6 +44,7 @@ class OuterRvAdapter(
         holder.seeAll.setOnClickListener {
             val intent = Intent(context, DonorListActivity::class.java)
             intent.putExtra("bloodType", currentBloodType)
+            intent.putExtra("from", "Dashboard")
             context.startActivity(intent)
         }
 

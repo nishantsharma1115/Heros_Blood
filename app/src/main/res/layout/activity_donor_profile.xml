@@ -60,29 +60,29 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toStartOf="@id/donorDistance"
-                    app:layout_constraintStart_toStartOf="@id/donorGender"
+                    app:layout_constraintStart_toStartOf="@id/donorWeight"
                     app:layout_constraintTop_toTopOf="@id/donorTxtName" />
 
                 <TextView
-                    android:id="@+id/donorTxtGender"
+                    android:id="@+id/donorTxtWeight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Gender"
+                    android:text="Weight"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="@id/donorTxtName"
                     app:layout_constraintTop_toBottomOf="@id/donorName" />
 
                 <TextView
-                    android:id="@+id/donorGender"
+                    android:id="@+id/donorWeight"
+                    setWeight="@{user.weight}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Male"
                     android:textColor="@color/black"
                     android:textSize="18sp"
-                    app:layout_constraintStart_toEndOf="@id/donorTxtGender"
-                    app:layout_constraintTop_toTopOf="@id/donorTxtGender" />
+                    app:layout_constraintStart_toEndOf="@id/donorTxtWeight"
+                    app:layout_constraintTop_toTopOf="@id/donorTxtWeight" />
 
                 <TextView
                     android:id="@+id/donorDistance"
@@ -91,27 +91,33 @@
                     android:layout_marginEnd="20dp"
                     android:text="14 KM"
                     android:textColor="@color/black"
+                    android:visibility="invisible"
                     app:drawableStartCompat="@drawable/location_icon"
                     app:drawableTint="@color/black"
-                    app:layout_constraintBottom_toBottomOf="@id/donorTxtGender"
+                    app:layout_constraintBottom_toBottomOf="@id/donorTxtWeight"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/donorTxtName" />
 
                 <TextView
                     android:id="@+id/txtDonorAddress"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="2dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
                     android:text="@{liveLocation}"
                     app:layout_constraintBottom_toTopOf="@id/llDonorMapLocation"
+                    app:layout_constraintEnd_toEndOf="@id/llDonorMapLocation"
                     app:layout_constraintStart_toStartOf="@id/llDonorMapLocation"
-                    app:layout_constraintTop_toBottomOf="@id/donorTxtGender" />
+                    app:layout_constraintTop_toBottomOf="@id/donorTxtWeight" />
 
                 <LinearLayout
                     android:id="@+id/llDonorMapLocation"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

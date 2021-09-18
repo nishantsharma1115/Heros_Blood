@@ -2,7 +2,6 @@
     <string name="app_name">Heroes Blood</string>
     <string name="logo_text">HEROES BLOOD</string>
     <string name="log_in">LOG IN</string>
-    <string name="skip"><![CDATA[Skip >>]]></string>
     <string name="new_user">New User?</string>
     <string name="create_an_account">Create an account</string>
     <string name="email">Email</string>
@@ -11,26 +10,18 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="sign_in">Sign in</string>
-    <string name="customloadingbar">CustomLoadingBar</string>
     <string name="name">Name</string>
     <string name="hello">Hello,</string>
     <string name="registered_as_a_donor">Registered as a Donor</string>
     <string name="verifiedicon">verifiedIcon</string>
-    <string name="want_to_be_a_donor">Want to be a Donor?</string>
-    <string name="click_here">Click Here</string>
     <string name="location_icon">location_icon</string>
     <string name="search">Search for Donor</string>
     <string name="nearby_people">Nearby People</string>
-    <string name="see_all">See all</string>
-    <string name="o_donors">O+ Donors</string>
     <string name="profile_picture">ProfilePicture</string>
-    <string name="_50">50</string>
     <string name="kg">KG</string>
     <string name="icon">icon</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="register_as_a_donor">Register as a Donor</string>
-    <string name="your_blood_group">Your Blood Group</string>
-    <string name="selectBloodGroup">Please Select Blood Group</string>
     <string name="checkInternetConnection">Check Internet Connection</string>
 
     <string-array name="blood_group">
@@ -44,24 +35,14 @@
         <item>AB-</item>
     </string-array>
     <string name="title_activity_donor_location_map">Map</string>
-    <string name="map_api_key">AIzaSyCWKzn7QT7T_fuUckPumvh4bHOy2R3Ztvs</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="image">Image</string>
     <string name="heroes_blood">Heroes Blood</string>
     <string name="login">Login</string>
     <string name="create_new_account">Create New Account</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="reset_password">Reset Password</string>
-    <string name="weight_in_kg">Weight (in KG)</string>
-    <string name="your_weight">Your Weight</string>
-    <string name="enter_your_address">Enter your Address</string>
-    <string name="address">Address</string>
-    <string name="enter_your_email">Enter your Email</string>
-    <string name="mobile_number">Mobile Number</string>
-    <string name="enter_your_mobile_number">Enter your Mobile Number</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
-    <string name="enter_your_name">Enter your name</string>
     <string name="verification_code">Verification Code</string>
     <string name="verify_otp">Verify OTP</string>
     <string name="send_link">Send Link</string>

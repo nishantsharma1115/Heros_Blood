@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nishant.herosblood.R
 import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.ui.DonorProfileActivity
@@ -43,7 +44,9 @@ class InnerRvAdapter(
         holder.userName.text = current.name
         holder.userLocation.text = current.city
 
-        if (current.profilePictureUrl != null) {
+        if (current.profilePictureUrl.isNullOrEmpty()) {
+            holder.profilePicture.load(R.drawable.profile_none)
+        } else {
             holder.profilePicture.load(current.profilePictureUrl) {
                 this.placeholder(R.drawable.profile_none)
             }
@@ -56,9 +59,18 @@ class InnerRvAdapter(
         }
 
         holder.background.setOnClickListener {
-            val intent = Intent(context, DonorProfileActivity::class.java)
-            intent.putExtra("UserData", current as Serializable)
-            context.startActivity(intent)
+            if (current.available == "true") {
+                val intent = Intent(context, DonorProfileActivity::class.java)
+                intent.putExtra("UserData", current as Serializable)
+                context.startActivity(intent)
+            } else {
+                MaterialAlertDialogBuilder(context)
+                    .setTitle("Not available")
+                    .setMessage("Donor not available to donate blood.")
+                    .setPositiveButton("OK") { _, _ ->
+                    }
+                    .show()
+            }
         }
     }
 

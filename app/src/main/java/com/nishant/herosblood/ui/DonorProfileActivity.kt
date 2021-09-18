@@ -48,10 +48,12 @@ class DonorProfileActivity : AppCompatActivity(), OnMapReadyCallback {
             locationViewModel.getUserLocation(user.userId.toString())
         }
 
-        if (user.profilePictureUrl != null) {
-            binding.donorProfilePicture.load(user.profilePictureUrl)
+        if (user.profilePictureUrl.isNullOrEmpty()) {
+            binding.donorProfilePicture.load(R.drawable.profile_none)
         } else {
-            binding.donorProfilePicture.setImageResource(R.drawable.profile_none)
+            binding.donorProfilePicture.load(user.profilePictureUrl) {
+                this.placeholder(R.drawable.profile_none)
+            }
         }
 
         binding.expandMap.setOnClickListener {
