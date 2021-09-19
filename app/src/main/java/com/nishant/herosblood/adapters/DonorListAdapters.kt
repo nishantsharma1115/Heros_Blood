@@ -41,8 +41,15 @@ class DonorListAdapters(
     override fun onBindViewHolder(holder: SingleDonorUser, position: Int) {
         val current = donors[position]
 
+        if (current.profilePictureUrl.isNullOrEmpty()) {
+            holder.profilePicture.load(R.drawable.profile_none)
+        } else {
+            holder.profilePicture.load(current.profilePictureUrl) {
+                placeholder(R.drawable.profile_none)
+            }
+        }
+
         holder.apply {
-            this.profilePicture.load(current.profilePictureUrl)
             this.name.text = current.name
             this.address.text = current.fullAddress
             this.email.text = current.email

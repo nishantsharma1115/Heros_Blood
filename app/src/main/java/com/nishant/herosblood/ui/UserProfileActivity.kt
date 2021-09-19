@@ -72,8 +72,6 @@ class UserProfileActivity : AppCompatActivity() {
             }
         })
 
-        //binding.availabilityToggle.isChecked = user.isAvailable.toBoolean()
-
         val widthDp = resources.displayMetrics.run { widthPixels / density }
         binding.guideline.setGuidelineBegin(widthDp.toInt() + widthDp.toInt() / 2)
 
