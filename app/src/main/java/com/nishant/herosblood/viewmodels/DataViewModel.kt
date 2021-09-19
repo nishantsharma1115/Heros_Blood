@@ -176,7 +176,6 @@ class DataViewModel(
                 _getSearchDonorStatus.postValue(Resource.Success(donorList))
             }
         }, {
-            Log.d("exception", it.message.toString())
             _getSearchDonorStatus.postValue(Resource.Error("Something went wrong"))
         })
     }

@@ -37,7 +37,7 @@ class DataRepository {
     ) {
         userId.let {
             db.collection("users").document(it)
-                .update("isAvailable", newValue)
+                .update("available", newValue)
                 .addOnCompleteListener(completeCallback)
                 .addOnFailureListener(failureCallback)
         }
@@ -61,6 +61,7 @@ class DataRepository {
     ) {
         withContext(Dispatchers.IO) {
             db.collection("users")
+                .whereEqualTo("available", "true")
                 .whereNotEqualTo("userId", userId)
                 .get()
                 .addOnSuccessListener(completeCallback)
@@ -77,6 +78,7 @@ class DataRepository {
         withContext(Dispatchers.IO) {
             db.collection("users")
                 .whereEqualTo("bloodGroup", bloodType)
+                .whereEqualTo("available", "true")
                 .whereNotEqualTo("userId", userId)
                 .get()
                 .addOnSuccessListener(completeCallback)
@@ -95,6 +97,7 @@ class DataRepository {
             db.collection("users")
                 .whereEqualTo("bloodGroup", bloodType)
                 .whereEqualTo("city", city)
+                .whereEqualTo("available", "true")
                 .whereNotEqualTo("userId", userId)
                 .get()
                 .addOnSuccessListener(completeCallback)

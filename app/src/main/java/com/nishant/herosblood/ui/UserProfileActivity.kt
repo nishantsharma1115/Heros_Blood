@@ -2,6 +2,7 @@ package com.nishant.herosblood.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
@@ -42,6 +43,13 @@ class UserProfileActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.GONE
                     user = response.data as UserData
                     binding.user = user
+
+                    if (user.available.toBoolean()) {
+                        Log.d("available", "true")
+                    } else {
+                        Log.d("available", "false")
+                    }
+
                     binding.availabilityToggle.isChecked = user.available.toBoolean()
 
                     binding.availabilityToggle.setOnCheckedChangeListener { button, b ->

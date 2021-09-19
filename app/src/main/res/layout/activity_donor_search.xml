@@ -19,16 +19,23 @@
             <LinearLayout
                 android:id="@+id/layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="vertical"
                 tools:context=".ui.DonorSearchActivity">
+
+                <ImageView
+                    android:id="@+id/imgSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:contentDescription="@string/image"
+                    android:src="@drawable/search_donor_icon" />
 
                 <TextView
                     android:id="@+id/txtSearchDonor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="40dp"
                     android:layout_marginEnd="16dp"
                     android:text="Search Donor"
                     android:textAlignment="center"

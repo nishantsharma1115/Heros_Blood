@@ -112,8 +112,6 @@ class EmailFragment :
 
         val otp = (111111 until 999999).random()
 
-        Log.d("otp", otp.toString())
-
         showLoadingBar()
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
