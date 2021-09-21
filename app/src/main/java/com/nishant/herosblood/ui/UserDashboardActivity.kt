@@ -3,10 +3,6 @@ package com.nishant.herosblood.ui
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Geocoder
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -14,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
@@ -25,12 +20,11 @@ import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.models.UserLocationData
 import com.nishant.herosblood.ui.fragments.bottomsheet.DashboardBottomSheet
 import com.nishant.herosblood.util.Resource
+import com.nishant.herosblood.util.location.LocationLiveData
+import com.nishant.herosblood.util.location.LocationModel
 import com.nishant.herosblood.viewmodels.DataViewModel
 import com.nishant.herosblood.viewmodels.LocationViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.io.Serializable
-import java.util.*
 
 class UserDashboardActivity : AppCompatActivity() {
 
@@ -40,33 +34,33 @@ class UserDashboardActivity : AppCompatActivity() {
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private var user: UserData = UserData()
     private var isDataReceived: Boolean = false
-    private lateinit var locationManager: LocationManager
+    private lateinit var locationLivedata: LocationLiveData
 
-    private val locationListener: LocationListener = object : LocationListener {
-        override fun onLocationChanged(location: Location) {
-            lifecycleScope.launch(Dispatchers.IO) {
-                val geoCoder = Geocoder(applicationContext, Locale.getDefault())
-                val address = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
-                val locationData = UserLocationData(
-                    mAuth.currentUser?.uid.toString(),
-                    location.latitude.toString(),
-                    location.longitude.toString(),
-                    address[0].getAddressLine(0),
-                    address[0].locality,
-                    address[0].adminArea,
-                    address[0].countryName,
-                    address[0].postalCode,
-                    address[0].featureName
-                )
-                binding.location = locationData.locality
-                locationViewModel.saveUserLocation(locationData)
-            }
-        }
-
-        override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {}
-        override fun onProviderEnabled(p0: String?) {}
-        override fun onProviderDisabled(p0: String?) {}
-    }
+//    private val locationListener: LocationListener = object : LocationListener {
+//        override fun onLocationChanged(location: Location) {
+//            lifecycleScope.launch(Dispatchers.IO) {
+//                val geoCoder = Geocoder(applicationContext, Locale.getDefault())
+//                val address = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
+//                val locationData = UserLocationData(
+//                    mAuth.currentUser?.uid.toString(),
+//                    location.latitude.toString(),
+//                    location.longitude.toString(),
+//                    address[0].getAddressLine(0),
+//                    address[0].locality,
+//                    address[0].adminArea,
+//                    address[0].countryName,
+//                    address[0].postalCode,
+//                    address[0].featureName
+//                )
+//                binding.location = locationData.locality
+//                locationViewModel.saveUserLocation(locationData)
+//            }
+//        }
+//
+//        override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {}
+//        override fun onProviderEnabled(p0: String?) {}
+//        override fun onProviderDisabled(p0: String?) {}
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +69,9 @@ class UserDashboardActivity : AppCompatActivity() {
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
         val bloodTypeList = resources.getStringArray(R.array.blood_group).toList()
+
+        locationLivedata = LocationLiveData(this)
+        observeLocationUpdates()
 
         dataViewModel.getAllDonors(mAuth.currentUser?.uid.toString())
         dataViewModel.getAllDonorsStatus.observe(this, { response ->
@@ -171,9 +168,38 @@ class UserDashboardActivity : AppCompatActivity() {
         }
     }
 
+    private fun observeLocationUpdates() {
+        locationLivedata.observe(this) {
+            when (it) {
+                is Resource.Error -> Unit
+                is Resource.Loading -> Unit
+                is Resource.Success -> {
+                    it.data?.let { location ->
+                        setLocation(location)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setLocation(location: LocationModel) {
+        val locationData = UserLocationData(
+            mAuth.currentUser?.uid.toString(),
+            location.lat.toString(),
+            location.long.toString(),
+            location.address,
+            location.locality,
+            location.area,
+            location.country,
+            location.pincode,
+            location.featureName
+        )
+        binding.location = locationData.locality
+        locationViewModel.saveUserLocation(locationData)
+    }
+
     override fun onResume() {
-        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
-        requestLocation()
+        locationLivedata.startListening()
 
         val firebaseUser = mAuth.currentUser
         if (firebaseUser != null) {
@@ -184,7 +210,7 @@ class UserDashboardActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        locationManager.removeUpdates(locationListener)
+        locationLivedata.stopListening()
         super.onStop()
     }
 
@@ -204,16 +230,11 @@ class UserDashboardActivity : AppCompatActivity() {
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
+                    this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
         ) {
-            locationManager.requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER,
-                60000L,
-                0F,
-                locationListener
-            )
+            locationLivedata.startListening()
         } else {
             ActivityCompat.requestPermissions(
                 this,
@@ -231,5 +252,4 @@ class UserDashboardActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.GONE
         binding.rvDonorListUserDashboard.visibility = View.VISIBLE
     }
-
 }
