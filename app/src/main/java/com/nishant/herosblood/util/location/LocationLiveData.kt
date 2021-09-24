@@ -5,6 +5,7 @@ import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -76,30 +77,34 @@ class LocationLiveData(private val context: Context) : LiveData<Resource<Locatio
             1
         ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
-        val address: String =
-            addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+        if (addresses.isNotEmpty()) {
+            val address: String =
+                addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            val city: String = addresses[0].locality ?: ""
+            val state: String = addresses[0].adminArea ?: ""
+            val country: String = addresses[0].countryName ?: ""
+            val postalCode: String = addresses[0].postalCode ?: ""
+            val area = addresses[0].adminArea
+            val knownName: String =
+                addresses[0].featureName ?: "" // Only if available else return NULL
 
-        val city: String = addresses[0].locality ?: ""
-        val state: String = addresses[0].adminArea ?: ""
-        val country: String = addresses[0].countryName ?: ""
-        val postalCode: String = addresses[0].postalCode ?: ""
-        val area = addresses[0].adminArea
-        val knownName: String = addresses[0].featureName ?: "" // Only if available else return NULL
-
-        value = Resource.Success(
-            LocationModel(
-                long = location.longitude,
-                lat = location.latitude,
-                address = address,
-                city = city,
-                state = state,
-                country = country,
-                locality = knownName,
-                pincode = postalCode,
-                area = area,
-                featureName = knownName
+            value = Resource.Success(
+                LocationModel(
+                    long = location.longitude,
+                    lat = location.latitude,
+                    address = address,
+                    city = city,
+                    state = state,
+                    country = country,
+                    locality = knownName,
+                    pincode = postalCode,
+                    area = area,
+                    featureName = knownName
+                )
             )
-        )
+        } else {
+            Toast.makeText(context, "Null", Toast.LENGTH_SHORT).show()
+        }
     }
 
     companion object {
