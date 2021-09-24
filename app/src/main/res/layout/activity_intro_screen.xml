@@ -13,7 +13,7 @@
             android:id="@+id/txt_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/high_tower"
+            android:fontFamily="@font/roboto_regular"
             android:gravity="center_horizontal"
             android:text="@string/heroes_blood"
             android:textAlignment="center"

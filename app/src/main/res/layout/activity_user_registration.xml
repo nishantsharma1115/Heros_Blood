@@ -24,7 +24,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:fontFamily="@font/high_tower"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="@string/register_as_a_donor"
                     android:textColor="@color/black"
                     android:textSize="35sp"
