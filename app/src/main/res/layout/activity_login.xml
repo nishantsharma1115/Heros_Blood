@@ -22,21 +22,16 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
-                <TextView
+                <ImageView
                     android:id="@+id/txt_logo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_marginTop="20dp"
-                    android:drawablePadding="5dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:text="@string/logo_text"
-                    android:textColor="@color/black"
-                    android:textSize="30sp"
+                    android:contentDescription="@string/image"
+                    android:src="@drawable/logo_img"
                     app:drawableStartCompat="@drawable/logo"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +41,6 @@
                     android:id="@+id/txt_signIn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/log_in"
                     android:textColor="#000000"
@@ -149,17 +143,15 @@
                     app:layout_constraintEnd_toEndOf="@id/edt_Password"
                     app:layout_constraintTop_toBottomOf="@id/edt_Password" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_login"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
-                    android:backgroundTint="@color/redColor"
+                    android:paddingVertical="12dp"
                     android:paddingStart="35sp"
-                    android:paddingTop="12dp"
                     android:paddingEnd="35sp"
-                    android:paddingBottom="12dp"
                     android:text="@string/btn_login"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"

@@ -17,21 +17,16 @@
                 android:id="@+id/layoutBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
-                <TextView
+                <ImageView
                     android:id="@+id/txt_logo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="80dp"
-                    android:drawablePadding="5dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:text="@string/logo_text"
-                    android:textColor="@color/black"
-                    android:textSize="30sp"
+                    android:layout_marginTop="20dp"
+                    android:contentDescription="@string/image"
+                    android:src="@drawable/logo_img"
                     app:drawableStartCompat="@drawable/logo"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -41,11 +36,11 @@
                     android:id="@+id/txt_createAccount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/create_an_account"
                     android:textColor="#000000"
-                    android:textSize="45sp"
+                    android:textSize="40sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txt_logo" />
 
@@ -64,7 +59,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="@string/already_have_an_account"
                         android:textColor="#000000"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/txt_signIn"
@@ -76,7 +71,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="@string/sign_in"
                         android:textColor="@color/redColor"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -91,13 +86,15 @@
                     app:boxStrokeWidth="1dp"
                     app:boxStrokeWidthFocused="2dp"
                     app:endIconMode="clear_text"
+                    app:helperText="We will send the verification code at this mail"
                     app:hintAnimationEnabled="true"
                     app:hintEnabled="true"
                     app:hintTextColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                    app:startIconDrawable="@drawable/email_icon">
+                    app:startIconDrawable="@drawable/email_icon"
+                    app:startIconTint="@color/redColor">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_emailEditText"
@@ -106,19 +103,21 @@
                         android:inputType="textEmailAddress" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_signUp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:backgroundTint="@color/redColor"
+                    android:paddingVertical="12dp"
                     android:paddingStart="35sp"
                     android:paddingEnd="35sp"
                     android:text="@string/btn_login"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/edt_email"
+                    app:layout_constraintStart_toStartOf="@id/edt_email"
                     app:layout_constraintTop_toBottomOf="@+id/edt_email" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
