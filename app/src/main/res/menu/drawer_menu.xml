@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/userSection"
+        android:title="@string/user_section">
+        <menu>
+            <item
+                android:id="@+id/profile"
+                android:icon="@drawable/profile_icon"
+                android:title="@string/profile" />
+            <item
+                android:id="@+id/requestForBlood"
+                android:icon="@drawable/blood_icon"
+                android:title="@string/request_for_blood" />
+            <item
+                android:id="@+id/previousBloodRequest"
+                android:icon="@drawable/history_icon"
+                android:title="@string/previous_blood_requests" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/bloodDonors"
+        android:title="@string/blood_donors">
+        <menu>
+            <item
+                android:id="@+id/searchForBlood"
+                android:icon="@drawable/search_icon"
+                android:title="@string/search" />
+            <item
+                android:id="@+id/nearbyBloodRequests"
+                android:icon="@drawable/location_outline_icon"
+                android:title="@string/nearby_blood_requests" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/others"
+        android:title="OTHERS">
+        <menu>
+            <item
+                android:id="@+id/privacyPolicy"
+                android:icon="@drawable/policy_icon"
+                android:title="Privacy Policy" />
+            <item
+                android:id="@+id/ourTeam"
+                android:icon="@drawable/team_icon"
+                android:title="Our Team" />
+            <item
+                android:id="@+id/tellAFriend"
+                android:icon="@drawable/share_icon"
+                android:title="Tell a Friend" />
+            <item
+                android:id="@+id/aboutUs"
+                android:icon="@drawable/about_icon"
+                android:title="About Us" />
+            <item
+                android:id="@+id/logout"
+                android:icon="@drawable/logout_icon"
+                android:title="Logout" />
+        </menu>
+    </item>
+
+</menu>

@@ -47,4 +47,10 @@
     <string name="verify_otp">Verify OTP</string>
     <string name="send_link">Send Link</string>
     <string name="email_does_not_exist">Email Does not Exist</string>
+    <string name="user_section">USER SECTION</string>
+    <string name="profile">Profile</string>
+    <string name="request_for_blood">Request for Blood</string>
+    <string name="previous_blood_requests">Previous Blood Requests</string>
+    <string name="blood_donors">BLOOD DONORS</string>
+    <string name="nearby_blood_requests">Nearby Blood Requests</string>
 </resources>
