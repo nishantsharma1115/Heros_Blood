@@ -28,6 +28,7 @@
         <item name="bottomSheetStyle">@style/BottomSheetDialog</item>
     </style>
 
+    <!--Material BottomSheet Corners -->
     <style name="BottomSheetDialog" parent="Widget.MaterialComponents.BottomSheet.Modal">
         <item name="shapeAppearance">@style/ShapeAppearanceBottomSheet</item>
     </style>

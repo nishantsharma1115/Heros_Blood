@@ -26,7 +26,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutBackground"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="30dp">
 
                 <ImageView
                     android:id="@+id/img_profilePicture"
@@ -288,19 +289,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     app:layout_constraintGuide_begin="200dp" />
-
-                <Button
-                    android:id="@+id/logout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:backgroundTint="@color/redColor"
-                    android:paddingStart="35sp"
-                    android:paddingEnd="35sp"
-                    android:text="Logout"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="@id/availabilityToggle"
-                    app:layout_constraintTop_toBottomOf="@id/availabilityToggle" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

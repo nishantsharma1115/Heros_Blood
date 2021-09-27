@@ -1,44 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:nishant="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="user"
+            type="com.nishant.herosblood.models.UserData" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/headerUserProfilePicture"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="40dp"
-            android:src="@color/grey"
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/layoutShimmerEffect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/headerUserName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/roboto_regular"
-            android:text="Nishant Sharma"
-            android:textColor="@color/black"
-            android:textSize="26sp"
-            app:layout_constraintStart_toStartOf="@id/headerUserProfilePicture"
-            app:layout_constraintTop_toBottomOf="@id/headerUserProfilePicture" />
+            <include layout="@layout/layout_user_dashboard_placeholder" />
 
-        <TextView
-            android:id="@+id/headerUserEmail"
-            android:layout_width="wrap_content"
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/headerLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/roboto_regular"
-            android:text="official.nishant1115@gmail.com"
-            android:textColor="@color/grey"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@id/headerUserName"
-            app:layout_constraintTop_toBottomOf="@id/headerUserName" />
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/headerUserProfilePicture"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                nishant:setImageCircle="@{user.profilePictureUrl}" />
+
+            <TextView
+                android:id="@+id/headerUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{user.name}"
+                android:textColor="@color/black"
+                android:textSize="26sp"
+                app:layout_constraintStart_toStartOf="@id/headerUserProfilePicture"
+                app:layout_constraintTop_toBottomOf="@id/headerUserProfilePicture" />
+
+            <TextView
+                android:id="@+id/headerUserEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{user.email}"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/headerUserName"
+                app:layout_constraintTop_toBottomOf="@id/headerUserName" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/grey"
+                app:layout_constraintTop_toBottomOf="@id/headerUserEmail" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

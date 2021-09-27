@@ -2,7 +2,6 @@ package com.nishant.herosblood.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
@@ -43,12 +42,6 @@ class UserProfileActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.GONE
                     user = response.data as UserData
                     binding.user = user
-
-                    if (user.available.toBoolean()) {
-                        Log.d("available", "true")
-                    } else {
-                        Log.d("available", "false")
-                    }
 
                     binding.availabilityToggle.isChecked = user.available.toBoolean()
 
@@ -111,13 +104,6 @@ class UserProfileActivity : AppCompatActivity() {
                 }
             }
         })
-
-        binding.logout.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            val intent = Intent(this, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-        }
 
         binding.txtEdit.setOnClickListener {
             Intent(this, EditUserProfileActivity::class.java).also {

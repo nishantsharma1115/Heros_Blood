@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nishant.herosblood.models.UserLocationData
 import com.nishant.herosblood.repositories.DataRepository
+import com.nishant.herosblood.repositories.LocationRepository
 import com.nishant.herosblood.util.Resource
 import kotlinx.coroutines.launch
 
 class LocationViewModel(
-    private val dataRepository: DataRepository = DataRepository()
+    private val dataRepository: DataRepository = DataRepository(),
+    private val locationRepository: LocationRepository = LocationRepository()
 ) : ViewModel() {
 
     fun saveUserLocation(
@@ -35,6 +37,25 @@ class LocationViewModel(
             }
         }, { exception ->
             _getUserLocationStatus.postValue(Resource.Error(exception.message.toString()))
+        })
+    }
+
+    private var _getAllDonorLocationStatus =
+        MutableLiveData<Resource<ArrayList<UserLocationData>>>()
+    val getAllDonorLocationStatus: LiveData<Resource<ArrayList<UserLocationData>>> =
+        _getAllDonorLocationStatus
+
+    fun getAllDonorLocation(userId: String) = viewModelScope.launch {
+        val locationList: ArrayList<UserLocationData> = ArrayList()
+        _getAllDonorLocationStatus.postValue(Resource.Loading())
+        locationRepository.getAllDonorLocation(userId, { donorLocations ->
+            for (donorLocation in donorLocations) {
+                val location = donorLocation.toObject(UserLocationData::class.java)
+                locationList.add(location)
+            }
+            _getAllDonorLocationStatus.postValue(Resource.Success(locationList))
+        }, { exception ->
+            _getAllDonorLocationStatus.postValue(Resource.Error(exception.message.toString()))
         })
     }
 }

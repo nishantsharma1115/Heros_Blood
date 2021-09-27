@@ -6,16 +6,22 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.nishant.herosblood.R
-import com.nishant.herosblood.adapters.dashboard.OuterRvAdapter
 import com.nishant.herosblood.databinding.ActivityUserDashboardBinding
+import com.nishant.herosblood.databinding.HeaderNavigationDrawerBinding
 import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.models.UserLocationData
 import com.nishant.herosblood.ui.fragments.bottomsheet.DashboardBottomSheet
@@ -24,124 +30,104 @@ import com.nishant.herosblood.util.location.LocationLiveData
 import com.nishant.herosblood.util.location.LocationModel
 import com.nishant.herosblood.viewmodels.DataViewModel
 import com.nishant.herosblood.viewmodels.LocationViewModel
-import java.io.Serializable
+import java.util.*
 
-class UserDashboardActivity : AppCompatActivity() {
+class UserDashboardActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var binding: ActivityUserDashboardBinding
+    private lateinit var headerBinding: HeaderNavigationDrawerBinding
     private lateinit var dataViewModel: DataViewModel
     private lateinit var locationViewModel: LocationViewModel
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private var user: UserData = UserData()
-    private var isDataReceived: Boolean = false
-    private lateinit var locationLivedata: LocationLiveData
+    private lateinit var locationLiveData: LocationLiveData
+    private var isDataReceived = false
 
-//    private val locationListener: LocationListener = object : LocationListener {
-//        override fun onLocationChanged(location: Location) {
-//            lifecycleScope.launch(Dispatchers.IO) {
-//                val geoCoder = Geocoder(applicationContext, Locale.getDefault())
-//                val address = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
-//                val locationData = UserLocationData(
-//                    mAuth.currentUser?.uid.toString(),
-//                    location.latitude.toString(),
-//                    location.longitude.toString(),
-//                    address[0].getAddressLine(0),
-//                    address[0].locality,
-//                    address[0].adminArea,
-//                    address[0].countryName,
-//                    address[0].postalCode,
-//                    address[0].featureName
-//                )
-//                binding.location = locationData.locality
-//                locationViewModel.saveUserLocation(locationData)
-//            }
-//        }
-//
-//        override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {}
-//        override fun onProviderEnabled(p0: String?) {}
-//        override fun onProviderDisabled(p0: String?) {}
-//    }
+    override fun onResume() {
+        requestLocation()
+
+        val firebaseUser = mAuth.currentUser
+        if (firebaseUser != null) {
+            dataViewModel.readUserData(firebaseUser.uid)
+        }
+
+        super.onResume()
+    }
+
+    override fun onMapReady(map: GoogleMap) {
+        locationViewModel.getAllDonorLocation(mAuth.currentUser?.uid.toString())
+        locationViewModel.getAllDonorLocationStatus.observe(this, { response ->
+            when (response) {
+                is Resource.Loading -> Unit
+                is Resource.Success -> {
+                    map.clear()
+                    val donorLocationList: ArrayList<UserLocationData>
+                    if (response.data != null) {
+                        donorLocationList = response.data
+                        for (donorLocation in donorLocationList) {
+                            val location = LatLng(
+                                donorLocation.latitude!!.toDouble(),
+                                donorLocation.longitude!!.toDouble()
+                            )
+                            map.addMarker(
+                                MarkerOptions()
+                                    .position(location)
+                                    .title(donorLocation.locality)
+                            )
+                        }
+                    }
+                    locationLiveData.observe(this) {
+                        when (it) {
+                            is Resource.Error -> Unit
+                            is Resource.Loading -> Unit
+                            is Resource.Success -> {
+                                it.data?.let { location ->
+                                    val userLocation = LatLng(location.lat, location.long)
+                                    map.animateCamera(
+                                        CameraUpdateFactory.newLatLngZoom(
+                                            userLocation,
+                                            12.0f
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+                is Resource.Error -> Unit
+            }
+        })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.FullScreenTheme)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_user_dashboard)
+        headerBinding = HeaderNavigationDrawerBinding.bind(binding.navigationView.getHeaderView(0))
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
-        val bloodTypeList = resources.getStringArray(R.array.blood_group).toList()
+        setUpUi()
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.donorMapLocations) as SupportMapFragment
+        mapFragment.getMapAsync(this)
 
-        locationLivedata = LocationLiveData(this)
+        locationLiveData = LocationLiveData(this)
         observeLocationUpdates()
-
-        dataViewModel.getAllDonors(mAuth.currentUser?.uid.toString())
-        dataViewModel.getAllDonorsStatus.observe(this, { response ->
-            when (response) {
-                is Resource.Loading -> {
-                    showLoadingBar()
-                }
-                is Resource.Success -> {
-                    hideLoadingBar()
-                    if (response.data != null) {
-                        binding.rvDonorListUserDashboard.adapter =
-                            OuterRvAdapter(this, bloodTypeList, response.data)
-                        binding.rvDonorListUserDashboard.layoutManager = LinearLayoutManager(this)
-                        binding.rvDonorListUserDashboard.setHasFixedSize(true)
-                    } else {
-                        Toast.makeText(this, "Donor List Data is Null", Toast.LENGTH_LONG).show()
-                    }
-                }
-                is Resource.Error -> {
-                    hideLoadingBar()
-                    Toast.makeText(this, "Check Internet Connection", Toast.LENGTH_LONG).show()
-                }
-            }
-        })
-
-        binding.registrationStatus.setOnClickListener {
-            if (!user.registered.isNullOrEmpty() && user.registered == "false") {
-                if (isDataReceived) {
-                    Intent(this, UserRegistrationActivity::class.java).also { intent ->
-                        intent.putExtra("UserData", user as Serializable)
-                        startActivity(intent)
-                    }
-                }
-            }
-        }
 
         dataViewModel.readUserDataStatus.observe(this, { response ->
             when (response) {
                 is Resource.Loading -> {
-                    binding.layoutShimmerEffect.startShimmer()
+                    startShimmerEffect()
                 }
                 is Resource.Success -> {
-                    user = response.data as UserData
+                    stopShimmerEffect()
                     isDataReceived = true
-                    binding.layoutUserDetails.visibility = View.VISIBLE
+                    user = response.data as UserData
+                    headerBinding.user = user
                     binding.user = user
-                    binding.layoutShimmerEffect.stopShimmer()
-                    binding.layoutShimmerEffect.visibility = View.GONE
-                    user.let {
-                        if (it.registered == "false") {
-                            binding.registrationStatus.text = "Want to be a donor? Tap"
-                        } else if (it.registered == "true") {
-                            binding.registrationStatus.text = "Registered as a Donor "
-                            binding.registrationStatus.setCompoundDrawablesWithIntrinsicBounds(
-                                0,
-                                0,
-                                R.drawable.verified_icon,
-                                0
-                            )
-                        }
-                    }
-                    if (user.profilePictureUrl.isNullOrEmpty()) {
-                        binding.imgProfilePicture.load(R.drawable.profile_none)
-                    } else {
-                        binding.imgProfilePicture.load(user.profilePictureUrl) {
-                            placeholder(R.drawable.profile_none)
-                        }
-                    }
                 }
                 is Resource.Error -> {
+                    stopShimmerEffect()
                     Toast.makeText(
                         this,
                         response.message,
@@ -151,25 +137,90 @@ class UserDashboardActivity : AppCompatActivity() {
             }
         })
 
-        binding.imgProfilePicture.setOnClickListener {
-            if (user.registered == "false") {
-                supportFragmentManager.let { fragmentManager ->
-                    DashboardBottomSheet(user).apply {
-                        show(fragmentManager, this.tag)
-                    }
-                }
-            } else {
-                startActivity(Intent(this, UserProfileActivity::class.java))
-            }
+        binding.userProfilePicture.setOnClickListener {
+            if (isDataReceived)
+                moveToProfileActivity()
+            else
+                Toast.makeText(this, "Please wait..", Toast.LENGTH_SHORT).show()
         }
-
-        binding.edtSearch.setOnClickListener {
+        binding.edtSearch2.setOnClickListener {
             startActivity(Intent(this, DonorSearchActivity::class.java))
+        }
+        binding.navigationView.setNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.profile -> {
+                    if (isDataReceived)
+                        moveToProfileActivity()
+                    else
+                        Toast.makeText(this, "Please wait..", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.searchForBlood -> {
+                    startActivity(Intent(this, DonorSearchActivity::class.java))
+                    true
+                }
+                R.id.ourTeam -> {
+                    startActivity(Intent(this, OurTeamActivity::class.java))
+                    true
+                }
+                R.id.tellAFriend -> {
+                    shareAppIntent()
+                    true
+                }
+                R.id.aboutUs -> {
+                    startActivity(Intent(this, AboutUsActivity::class.java))
+                    true
+                }
+                R.id.logout -> {
+                    logoutUser()
+                    true
+                }
+                else -> false
+            }
         }
     }
 
+    private fun shareAppIntent() {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Heroes Blood")
+        val url = " https://play.google.com/store/apps/details?id=com.nishant.herosblood"
+        shareIntent.putExtra(Intent.EXTRA_TEXT, url)
+        startActivity(Intent.createChooser(shareIntent, "Share via"))
+    }
+
+    private fun logoutUser() {
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+    }
+
+    private fun moveToProfileActivity() {
+        if (user.registered == "false") {
+            supportFragmentManager.let { fragmentManager ->
+                DashboardBottomSheet(user).apply {
+                    show(fragmentManager, this.tag)
+                }
+            }
+        } else {
+            startActivity(Intent(this, UserProfileActivity::class.java))
+        }
+    }
+
+    private fun startShimmerEffect() {
+        headerBinding.layoutShimmerEffect.visibility = View.VISIBLE
+        headerBinding.layoutShimmerEffect.startShimmer()
+    }
+
+    private fun stopShimmerEffect() {
+        headerBinding.layoutShimmerEffect.startShimmer()
+        headerBinding.headerLayout.visibility = View.VISIBLE
+        headerBinding.layoutShimmerEffect.visibility = View.GONE
+    }
+
     private fun observeLocationUpdates() {
-        locationLivedata.observe(this) {
+        locationLiveData.observe(this) {
             when (it) {
                 is Resource.Error -> Unit
                 is Resource.Loading -> Unit
@@ -198,19 +249,33 @@ class UserDashboardActivity : AppCompatActivity() {
         locationViewModel.saveUserLocation(locationData)
     }
 
-    override fun onResume() {
-        locationLivedata.startListening()
+    private fun setUpUi() {
+        setSupportActionBar(binding.toolbar)
+        val drawerToggle = ActionBarDrawerToggle(
+            this,
+            binding.drawerLayout,
+            binding.toolbar,
+            R.string.open,
+            R.string.close
+        )
+        binding.drawerLayout.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.drawer_icon)
+    }
 
-        val firebaseUser = mAuth.currentUser
-        if (firebaseUser != null) {
-            dataViewModel.readUserData(firebaseUser.uid)
+    override fun onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
         }
-
-        super.onResume()
     }
 
     override fun onStop() {
-        locationLivedata.stopListening()
+        locationLiveData.stopListening()
         super.onStop()
     }
 
@@ -234,22 +299,16 @@ class UserDashboardActivity : AppCompatActivity() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            locationLivedata.startListening()
+            locationLiveData.startListening()
         } else {
             ActivityCompat.requestPermissions(
                 this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
                 1
             )
         }
-    }
-
-    private fun showLoadingBar() {
-        binding.progressBar.visibility = View.VISIBLE
-    }
-
-    private fun hideLoadingBar() {
-        binding.progressBar.visibility = View.GONE
-        binding.rvDonorListUserDashboard.visibility = View.VISIBLE
     }
 }

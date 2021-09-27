@@ -53,4 +53,12 @@
     <string name="previous_blood_requests">Previous Blood Requests</string>
     <string name="blood_donors">BLOOD DONORS</string>
     <string name="nearby_blood_requests">Nearby Blood Requests</string>
+    <string name="open">Open Navigation Drawer</string>
+    <string name="close">Close Navigation Drawer</string>
+    <string name="others">OTHERS</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="our_team">Our Team</string>
+    <string name="tell_a_friend">Tell a Friend</string>
+    <string name="about_us">About Us</string>
+    <string name="logout">Logout</string>
 </resources>

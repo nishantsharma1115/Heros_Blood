@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/userSection"
-        android:title="@string/user_section">
-        <menu>
-            <item
-                android:id="@+id/profile"
-                android:icon="@drawable/profile_icon"
-                android:title="@string/profile" />
-            <item
-                android:id="@+id/requestForBlood"
-                android:icon="@drawable/blood_icon"
-                android:title="@string/request_for_blood" />
-            <item
-                android:id="@+id/previousBloodRequest"
-                android:icon="@drawable/history_icon"
-                android:title="@string/previous_blood_requests" />
-        </menu>
-    </item>
+    <group
+        android:id="@+id/first"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/userSection"
+            android:title="@string/user_section">
+            <menu>
+                <item
+                    android:id="@+id/profile"
+                    android:icon="@drawable/profile_icon"
+                    android:title="@string/profile" />
+                <item
+                    android:id="@+id/requestForBlood"
+                    android:icon="@drawable/blood_icon"
+                    android:title="@string/request_for_blood" />
+                <item
+                    android:id="@+id/previousBloodRequest"
+                    android:icon="@drawable/history_icon"
+                    android:title="@string/previous_blood_requests" />
+            </menu>
+        </item>
+    </group>
+
 
     <item
         android:id="@+id/bloodDonors"
@@ -37,28 +42,28 @@
 
     <item
         android:id="@+id/others"
-        android:title="OTHERS">
+        android:title="@string/others">
         <menu>
             <item
                 android:id="@+id/privacyPolicy"
                 android:icon="@drawable/policy_icon"
-                android:title="Privacy Policy" />
+                android:title="@string/privacy_policy" />
             <item
                 android:id="@+id/ourTeam"
                 android:icon="@drawable/team_icon"
-                android:title="Our Team" />
+                android:title="@string/our_team" />
             <item
                 android:id="@+id/tellAFriend"
                 android:icon="@drawable/share_icon"
-                android:title="Tell a Friend" />
+                android:title="@string/tell_a_friend" />
             <item
                 android:id="@+id/aboutUs"
                 android:icon="@drawable/about_icon"
-                android:title="About Us" />
+                android:title="@string/about_us" />
             <item
                 android:id="@+id/logout"
                 android:icon="@drawable/logout_icon"
-                android:title="Logout" />
+                android:title="@string/logout" />
         </menu>
     </item>
 
