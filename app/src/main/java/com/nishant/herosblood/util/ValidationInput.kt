@@ -12,6 +12,9 @@ sealed class ValidationInput {
     object EmptyPincode : ValidationInput()
     object EmptyPassword : ValidationInput()
     object EmptyConfirmPassword : ValidationInput()
+    object EmptyBloodUnit : ValidationInput()
+    object EmptyFirstName : ValidationInput()
+    object EmptyLastName : ValidationInput()
 
     object InvalidEmailPattern : ValidationInput()
     object ShortPasswordLength : ValidationInput()

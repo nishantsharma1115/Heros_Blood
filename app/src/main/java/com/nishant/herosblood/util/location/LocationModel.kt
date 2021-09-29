@@ -1,5 +1,7 @@
 package com.nishant.herosblood.util.location
 
+import java.io.Serializable
+
 data class LocationModel(
     val lat: Double = 0.0,
     val long: Double = 0.0,
@@ -11,4 +13,4 @@ data class LocationModel(
     val area: String = "",
     val pincode: String = "",
     val featureName: String
-)
+) : Serializable

@@ -1,6 +1,7 @@
 package com.nishant.herosblood.util
 
 import android.util.Patterns
+import com.nishant.herosblood.models.BloodRequestData
 import com.nishant.herosblood.models.UserData
 
 object InvalidInputChecker {
@@ -55,6 +56,33 @@ object InvalidInputChecker {
         }
         if (password.length < 8) {
             errorInput(ValidationInput.ShortPasswordLength)
+            return
+        }
+        errorInput(ValidationInput.ValidInput)
+    }
+
+    fun checkForRequestBloodInputs(
+        bloodRequestData: BloodRequestData,
+        errorInput: (ValidationInput) -> Unit
+    ) {
+        if (bloodRequestData.unitOfBloodRequired.isNullOrEmpty()) {
+            errorInput(ValidationInput.EmptyBloodUnit)
+            return
+        }
+        if (bloodRequestData.firstName.isNullOrEmpty()) {
+            errorInput(ValidationInput.EmptyFirstName)
+            return
+        }
+        if (bloodRequestData.lastName.isNullOrEmpty()) {
+            errorInput(ValidationInput.EmptyLastName)
+            return
+        }
+        if (bloodRequestData.phoneNumber.isNullOrEmpty()) {
+            errorInput(ValidationInput.EmptyPhoneNumber)
+            return
+        }
+        if (bloodRequestData.address.isNullOrEmpty()) {
+            errorInput(ValidationInput.EmptyAddress)
             return
         }
         errorInput(ValidationInput.ValidInput)

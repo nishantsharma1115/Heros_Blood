@@ -30,6 +30,7 @@ import com.nishant.herosblood.util.location.LocationLiveData
 import com.nishant.herosblood.util.location.LocationModel
 import com.nishant.herosblood.viewmodels.DataViewModel
 import com.nishant.herosblood.viewmodels.LocationViewModel
+import java.io.Serializable
 import java.util.*
 
 class UserDashboardActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -42,7 +43,7 @@ class UserDashboardActivity : AppCompatActivity(), OnMapReadyCallback {
     private var user: UserData = UserData()
     private lateinit var locationLiveData: LocationLiveData
     private var isDataReceived = false
-
+    private lateinit var userLocationData: LocationModel
     override fun onResume() {
         requestLocation()
 
@@ -82,6 +83,7 @@ class UserDashboardActivity : AppCompatActivity(), OnMapReadyCallback {
                             is Resource.Loading -> Unit
                             is Resource.Success -> {
                                 it.data?.let { location ->
+                                    userLocationData = location
                                     val userLocation = LatLng(location.lat, location.long)
                                     map.animateCamera(
                                         CameraUpdateFactory.newLatLngZoom(
@@ -153,6 +155,14 @@ class UserDashboardActivity : AppCompatActivity(), OnMapReadyCallback {
                         moveToProfileActivity()
                     else
                         Toast.makeText(this, "Please wait..", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.requestForBlood -> {
+                    Intent(this, RequestForBloodActivity::class.java).also { intent ->
+                        intent.putExtra("UserLocationData", userLocationData as Serializable)
+                        intent.putExtra("userId", mAuth.currentUser?.uid)
+                        startActivity(intent)
+                    }
                     true
                 }
                 R.id.searchForBlood -> {
@@ -246,6 +256,7 @@ class UserDashboardActivity : AppCompatActivity(), OnMapReadyCallback {
             location.featureName
         )
         binding.location = locationData.locality
+        binding.currentLocation.visibility = View.VISIBLE
         locationViewModel.saveUserLocation(locationData)
     }
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nishant.herosblood.models.BloodRequestData
 import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.repositories.DataRepository
 import com.nishant.herosblood.util.DifferentDonorLists
@@ -56,6 +57,25 @@ class DataViewModel(
                 _saveUserDataStatus.postValue(Resource.Error(it.message.toString()))
             }
         )
+    }
+
+    private var _getSaveBloodRequestStatus = MutableLiveData<Resource<Boolean>>()
+    val getSaveBloodRequestStatus: LiveData<Resource<Boolean>> = _getSaveBloodRequestStatus
+    fun saveBloodRequest(
+        bloodRequestData: BloodRequestData
+    ) {
+        _getSaveBloodRequestStatus.postValue(Resource.Loading())
+        viewModelScope.launch(Dispatchers.IO) {
+            dataRepository.saveBloodRequest(bloodRequestData, completeCallback = { task ->
+                if (task.isSuccessful) {
+                    _getSaveBloodRequestStatus.postValue(Resource.Success(true))
+                } else {
+                    _getSaveBloodRequestStatus.postValue(Resource.Success(true))
+                }
+            }, failureCallback = {
+                _getSaveBloodRequestStatus.postValue(Resource.Error(it.message.toString()))
+            })
+        }
     }
 
     private val _readUserDataStatus: MutableLiveData<Resource<UserData>> = MutableLiveData()

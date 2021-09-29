@@ -15,7 +15,8 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/FullScreenTheme">
-        <activity android:name=".ui.OurTeamActivity"></activity>
+        <activity android:name=".ui.RequestForBloodActivity"></activity>
+        <activity android:name=".ui.OurTeamActivity" />
         <activity android:name=".ui.AboutUsActivity" />
         <activity android:name=".ui.DonorSearchActivity" />
         <activity android:name=".ui.ForgotPasswordActivity" />

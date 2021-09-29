@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import com.nishant.herosblood.models.BloodRequestData
 import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.models.UserLocationData
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +25,23 @@ class DataRepository {
         user.userId?.let {
             db.collection("users").document(it)
                 .set(user)
+                .addOnCompleteListener(completeCallback)
+                .addOnFailureListener(failureCallback)
+        }
+    }
+
+    fun saveBloodRequest(
+        bloodRequestData: BloodRequestData,
+        completeCallback: (Task<Void>) -> Unit,
+        failureCallback: (Exception) -> Unit
+    ) {
+        bloodRequestData.userId?.let {
+            val timeStamp = bloodRequestData.userId + bloodRequestData.createdAt
+            db.collection("bloodRequests")
+                .document(it)
+                .collection("activeRequests")
+                .document(timeStamp)
+                .set(bloodRequestData)
                 .addOnCompleteListener(completeCallback)
                 .addOnFailureListener(failureCallback)
         }
