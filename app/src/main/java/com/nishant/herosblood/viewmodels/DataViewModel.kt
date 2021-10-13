@@ -1,6 +1,7 @@
 package com.nishant.herosblood.viewmodels
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -74,6 +75,40 @@ class DataViewModel(
                 }
             }, failureCallback = {
                 _getSaveBloodRequestStatus.postValue(Resource.Error(it.message.toString()))
+            })
+        }
+    }
+
+    private var _getFetchPreviousBloodRequestStatus =
+        MutableLiveData<Resource<ArrayList<BloodRequestData>>>()
+    val getFetchPreviousBloodRequestStatus: LiveData<Resource<ArrayList<BloodRequestData>>> =
+        _getFetchPreviousBloodRequestStatus
+
+    fun fetchPreviousBloodRequest(userId: String) {
+        _getFetchPreviousBloodRequestStatus.postValue(Resource.Loading())
+        viewModelScope.launch(Dispatchers.IO) {
+            dataRepository.fetchPreviousBloodRequest(userId, successCallback = {
+                val bloodRequests = ArrayList<BloodRequestData>()
+                for (document in it) {
+                    val bloodRequest = document.toObject(BloodRequestData::class.java)
+                    bloodRequests.add(bloodRequest)
+                }
+                _getFetchPreviousBloodRequestStatus.postValue(Resource.Success(bloodRequests))
+            }, failureCallback = {
+                _getFetchPreviousBloodRequestStatus.postValue(Resource.Error(it.message.toString()))
+            })
+        }
+    }
+
+    private var _getFetchNearbyRequestsStatus = MutableLiveData<Resource<Boolean>>()
+    val getFetchNearbyRequestsStatus: LiveData<Resource<Boolean>> = _getFetchNearbyRequestsStatus
+    fun fetchNearbyRequest(userId: String) {
+        _getFetchNearbyRequestsStatus.postValue(Resource.Loading())
+        viewModelScope.launch(Dispatchers.IO) {
+            dataRepository.fetchNearbyRequests(userId, successCallback = {
+                Log.d("QueryResult", it.documents.size.toString())
+            }, failureCallback = {
+                Log.d("QueryFailure", it.toString())
             })
         }
     }

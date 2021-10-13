@@ -149,13 +149,13 @@ class OurTeamActivity : AppCompatActivity() {
         )
         membersList.add(
             Member(
-                "Rohan",
-                "Android Developer",
-                "",
-                "https://www.facebook.com/nishant1115/",
-                "https://www.instagram.com/_ni5hant_/",
-                "https://www.linkedin.com/in/nishantsharma1115/",
-                "https://github.com/nishantsharma1115"
+                "Rohan Singh Slathia",
+                "Illustrator",
+                "https://avatars.githubusercontent.com/u/75566120?v=4",
+                "https://m.facebook.com/rohan.slathia.3990",
+                "https://www.instagram.com/rohan_slathia",
+                "https://www.linkedin.com/in/rohan-singh-slathia-027430190",
+                "https://github.com/Rohanslathia"
             )
         )
 

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:nishant="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="bloodRequest"
+            type="com.nishant.herosblood.models.BloodRequestData" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="15dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgBloodGroup"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@color/redColor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtBloodGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{bloodRequest.bloodGroup}"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                app:layout_constraintBottom_toBottomOf="@id/imgBloodGroup"
+                app:layout_constraintEnd_toEndOf="@id/imgBloodGroup"
+                app:layout_constraintStart_toStartOf="@id/imgBloodGroup"
+                app:layout_constraintTop_toTopOf="@id/imgBloodGroup" />
+
+            <ImageView
+                android:id="@+id/imgShare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/image"
+                android:padding="12dp"
+                android:src="@drawable/share_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/llDetails"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@id/imgShare"
+                app:layout_constraintStart_toEndOf="@id/imgBloodGroup"
+                app:layout_constraintTop_toTopOf="@id/imgBloodGroup">
+
+                <TextView
+                    android:id="@+id/txtName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@{bloodRequest.fullName}"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
+                    nishant:setBloodUnit="@{bloodRequest}" />
+
+                <TextView
+                    android:id="@+id/txtCritical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Critical"
+                    android:textColor="@color/redColor"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:drawablePadding="12dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{bloodRequest.address}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/address_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imgBloodGroup" />
+
+            <TextView
+                android:id="@+id/txtMobile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:drawablePadding="12dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@{bloodRequest.phoneNumber}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/call_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtAddress" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

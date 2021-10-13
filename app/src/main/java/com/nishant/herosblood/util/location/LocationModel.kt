@@ -12,5 +12,5 @@ data class LocationModel(
     val country: String = "",
     val area: String = "",
     val pincode: String = "",
-    val featureName: String
+    val featureName: String = ""
 ) : Serializable

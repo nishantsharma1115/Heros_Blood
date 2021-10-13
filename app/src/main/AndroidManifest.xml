@@ -15,7 +15,16 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/FullScreenTheme">
-        <activity android:name=".ui.RequestForBloodActivity"></activity>
+        <activity
+            android:name=".ui.NearbyBloodRequestsActivity"
+            android:parentActivityName=".ui.UserDashboardActivity"
+            android:theme="@style/ScreenTheme" />
+        <activity
+            android:name=".ui.PreviousBloodRequestsActivity"
+            android:label="Previous Blood Requests"
+            android:parentActivityName=".ui.UserDashboardActivity"
+            android:theme="@style/ScreenTheme" />
+        <activity android:name=".ui.RequestForBloodActivity" />
         <activity android:name=".ui.OurTeamActivity" />
         <activity android:name=".ui.AboutUsActivity" />
         <activity android:name=".ui.DonorSearchActivity" />

@@ -12,6 +12,7 @@ import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.models.UserLocationData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class DataRepository {
     private val db = FirebaseFirestore.getInstance()
@@ -35,16 +36,36 @@ class DataRepository {
         completeCallback: (Task<Void>) -> Unit,
         failureCallback: (Exception) -> Unit
     ) {
-        bloodRequestData.userId?.let {
-            val timeStamp = bloodRequestData.userId + bloodRequestData.createdAt
-            db.collection("bloodRequests")
-                .document(it)
-                .collection("activeRequests")
-                .document(timeStamp)
-                .set(bloodRequestData)
-                .addOnCompleteListener(completeCallback)
-                .addOnFailureListener(failureCallback)
-        }
+        val uuid = UUID.randomUUID().toString()
+        db.collection("bloodRequests")
+            .document(uuid)
+            .set(bloodRequestData)
+            .addOnCompleteListener(completeCallback)
+            .addOnFailureListener(failureCallback)
+    }
+
+    fun fetchPreviousBloodRequest(
+        userId: String,
+        successCallback: (QuerySnapshot) -> Unit,
+        failureCallback: (Exception) -> Unit
+    ) {
+        db.collection("bloodRequests")
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener(successCallback)
+            .addOnFailureListener(failureCallback)
+    }
+
+    fun fetchNearbyRequests(
+        userId: String,
+        successCallback: (QuerySnapshot) -> Unit,
+        failureCallback: (Exception) -> Unit
+    ) {
+        db.collection("bloodRequests")
+            .whereNotEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener(successCallback)
+            .addOnFailureListener(failureCallback)
     }
 
     fun updateUserAvailability(

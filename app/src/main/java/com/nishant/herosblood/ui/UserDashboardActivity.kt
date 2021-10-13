@@ -165,8 +165,16 @@ class UserDashboardActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                     true
                 }
+                R.id.previousBloodRequest -> {
+                    startActivity(Intent(this, PreviousBloodRequestsActivity::class.java))
+                    true
+                }
                 R.id.searchForBlood -> {
                     startActivity(Intent(this, DonorSearchActivity::class.java))
+                    true
+                }
+                R.id.nearbyBloodRequests -> {
+                    startActivity(Intent(this, NearbyBloodRequestsActivity::class.java))
                     true
                 }
                 R.id.ourTeam -> {

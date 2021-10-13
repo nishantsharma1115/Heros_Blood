@@ -2,6 +2,11 @@ package com.nishant.herosblood.models
 
 import com.nishant.herosblood.util.location.LocationModel
 import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.*
 
 data class BloodRequestData(
     var bloodGroup: String? = null,
@@ -13,6 +18,6 @@ data class BloodRequestData(
     var phoneNumber: String? = null,
     var address: String? = null,
     var userId: String? = null,
-    var locationData: LocationModel? = null,
-    var createdAt: String = System.currentTimeMillis().toString()
+    var locationData: LocationModel = LocationModel(),
+    var createdAt: String = SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(Date())
 ) : Serializable

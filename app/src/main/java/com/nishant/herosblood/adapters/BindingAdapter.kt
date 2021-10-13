@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import coil.load
 import com.nishant.herosblood.R
+import com.nishant.herosblood.models.BloodRequestData
 import de.hdodenhof.circleimageview.CircleImageView
 
 @BindingAdapter("setEmailWithDescription")
@@ -36,4 +37,9 @@ fun CircleImageView.setImageCircle(url: String?) {
             placeholder(R.drawable.profile_none)
         }
     }
+}
+
+@BindingAdapter("nishant:setBloodUnit")
+fun TextView.setBloodUnit(request: BloodRequestData) {
+    this.text = "${request.unitOfBloodRequired} Unit (${request.bloodGroup} Blood Group)"
 }
