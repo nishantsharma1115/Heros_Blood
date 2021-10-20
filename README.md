@@ -4,7 +4,8 @@
 
 **Heroes Blood** is a Blood donation Android application 📱 built using *Modern Android development* tools.
 
-## **Currently in alpha version**🛠
+## **Play Store Link**
+[Download APK](https://play.google.com/store/apps/details?id=com.nishant.herosblood)
 
 ## 📸 Features
 
