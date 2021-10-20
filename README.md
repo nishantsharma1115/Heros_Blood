@@ -6,13 +6,11 @@
 
 ## **Currently in alpha version**🛠
 
-## 📸 Screenshots
+## 📸 Features
 
-||||
-|:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
-| ![](media/intro_screen.jpg) | ![](media/navigation_drawer_screen.jpg) | ![](media/dashboard_screen.jpg) |
-| ![](media/nearby_blood_request.jpg) | ![](media/previous_blood_request.jpg) | ![](media/profile_screen.jpg) |
+![](media/dashboard.jpg)
 
+![](media/requests.jpg)
 
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
