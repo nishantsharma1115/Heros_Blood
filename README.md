@@ -1,5 +1,7 @@
 # **Heroes Blood** 
 
+![](media/clay_mockup_presentation.jpg)
+
 **Heroes Blood** is a Blood donation Android application 📱 built using *Modern Android development* tools.
 
 ## **Currently in alpha version**🛠
@@ -8,8 +10,8 @@
 
 ||||
 |:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
-| ![](media/intro_screen.jpg) | ![](media/login_screen.jpg) | ![](media/dashboard_screen.jpg) |
-| ![](media/profile_screen.jpg) | ![](media/user_edit_profile.jpg) | ![](media/donor_profile_screen.jpg) |
+| ![](media/intro_screen.jpg) | ![](media/navigation_drawer_screen.jpg) | ![](media/dashboard_screen.jpg) |
+| ![](media/user_edit_profile.jpg) | ![](media/previous_blood_request.jpg) | ![](media/profile_screen.jpg) |
 
 
 ## Built With 🛠
