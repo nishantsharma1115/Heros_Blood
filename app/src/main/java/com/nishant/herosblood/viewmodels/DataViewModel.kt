@@ -1,7 +1,6 @@
 package com.nishant.herosblood.viewmodels
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -100,15 +99,44 @@ class DataViewModel(
         }
     }
 
-    private var _getFetchNearbyRequestsStatus = MutableLiveData<Resource<Boolean>>()
-    val getFetchNearbyRequestsStatus: LiveData<Resource<Boolean>> = _getFetchNearbyRequestsStatus
+    private var _getFetchNearbyRequestsStatus =
+        MutableLiveData<Resource<ArrayList<BloodRequestData>>>()
+    val getFetchNearbyRequestsStatus: LiveData<Resource<ArrayList<BloodRequestData>>> =
+        _getFetchNearbyRequestsStatus
+
     fun fetchNearbyRequest(userId: String) {
         _getFetchNearbyRequestsStatus.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.IO) {
             dataRepository.fetchNearbyRequests(userId, successCallback = {
-                Log.d("QueryResult", it.documents.size.toString())
+                val nearbyRequests = ArrayList<BloodRequestData>()
+                for (document in it) {
+                    val bloodRequest = document.toObject(BloodRequestData::class.java)
+                    nearbyRequests.add(bloodRequest)
+                }
+                _getFetchNearbyRequestsStatus.postValue(Resource.Success(nearbyRequests))
             }, failureCallback = {
-                Log.d("QueryFailure", it.toString())
+                _getFetchNearbyRequestsStatus.postValue(Resource.Error(it.message.toString()))
+            })
+        }
+    }
+
+    private var _getFetchNearbyRequestsForDashboardStatus =
+        MutableLiveData<Resource<ArrayList<BloodRequestData>>>()
+    val getFetchNearbyRequestsForDashboardStatus: LiveData<Resource<ArrayList<BloodRequestData>>> =
+        _getFetchNearbyRequestsForDashboardStatus
+
+    fun fetchNearbyRequestForDashboard(userId: String) {
+        _getFetchNearbyRequestsForDashboardStatus.postValue(Resource.Loading())
+        viewModelScope.launch(Dispatchers.IO) {
+            dataRepository.fetchNearbyRequestsForDashboard(userId, successCallback = {
+                val nearbyRequests = ArrayList<BloodRequestData>()
+                for (document in it) {
+                    val bloodRequest = document.toObject(BloodRequestData::class.java)
+                    nearbyRequests.add(bloodRequest)
+                }
+                _getFetchNearbyRequestsForDashboardStatus.postValue(Resource.Success(nearbyRequests))
+            }, failureCallback = {
+                _getFetchNearbyRequestsForDashboardStatus.postValue(Resource.Error(it.message.toString()))
             })
         }
     }

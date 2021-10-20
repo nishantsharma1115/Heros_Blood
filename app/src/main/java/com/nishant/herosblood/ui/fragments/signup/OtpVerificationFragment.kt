@@ -19,6 +19,7 @@ class OtpVerificationFragment : Fragment(R.layout.fragment_otp_verification) {
         binding = FragmentOtpVerificationBinding.bind(view)
         val email = args.email
         val otp = args.otp
+        navigate(email)
 
         binding.email = email
 

@@ -8,10 +8,17 @@
         android:layout_height="match_parent"
         tools:context=".ui.NearbyBloodRequestsActivity">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvNearbyBloodRequests"
+        <LinearLayout
+            android:id="@+id/llNearbyRequests"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <fragment
+                android:id="@+id/nearbyRequestLocations"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/progressBar"

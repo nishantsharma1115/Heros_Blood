@@ -30,7 +30,7 @@ fun TextView.setWeight(weight: String) {
 
 @BindingAdapter("nishant:setImageCircle")
 fun CircleImageView.setImageCircle(url: String?) {
-    if (url != null && url.isEmpty()) {
+    if (url.isNullOrEmpty()) {
         this.load(R.drawable.profile_none)
     } else {
         this.load(url) {

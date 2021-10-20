@@ -25,13 +25,13 @@ import com.nishant.herosblood.databinding.HeaderNavigationDrawerBinding
 import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.models.UserLocationData
 import com.nishant.herosblood.ui.fragments.bottomsheet.DashboardBottomSheet
+import com.nishant.herosblood.util.NearbyInfoWindowGoogleMap
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.util.location.LocationLiveData
 import com.nishant.herosblood.util.location.LocationModel
 import com.nishant.herosblood.viewmodels.DataViewModel
 import com.nishant.herosblood.viewmodels.LocationViewModel
 import java.io.Serializable
-import java.util.*
 
 class UserDashboardActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -56,49 +56,58 @@ class UserDashboardActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(map: GoogleMap) {
-        locationViewModel.getAllDonorLocation(mAuth.currentUser?.uid.toString())
-        locationViewModel.getAllDonorLocationStatus.observe(this, { response ->
+
+        dataViewModel.getFetchNearbyRequestsForDashboardStatus.observe(this, { response ->
             when (response) {
-                is Resource.Loading -> Unit
+                is Resource.Loading -> {
+
+                }
                 is Resource.Success -> {
-                    map.clear()
-                    val donorLocationList: ArrayList<UserLocationData>
                     if (response.data != null) {
-                        donorLocationList = response.data
-                        for (donorLocation in donorLocationList) {
-                            val location = LatLng(
-                                donorLocation.latitude!!.toDouble(),
-                                donorLocation.longitude!!.toDouble()
+                        val nearbyRequestList = response.data
+
+                        for (request in nearbyRequestList) {
+                            val requestLocation = LatLng(
+                                request.locationData.lat,
+                                request.locationData.long
                             )
-                            map.addMarker(
-                                MarkerOptions()
-                                    .position(location)
-                                    .title(donorLocation.locality)
-                            )
-                        }
-                    }
-                    locationLiveData.observe(this) {
-                        when (it) {
-                            is Resource.Error -> Unit
-                            is Resource.Loading -> Unit
-                            is Resource.Success -> {
-                                it.data?.let { location ->
-                                    userLocationData = location
-                                    val userLocation = LatLng(location.lat, location.long)
-                                    map.animateCamera(
-                                        CameraUpdateFactory.newLatLngZoom(
-                                            userLocation,
-                                            12.0f
-                                        )
-                                    )
-                                }
-                            }
+
+                            val markerOptions = MarkerOptions()
+                                .position(requestLocation)
+                                .title(request.fullName)
+                                .snippet("Blood Request")
+
+                            val customInfoWindow = NearbyInfoWindowGoogleMap(this)
+                            map.setInfoWindowAdapter(customInfoWindow)
+                            val marker = map.addMarker(markerOptions)
+                            marker.tag = request
                         }
                     }
                 }
-                is Resource.Error -> Unit
+                is Resource.Error -> {
+
+                }
             }
         })
+
+        locationLiveData.observe(this) {
+            when (it) {
+                is Resource.Error -> Unit
+                is Resource.Loading -> Unit
+                is Resource.Success -> {
+                    it.data?.let { location ->
+                        userLocationData = location
+                        val userLocation = LatLng(location.lat, location.long)
+                        map.animateCamera(
+                            CameraUpdateFactory.newLatLngZoom(
+                                userLocation,
+                                12.0f
+                            )
+                        )
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,6 +117,7 @@ class UserDashboardActivity : AppCompatActivity(), OnMapReadyCallback {
         headerBinding = HeaderNavigationDrawerBinding.bind(binding.navigationView.getHeaderView(0))
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
+        dataViewModel.fetchNearbyRequestForDashboard(mAuth.currentUser?.uid.toString())
         setUpUi()
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.donorMapLocations) as SupportMapFragment
@@ -115,6 +125,10 @@ class UserDashboardActivity : AppCompatActivity(), OnMapReadyCallback {
 
         locationLiveData = LocationLiveData(this)
         observeLocationUpdates()
+
+        binding.txtSeeAll.setOnClickListener {
+            startActivity(Intent(this, NearbyBloodRequestsActivity::class.java))
+        }
 
         dataViewModel.readUserDataStatus.observe(this, { response ->
             when (response) {

@@ -68,6 +68,19 @@ class DataRepository {
             .addOnFailureListener(failureCallback)
     }
 
+    fun fetchNearbyRequestsForDashboard(
+        userId: String,
+        successCallback: (QuerySnapshot) -> Unit,
+        failureCallback: (Exception) -> Unit
+    ) {
+        db.collection("bloodRequests")
+            .whereNotEqualTo("userId", userId)
+            .limit(15)
+            .get()
+            .addOnSuccessListener(successCallback)
+            .addOnFailureListener(failureCallback)
+    }
+
     fun updateUserAvailability(
         userId: String,
         newValue: String,

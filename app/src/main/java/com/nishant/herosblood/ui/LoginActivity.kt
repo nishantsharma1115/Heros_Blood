@@ -71,8 +71,9 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener {
                 }
                 is Resource.Success -> {
                     hideLoadingBar()
-                    startActivity(Intent(this, UserDashboardActivity::class.java))
-                    finish()
+                    val intent = Intent(this, UserDashboardActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
                 }
                 is Resource.Error -> {
                     hideLoadingBar()
