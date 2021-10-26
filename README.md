@@ -1,11 +1,11 @@
 # **Heroes Blood** 
 
+## **Play Store Link**
+[Download APK](https://play.google.com/store/apps/details?id=com.nishant.herosblood)
+
 ![](media/clay_mockup_presentation.jpg)
 
 **Heroes Blood** is a Blood donation Android application 📱 built using *Modern Android development* tools.
-
-## **Play Store Link**
-[Download APK](https://play.google.com/store/apps/details?id=com.nishant.herosblood)
 
 ## 📸 Features
 
