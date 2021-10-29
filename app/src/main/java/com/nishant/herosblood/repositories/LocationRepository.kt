@@ -6,11 +6,11 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class LocationRepository {
+class LocationRepository : LocationRepo {
     private val db = FirebaseFirestore.getInstance()
     private val storageRef = FirebaseStorage.getInstance().reference
 
-    suspend fun getAllDonorLocation(
+    override suspend fun getAllDonorLocation(
         userId: String,
         onCompleteCallback: (QuerySnapshot) -> Unit,
         onFailureCallback: (Exception) -> Unit

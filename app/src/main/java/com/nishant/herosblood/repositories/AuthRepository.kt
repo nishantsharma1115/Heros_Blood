@@ -4,10 +4,10 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 
-class AuthRepository {
+class AuthRepository : AuthRepo {
     private val mAuth = FirebaseAuth.getInstance()
 
-    fun sendPasswordResetLink(
+    override fun sendPasswordResetLink(
         email: String,
         successCallback: (Task<Void>) -> Unit,
         failureCallback: (Exception) -> Unit
@@ -17,7 +17,7 @@ class AuthRepository {
             .addOnFailureListener(failureCallback)
     }
 
-    fun signUpUser(
+    override fun signUpUser(
         email: String,
         password: String,
         completeCallback: (Task<AuthResult>) -> Unit,
@@ -32,7 +32,7 @@ class AuthRepository {
             }
     }
 
-    fun loginUser(
+    override fun loginUser(
         email: String,
         password: String,
         successListener: (AuthResult) -> Unit,

@@ -14,11 +14,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
 
-class DataRepository {
+class DataRepository : DataRepo {
     private val db = FirebaseFirestore.getInstance()
     private val storageRef = FirebaseStorage.getInstance().reference
 
-    fun saveUserData(
+    override fun saveUserData(
         user: UserData,
         completeCallback: (Task<Void>) -> Unit,
         failureCallback: (Exception) -> Unit
@@ -31,7 +31,7 @@ class DataRepository {
         }
     }
 
-    fun saveBloodRequest(
+    override fun saveBloodRequest(
         bloodRequestData: BloodRequestData,
         completeCallback: (Task<Void>) -> Unit,
         failureCallback: (Exception) -> Unit
@@ -44,7 +44,7 @@ class DataRepository {
             .addOnFailureListener(failureCallback)
     }
 
-    fun fetchPreviousBloodRequest(
+    override fun fetchPreviousBloodRequest(
         userId: String,
         successCallback: (QuerySnapshot) -> Unit,
         failureCallback: (Exception) -> Unit
@@ -56,7 +56,7 @@ class DataRepository {
             .addOnFailureListener(failureCallback)
     }
 
-    fun fetchNearbyRequests(
+    override fun fetchNearbyRequests(
         userId: String,
         successCallback: (QuerySnapshot) -> Unit,
         failureCallback: (Exception) -> Unit
@@ -68,7 +68,7 @@ class DataRepository {
             .addOnFailureListener(failureCallback)
     }
 
-    fun fetchNearbyRequestsForDashboard(
+    override fun fetchNearbyRequestsForDashboard(
         userId: String,
         successCallback: (QuerySnapshot) -> Unit,
         failureCallback: (Exception) -> Unit
@@ -81,7 +81,7 @@ class DataRepository {
             .addOnFailureListener(failureCallback)
     }
 
-    fun updateUserAvailability(
+    override fun updateUserAvailability(
         userId: String,
         newValue: String,
         completeCallback: (Task<Void>) -> Unit,
@@ -95,7 +95,7 @@ class DataRepository {
         }
     }
 
-    fun readUserData(
+    override fun readUserData(
         userId: String,
         completeCallback: (DocumentSnapshot) -> Unit,
         failureCallback: (Exception) -> Unit
@@ -106,7 +106,7 @@ class DataRepository {
             .addOnFailureListener(failureCallback)
     }
 
-    suspend fun getAllDonors(
+    override suspend fun getAllDonors(
         userId: String,
         completeCallback: (QuerySnapshot) -> Unit,
         failureCallback: (Exception) -> Unit
@@ -121,7 +121,7 @@ class DataRepository {
         }
     }
 
-    suspend fun getDonorList(
+    override suspend fun getDonorList(
         userId: String,
         bloodType: String,
         completeCallback: (QuerySnapshot) -> Unit,
@@ -138,7 +138,7 @@ class DataRepository {
         }
     }
 
-    suspend fun getSearchDonorList(
+    override suspend fun getSearchDonorList(
         userId: String,
         bloodType: String,
         city: String,
@@ -157,7 +157,7 @@ class DataRepository {
         }
     }
 
-    fun uploadProfilePicture(
+    override fun uploadProfilePicture(
         userId: String,
         file: Uri,
         onCompleteCallback: (Task<UploadTask.TaskSnapshot>) -> Unit,
@@ -168,7 +168,7 @@ class DataRepository {
             .addOnFailureListener(onFailureCallback)
     }
 
-    suspend fun saveUserLocation(
+    override suspend fun saveUserLocation(
         locationData: UserLocationData
     ) {
         withContext(Dispatchers.IO) {
@@ -178,7 +178,7 @@ class DataRepository {
         }
     }
 
-    suspend fun getUserLocation(
+    override suspend fun getUserLocation(
         userId: String,
         onCompleteCallback: (QuerySnapshot) -> Unit,
         onFailureCallback: (Exception) -> Unit
