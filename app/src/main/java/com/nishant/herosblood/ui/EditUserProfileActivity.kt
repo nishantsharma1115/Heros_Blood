@@ -11,10 +11,10 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.google.firebase.storage.FirebaseStorage
 import com.nishant.herosblood.R
@@ -23,7 +23,9 @@ import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.DataViewModel
 import com.theartofdev.edmodo.cropper.CropImage
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EditUserProfileActivity : AppCompatActivity() {
 
     private val cropActivityResultContract = object : ActivityResultContract<Any?, Uri?>() {
@@ -39,7 +41,7 @@ class EditUserProfileActivity : AppCompatActivity() {
     }
     private lateinit var cropActivityResultLauncher: ActivityResultLauncher<Any?>
     private var user: UserData = UserData()
-    private lateinit var dataViewModel: DataViewModel
+    private val dataViewModel by viewModels<DataViewModel>()
     private lateinit var binding: ActivityEditUserProfileBinding
     private var isProfilePictureUpdated = false
     private var photoUri: Uri? = null
@@ -47,7 +49,6 @@ class EditUserProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_user_profile)
-        dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
 
         user = intent.getSerializableExtra("UserData") as UserData
         binding.currentUser = user

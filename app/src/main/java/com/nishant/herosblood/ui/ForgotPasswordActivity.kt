@@ -8,25 +8,26 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nishant.herosblood.R
 import com.nishant.herosblood.databinding.ActivityForgotPasswordBinding
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.AuthViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ForgotPasswordActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityForgotPasswordBinding
-    private lateinit var authViewModel: AuthViewModel
+    private val authViewModel by viewModels<AuthViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_forgot_password)
-        authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
 
         binding.edtEmailEditText.addTextChangedListener {
             binding.edtEmail.error = null

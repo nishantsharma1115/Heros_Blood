@@ -1,32 +1,32 @@
 package com.nishant.herosblood.ui
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.nishant.herosblood.adapters.PreviousBloodRequestAdapter
 import com.nishant.herosblood.databinding.ActivityPreviousBloodRequestsBinding
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.DataViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PreviousBloodRequestsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPreviousBloodRequestsBinding
-    private lateinit var dataViewModel: DataViewModel
+    private val dataViewModel by viewModels<DataViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPreviousBloodRequestsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         FirebaseAuth.getInstance().currentUser?.uid?.let {
             dataViewModel.fetchPreviousBloodRequest(it)
         }
         dataViewModel.getFetchPreviousBloodRequestStatus.observe(this, { response ->
             when (response) {
                 is Resource.Loading -> {
-
                 }
                 is Resource.Success -> {
                     val adapter = PreviousBloodRequestAdapter()
@@ -40,7 +40,6 @@ class PreviousBloodRequestsActivity : AppCompatActivity() {
                     }
                 }
                 is Resource.Error -> {
-
                 }
             }
         })

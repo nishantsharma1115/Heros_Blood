@@ -6,11 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nishant.herosblood.repositories.AuthRepository
 import com.nishant.herosblood.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AuthViewModel(
-    private var authRepository: AuthRepository = AuthRepository()
+@HiltViewModel
+class AuthViewModel @Inject constructor(
+    private var authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _sendPasswordResetEmailStatus = MutableLiveData<Resource<Boolean>>()

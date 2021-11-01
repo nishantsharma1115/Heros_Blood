@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.nishant.herosblood.adapters.OurTeamAdapter
 import com.nishant.herosblood.databinding.ActivityOurTeamBinding
 import com.nishant.herosblood.models.Member
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OurTeamActivity : AppCompatActivity() {
 
     private var _binding: ActivityOurTeamBinding? = null

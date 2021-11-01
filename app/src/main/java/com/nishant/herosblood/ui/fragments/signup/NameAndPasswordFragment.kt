@@ -6,7 +6,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -17,13 +17,15 @@ import com.nishant.herosblood.ui.UserDashboardActivity
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.AuthViewModel
 import com.nishant.herosblood.viewmodels.DataViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NameAndPasswordFragment : Fragment(R.layout.fragment_name_and_password) {
 
     private lateinit var binding: FragmentNameAndPasswordBinding
     private val args: NameAndPasswordFragmentArgs by navArgs()
-    private lateinit var authViewModel: AuthViewModel
-    private lateinit var dataViewModel: DataViewModel
+    private val authViewModel by viewModels<AuthViewModel>()
+    private val dataViewModel by viewModels<DataViewModel>()
     private var user: UserData = UserData()
     private val somethingWentWrong = "Something went wrong. Check Internet Connection"
 
@@ -31,8 +33,6 @@ class NameAndPasswordFragment : Fragment(R.layout.fragment_name_and_password) {
         super.onViewCreated(view, savedInstanceState)
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         binding = FragmentNameAndPasswordBinding.bind(view)
-        authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
-        dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         val email = args.email
 
         binding.btnSignUp.setOnClickListener {

@@ -7,9 +7,9 @@ import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nishant.herosblood.R
 import com.nishant.herosblood.databinding.ActivityRequestForBloodBinding
@@ -19,11 +19,13 @@ import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.util.ValidationInput
 import com.nishant.herosblood.util.location.LocationModel
 import com.nishant.herosblood.viewmodels.DataViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RequestForBloodActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRequestForBloodBinding
-    private lateinit var dataViewModel: DataViewModel
+    private val dataViewModel by viewModels<DataViewModel>()
     private lateinit var bloodType: Array<String>
     private var bloodRequestData: BloodRequestData = BloodRequestData()
     private lateinit var userLocationData: LocationModel
@@ -33,7 +35,6 @@ class RequestForBloodActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRequestForBloodBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         userLocationData = intent.getSerializableExtra("UserLocationData") as LocationModel
         userId = intent.getStringExtra("userId") as String
 
@@ -49,7 +50,6 @@ class RequestForBloodActivity : AppCompatActivity() {
                 .setTitle("Contact Details")
                 .setMessage("Using this details Donor will easily contact you. Kindly fill all the data Accurately")
                 .setPositiveButton("OK") { _, _ ->
-
                 }
                 .show()
         }
@@ -59,7 +59,6 @@ class RequestForBloodActivity : AppCompatActivity() {
                 .setTitle("Address Details")
                 .setMessage("Using this details Donor will easily contact you. Kindly fill all the data Accurately")
                 .setPositiveButton("OK") { _, _ ->
-
                 }
                 .show()
         }
@@ -122,7 +121,7 @@ class RequestForBloodActivity : AppCompatActivity() {
     private fun hideLoadingBar() {
         binding.progressBar.visibility = View.GONE
         binding.layout.alpha = 1F
-        window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 
     private fun setBloodRequestData(): BloodRequestData {

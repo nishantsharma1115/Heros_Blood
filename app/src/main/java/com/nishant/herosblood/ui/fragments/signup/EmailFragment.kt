@@ -2,7 +2,6 @@ package com.nishant.herosblood.ui.fragments.signup
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.view.KeyEvent
 import android.view.View
@@ -14,22 +13,25 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.nishant.herosblood.R
-import com.nishant.herosblood.api.RetrofitInstance
+import com.nishant.herosblood.api.SmsApi
 import com.nishant.herosblood.databinding.FragmentEmailBinding
 import com.nishant.herosblood.models.smsbody.*
 import com.nishant.herosblood.ui.LoginActivity
 import com.nishant.herosblood.util.Constants
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.AuthViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class EmailFragment :
-    Fragment(R.layout.fragment_email),
-    View.OnKeyListener,
-    View.OnClickListener {
+@AndroidEntryPoint
+class EmailFragment : Fragment(R.layout.fragment_email), View.OnKeyListener, View.OnClickListener {
 
     private lateinit var binding: FragmentEmailBinding
     private lateinit var authViewModel: AuthViewModel
     private var email = ""
+
+    @Inject
+    lateinit var api: SmsApi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -116,7 +118,7 @@ class EmailFragment :
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
 
-            RetrofitInstance.api.sendVerificationMail(
+            api.sendVerificationMail(
                 SmsApiBody(
                     listOf(Content("text/plain", "OTP is $otp")),
                     From(Constants.COMPANY_MAIL, Constants.COMPANY_NAME),

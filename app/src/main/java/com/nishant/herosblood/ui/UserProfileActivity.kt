@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
 import com.nishant.herosblood.R
@@ -16,20 +16,21 @@ import com.nishant.herosblood.databinding.ActivityUserProfileBinding
 import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.DataViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_user_profile.view.*
 import java.io.Serializable
 
+@AndroidEntryPoint
 class UserProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUserProfileBinding
     private var user: UserData = UserData()
-    private lateinit var dataViewModel: DataViewModel
+    private val dataViewModel by viewModels<DataViewModel>()
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_user_profile)
-        dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
 
         dataViewModel.readUserDataStatus.observe(this, { response ->
             when (response) {
