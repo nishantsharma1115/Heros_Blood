@@ -3,9 +3,9 @@ package com.nishant.herosblood.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.nishant.herosblood.R
@@ -14,16 +14,17 @@ import com.nishant.herosblood.databinding.ActivityDonorListBinding
 import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.DataViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DonorListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDonorListBinding
-    private lateinit var dataViewModel: DataViewModel
+    private val dataViewModel by viewModels<DataViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_donor_list)
-        dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
 
         val from = intent.getStringExtra("from") as String
         if (from == "Dashboard") {

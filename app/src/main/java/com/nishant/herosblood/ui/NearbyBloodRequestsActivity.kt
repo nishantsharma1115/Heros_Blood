@@ -1,8 +1,8 @@
 package com.nishant.herosblood.ui
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -14,18 +14,19 @@ import com.nishant.herosblood.databinding.ActivityNearbyBloodRequestsBinding
 import com.nishant.herosblood.util.NearbyInfoWindowGoogleMap
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.DataViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NearbyBloodRequestsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var binding: ActivityNearbyBloodRequestsBinding
-    private lateinit var dataViewModel: DataViewModel
+    private val dataViewModel by viewModels<DataViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNearbyBloodRequestsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         title = "Nearby Blood Requests"
-        dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         dataViewModel.fetchNearbyRequest(FirebaseAuth.getInstance().currentUser?.uid.toString())
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.nearbyRequestLocations) as SupportMapFragment
@@ -36,7 +37,6 @@ class NearbyBloodRequestsActivity : AppCompatActivity(), OnMapReadyCallback {
         dataViewModel.getFetchNearbyRequestsStatus.observe(this, { response ->
             when (response) {
                 is Resource.Loading -> {
-
                 }
                 is Resource.Success -> {
                     if (response.data != null) {
@@ -61,7 +61,6 @@ class NearbyBloodRequestsActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 }
                 is Resource.Error -> {
-
                 }
             }
         })

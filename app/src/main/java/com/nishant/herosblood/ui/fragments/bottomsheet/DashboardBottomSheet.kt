@@ -20,7 +20,8 @@ class DashboardBottomSheet(
     private lateinit var binding: BottomSheetDashboardBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = BottomSheetDashboardBinding.inflate(inflater, container, false)

@@ -10,11 +10,14 @@ import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.repositories.DataRepository
 import com.nishant.herosblood.util.DifferentDonorLists
 import com.nishant.herosblood.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DataViewModel(
-    private val dataRepository: DataRepository = DataRepository()
+@HiltViewModel
+class DataViewModel @Inject constructor(
+    private val dataRepository: DataRepository
 ) : ViewModel() {
 
     private val _updateUserAvailabilityStatus: MutableLiveData<Resource<Boolean>> =

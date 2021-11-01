@@ -7,7 +7,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.nishant.herosblood.R
 import com.nishant.herosblood.databinding.ActivityIntroScreenBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class IntroScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityIntroScreenBinding

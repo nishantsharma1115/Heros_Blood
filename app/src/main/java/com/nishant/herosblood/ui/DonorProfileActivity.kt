@@ -7,10 +7,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -24,18 +24,19 @@ import com.nishant.herosblood.models.UserData
 import com.nishant.herosblood.models.UserLocationData
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.viewmodels.LocationViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DonorProfileActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var binding: ActivityDonorProfileBinding
-    private lateinit var locationViewModel: LocationViewModel
+    private val locationViewModel by viewModels<LocationViewModel>()
     private var user: UserData = UserData()
     private lateinit var userLocationData: UserLocationData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_donor_profile)
-        locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.donorMapLocation) as SupportMapFragment

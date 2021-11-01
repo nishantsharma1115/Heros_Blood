@@ -10,7 +10,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.nishant.herosblood.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DonorLocationMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {

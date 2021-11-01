@@ -69,7 +69,7 @@ This app uses [***MVVM (Model View View-Model)***](https://developer.android.com
 
 ![](https://developer.android.com/topic/libraries/architecture/images/final-architecture.png)
   
- ## Contact
+## Contact
 If you need any help, you can connect with me.
 
 Visit:- [Nishant Sharma](https://nishantsharma1115.github.io) | [LinkedIn](https://linkedin.com/in/nishantsharma1115) | [Instagram](https://www.instagram.com/_ni5hant_/) | [Facebook](https://www.facebook.com/nishant1115/)

@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -31,13 +32,15 @@ import com.nishant.herosblood.util.location.LocationLiveData
 import com.nishant.herosblood.util.location.LocationModel
 import com.nishant.herosblood.viewmodels.DataViewModel
 import com.nishant.herosblood.viewmodels.LocationViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.Serializable
 
+@AndroidEntryPoint
 class UserDashboardActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var binding: ActivityUserDashboardBinding
     private lateinit var headerBinding: HeaderNavigationDrawerBinding
-    private lateinit var dataViewModel: DataViewModel
+    private val dataViewModel by viewModels<DataViewModel>()
     private lateinit var locationViewModel: LocationViewModel
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private var user: UserData = UserData()
@@ -60,7 +63,6 @@ class UserDashboardActivity : AppCompatActivity(), OnMapReadyCallback {
         dataViewModel.getFetchNearbyRequestsForDashboardStatus.observe(this, { response ->
             when (response) {
                 is Resource.Loading -> {
-
                 }
                 is Resource.Success -> {
                     if (response.data != null) {
@@ -85,7 +87,6 @@ class UserDashboardActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 }
                 is Resource.Error -> {
-
                 }
             }
         })
@@ -115,7 +116,6 @@ class UserDashboardActivity : AppCompatActivity(), OnMapReadyCallback {
         setTheme(R.style.FullScreenTheme)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_user_dashboard)
         headerBinding = HeaderNavigationDrawerBinding.bind(binding.navigationView.getHeaderView(0))
-        dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
         dataViewModel.fetchNearbyRequestForDashboard(mAuth.currentUser?.uid.toString())
         setUpUi()
@@ -328,9 +328,9 @@ class UserDashboardActivity : AppCompatActivity(), OnMapReadyCallback {
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
+                    this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
         ) {
             locationLiveData.startListening()
         } else {

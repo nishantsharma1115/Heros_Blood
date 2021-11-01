@@ -8,11 +8,14 @@ import com.nishant.herosblood.models.UserLocationData
 import com.nishant.herosblood.repositories.DataRepository
 import com.nishant.herosblood.repositories.LocationRepository
 import com.nishant.herosblood.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LocationViewModel(
-    private val dataRepository: DataRepository = DataRepository(),
-    private val locationRepository: LocationRepository = LocationRepository()
+@HiltViewModel
+class LocationViewModel @Inject constructor(
+    private val dataRepository: DataRepository,
+    private val locationRepository: LocationRepository
 ) : ViewModel() {
 
     fun saveUserLocation(

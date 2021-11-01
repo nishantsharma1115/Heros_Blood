@@ -3,9 +3,9 @@ package com.nishant.herosblood.repositories
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import javax.inject.Inject
 
-class AuthRepository : AuthRepo {
-    private val mAuth = FirebaseAuth.getInstance()
+class AuthRepository @Inject constructor(private val mAuth: FirebaseAuth) : AuthRepo {
 
     override fun sendPasswordResetLink(
         email: String,

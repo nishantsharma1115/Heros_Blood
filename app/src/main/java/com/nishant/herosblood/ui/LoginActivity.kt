@@ -7,27 +7,28 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.ViewModelProvider
 import com.nishant.herosblood.databinding.ActivityLoginBinding
 import com.nishant.herosblood.util.InvalidInputChecker
 import com.nishant.herosblood.util.Resource
 import com.nishant.herosblood.util.ValidationInput
 import com.nishant.herosblood.viewmodels.AuthViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity(), View.OnKeyListener {
 
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var viewModel: AuthViewModel
+    private val viewModel by viewModels<AuthViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
-        viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
 
         binding.layoutBackground.setOnClickListener {
             hideKeyboard()
@@ -98,10 +99,12 @@ class LoginActivity : AppCompatActivity(), View.OnKeyListener {
             when (error) {
                 is ValidationInput.EmptyEmail -> binding.edtEmail.error = "Can not be empty"
                 is ValidationInput.EmptyPassword -> binding.edtPassword.error = "Can not be empty"
-                is ValidationInput.InvalidEmailPattern -> binding.edtEmail.error =
-                    "Please provide valid email Address"
-                is ValidationInput.ShortPasswordLength -> binding.edtPassword.error =
-                    "Password length should be greater than 8"
+                is ValidationInput.InvalidEmailPattern ->
+                    binding.edtEmail.error =
+                        "Please provide valid email Address"
+                is ValidationInput.ShortPasswordLength ->
+                    binding.edtPassword.error =
+                        "Password length should be greater than 8"
                 is ValidationInput.ValidInput -> {
                     viewModel.loginUser(email, password)
                 }

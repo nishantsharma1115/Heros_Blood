@@ -13,10 +13,12 @@ import com.nishant.herosblood.models.UserLocationData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
+import javax.inject.Inject
 
-class DataRepository : DataRepo {
-    private val db = FirebaseFirestore.getInstance()
-    private val storageRef = FirebaseStorage.getInstance().reference
+class DataRepository @Inject constructor(
+    private val db: FirebaseFirestore,
+    private val storage: FirebaseStorage
+) : DataRepo {
 
     override fun saveUserData(
         user: UserData,
@@ -163,7 +165,7 @@ class DataRepository : DataRepo {
         onCompleteCallback: (Task<UploadTask.TaskSnapshot>) -> Unit,
         onFailureCallback: (Exception) -> Unit
     ) {
-        storageRef.child("ProfilePicture").child(userId).putFile(file)
+        storage.reference.child("ProfilePicture").child(userId).putFile(file)
             .addOnCompleteListener(onCompleteCallback)
             .addOnFailureListener(onFailureCallback)
     }

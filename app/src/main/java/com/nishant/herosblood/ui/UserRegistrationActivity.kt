@@ -13,11 +13,11 @@ import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.storage.FirebaseStorage
 import com.nishant.herosblood.R
 import com.nishant.herosblood.databinding.ActivityUserRegistrationBinding
@@ -32,7 +32,7 @@ import kotlinx.android.synthetic.main.activity_user_profile.view.*
 class UserRegistrationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUserRegistrationBinding
-    private lateinit var dataViewModel: DataViewModel
+    private val dataViewModel by viewModels<DataViewModel>()
     private lateinit var bloodType: Array<String>
     private lateinit var cropActivityResultLauncher: ActivityResultLauncher<Any?>
     private var isProfileChanged = false
@@ -49,13 +49,11 @@ class UserRegistrationActivity : AppCompatActivity() {
         override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
             return CropImage.getActivityResult(intent)?.uri
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_user_registration)
-        dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         val user = intent.getSerializableExtra("UserData") as UserData
 
         binding.edtWeight.addTextChangedListener {
